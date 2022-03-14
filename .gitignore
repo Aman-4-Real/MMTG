@@ -127,3 +127,25 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# my files
+./datasets/
+./src_v0/models/
+./src_v1_multi_dec_w_att/models/
+./src_v2_gpt/models/
+./src_v2_gpt/vocab/token_id2emb_dict.pkl
+./src_v3_cl/models/
+./src_v3_cl/vocab/token_id2emb_dict.pkl
+./src_v4_new_gpt/models/
+./src_v4_new_gpt/vocab/token_id2emb_dict.pkl
+./src_v5_refine/models/
+./src_v5_refine/vocab/token_id2emb_dict.pkl
+./src_wo_img/models/
+./src_wo_img/vocab/token_id2emb_dict.pkl
+./src_wo_text/models/
+./src_wo_text/vocab/token_id2emb_dict.pkl
+./src_wo_topic_prompt/models/
+./src_wo_topic_prompt/vocab/token_id2emb_dict.pkl
+
+
