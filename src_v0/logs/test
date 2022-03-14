@@ -1,0 +1,966 @@
+2021-11-19 02:10:58 - __main__ - INFO - train.py : 64 line - Namespace(batch_size=256, data_path='./datasets/sample_data/', device_ids='0,1', dropout=0.1, epochs=40, log_interval=100, log_path='./logs/test', lr=0.001, num_workers=4, save_model=True, save_path='./models/test', seed=42, val_batch_size=256, val_interval_ratio=0.05)
+2021-11-19 02:11:56 - __main__ - INFO - train.py : 128 line - * number of parameters: 35952264
+2021-11-19 02:12:00 - __main__ - INFO - train.py : 152 line - * number of training steps: 3320
+2021-11-19 02:12:00 - __main__ - INFO - train.py : 165 line - Epoch 1/40
+2021-11-19 02:12:28 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 4/83, Val. Loss: 9.4469, Val. PPL: 12669.414
+2021-11-19 02:12:29 - __main__ - INFO - train.py : 201 line - Epoch: 0, Step: 3, Saving Model to './models/test'.
+2021-11-19 02:12:50 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 8/83, Val. Loss: 104.3703, Val. PPL: 2125361021829861911351362978046832895141609472.000
+2021-11-19 02:13:10 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 12/83, Val. Loss: 5.9121, Val. PPL: 369.465
+2021-11-19 02:13:11 - __main__ - INFO - train.py : 201 line - Epoch: 0, Step: 11, Saving Model to './models/test'.
+2021-11-19 02:13:32 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 16/83, Val. Loss: 4.9821, Val. PPL: 145.775
+2021-11-19 02:13:33 - __main__ - INFO - train.py : 201 line - Epoch: 0, Step: 15, Saving Model to './models/test'.
+2021-11-19 02:13:53 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 20/83, Val. Loss: 4.3198, Val. PPL: 75.175
+2021-11-19 02:13:54 - __main__ - INFO - train.py : 201 line - Epoch: 0, Step: 19, Saving Model to './models/test'.
+2021-11-19 02:14:15 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 24/83, Val. Loss: 4.3614, Val. PPL: 78.366
+2021-11-19 02:14:36 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 28/83, Val. Loss: 4.2922, Val. PPL: 73.125
+2021-11-19 02:14:36 - __main__ - INFO - train.py : 201 line - Epoch: 0, Step: 27, Saving Model to './models/test'.
+2021-11-19 02:14:57 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 32/83, Val. Loss: 4.1099, Val. PPL: 60.943
+2021-11-19 02:14:58 - __main__ - INFO - train.py : 201 line - Epoch: 0, Step: 31, Saving Model to './models/test'.
+2021-11-19 02:15:18 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 36/83, Val. Loss: 3.8694, Val. PPL: 47.915
+2021-11-19 02:15:19 - __main__ - INFO - train.py : 201 line - Epoch: 0, Step: 35, Saving Model to './models/test'.
+2021-11-19 02:15:40 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 40/83, Val. Loss: 3.9094, Val. PPL: 49.867
+2021-11-19 02:16:00 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 44/83, Val. Loss: 3.7473, Val. PPL: 42.408
+2021-11-19 02:16:01 - __main__ - INFO - train.py : 201 line - Epoch: 0, Step: 43, Saving Model to './models/test'.
+2021-11-19 02:16:22 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 48/83, Val. Loss: 3.7254, Val. PPL: 41.488
+2021-11-19 02:16:23 - __main__ - INFO - train.py : 201 line - Epoch: 0, Step: 47, Saving Model to './models/test'.
+2021-11-19 02:16:44 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 52/83, Val. Loss: 3.6670, Val. PPL: 39.133
+2021-11-19 02:16:44 - __main__ - INFO - train.py : 201 line - Epoch: 0, Step: 51, Saving Model to './models/test'.
+2021-11-19 02:17:05 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 56/83, Val. Loss: 3.6405, Val. PPL: 38.111
+2021-11-19 02:17:06 - __main__ - INFO - train.py : 201 line - Epoch: 0, Step: 55, Saving Model to './models/test'.
+2021-11-19 02:17:27 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 60/83, Val. Loss: 3.7226, Val. PPL: 41.371
+2021-11-19 02:17:47 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 64/83, Val. Loss: 3.6153, Val. PPL: 37.162
+2021-11-19 02:17:48 - __main__ - INFO - train.py : 201 line - Epoch: 0, Step: 63, Saving Model to './models/test'.
+2021-11-19 02:18:08 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 68/83, Val. Loss: 3.5964, Val. PPL: 36.468
+2021-11-19 02:18:09 - __main__ - INFO - train.py : 201 line - Epoch: 0, Step: 67, Saving Model to './models/test'.
+2021-11-19 02:18:30 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 72/83, Val. Loss: 3.5457, Val. PPL: 34.665
+2021-11-19 02:18:31 - __main__ - INFO - train.py : 201 line - Epoch: 0, Step: 71, Saving Model to './models/test'.
+2021-11-19 02:18:51 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 76/83, Val. Loss: 3.5480, Val. PPL: 34.745
+2021-11-19 02:19:12 - __main__ - INFO - train.py : 191 line - Epoch: 1, Step: 80/83, Val. Loss: 3.5493, Val. PPL: 34.789
+2021-11-19 02:19:30 - __main__ - INFO - train.py : 209 line - End eval of epoch 1. Val. Loss: 3.5375, Val. PPL: 34.38
+2021-11-19 02:19:30 - __main__ - INFO - train.py : 212 line - Average loss: 8.4987  Elapsed time: 0:07:30
+2021-11-19 02:19:30 - __main__ - INFO - train.py : 165 line - Epoch 2/40
+2021-11-19 02:19:55 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 4/83, Val. Loss: 3.5383, Val. PPL: 34.408
+2021-11-19 02:19:56 - __main__ - INFO - train.py : 201 line - Epoch: 1, Step: 3, Saving Model to './models/test'.
+2021-11-19 02:20:17 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 8/83, Val. Loss: 3.5356, Val. PPL: 34.314
+2021-11-19 02:20:18 - __main__ - INFO - train.py : 201 line - Epoch: 1, Step: 7, Saving Model to './models/test'.
+2021-11-19 02:20:38 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 12/83, Val. Loss: 3.5205, Val. PPL: 33.800
+2021-11-19 02:20:39 - __main__ - INFO - train.py : 201 line - Epoch: 1, Step: 11, Saving Model to './models/test'.
+2021-11-19 02:21:00 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 16/83, Val. Loss: 3.5638, Val. PPL: 35.295
+2021-11-19 02:21:21 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 20/83, Val. Loss: 3.5007, Val. PPL: 33.140
+2021-11-19 02:21:22 - __main__ - INFO - train.py : 201 line - Epoch: 1, Step: 19, Saving Model to './models/test'.
+2021-11-19 02:21:43 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 24/83, Val. Loss: 3.4814, Val. PPL: 32.506
+2021-11-19 02:21:44 - __main__ - INFO - train.py : 201 line - Epoch: 1, Step: 23, Saving Model to './models/test'.
+2021-11-19 02:22:05 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 28/83, Val. Loss: 3.4905, Val. PPL: 32.802
+2021-11-19 02:22:26 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 32/83, Val. Loss: 3.5019, Val. PPL: 33.178
+2021-11-19 02:22:48 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 36/83, Val. Loss: 3.4686, Val. PPL: 32.092
+2021-11-19 02:22:48 - __main__ - INFO - train.py : 201 line - Epoch: 1, Step: 35, Saving Model to './models/test'.
+2021-11-19 02:23:09 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 40/83, Val. Loss: 3.4814, Val. PPL: 32.507
+2021-11-19 02:23:31 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 44/83, Val. Loss: 3.4897, Val. PPL: 32.777
+2021-11-19 02:23:52 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 48/83, Val. Loss: 3.4803, Val. PPL: 32.469
+2021-11-19 02:24:13 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 52/83, Val. Loss: 3.4807, Val. PPL: 32.484
+2021-11-19 02:24:35 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 56/83, Val. Loss: 3.4406, Val. PPL: 31.206
+2021-11-19 02:24:36 - __main__ - INFO - train.py : 201 line - Epoch: 1, Step: 55, Saving Model to './models/test'.
+2021-11-19 02:24:58 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 60/83, Val. Loss: 3.4478, Val. PPL: 31.431
+2021-11-19 02:25:19 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 64/83, Val. Loss: 3.4210, Val. PPL: 30.599
+2021-11-19 02:25:20 - __main__ - INFO - train.py : 201 line - Epoch: 1, Step: 63, Saving Model to './models/test'.
+2021-11-19 02:25:42 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 68/83, Val. Loss: 3.4335, Val. PPL: 30.986
+2021-11-19 02:26:03 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 72/83, Val. Loss: 3.4327, Val. PPL: 30.959
+2021-11-19 02:26:24 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 76/83, Val. Loss: 3.4479, Val. PPL: 31.435
+2021-11-19 02:26:46 - __main__ - INFO - train.py : 191 line - Epoch: 2, Step: 80/83, Val. Loss: 3.4442, Val. PPL: 31.320
+2021-11-19 02:27:04 - __main__ - INFO - train.py : 209 line - End eval of epoch 2. Val. Loss: 3.4567, Val. PPL: 31.71
+2021-11-19 02:27:04 - __main__ - INFO - train.py : 212 line - Average loss: 3.4314  Elapsed time: 0:07:34
+2021-11-19 02:27:04 - __main__ - INFO - train.py : 165 line - Epoch 3/40
+2021-11-19 02:27:30 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 4/83, Val. Loss: 3.4358, Val. PPL: 31.056
+2021-11-19 02:27:51 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 8/83, Val. Loss: 3.4646, Val. PPL: 31.963
+2021-11-19 02:28:12 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 12/83, Val. Loss: 3.4201, Val. PPL: 30.573
+2021-11-19 02:28:13 - __main__ - INFO - train.py : 201 line - Epoch: 2, Step: 11, Saving Model to './models/test'.
+2021-11-19 02:28:35 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 16/83, Val. Loss: 3.3845, Val. PPL: 29.504
+2021-11-19 02:28:36 - __main__ - INFO - train.py : 201 line - Epoch: 2, Step: 15, Saving Model to './models/test'.
+2021-11-19 02:28:57 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 20/83, Val. Loss: 3.4220, Val. PPL: 30.629
+2021-11-19 02:29:18 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 24/83, Val. Loss: 3.4344, Val. PPL: 31.012
+2021-11-19 02:29:40 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 28/83, Val. Loss: 3.4062, Val. PPL: 30.152
+2021-11-19 02:30:02 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 32/83, Val. Loss: 3.4288, Val. PPL: 30.840
+2021-11-19 02:30:24 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 36/83, Val. Loss: 3.4259, Val. PPL: 30.750
+2021-11-19 02:30:46 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 40/83, Val. Loss: 3.3766, Val. PPL: 29.272
+2021-11-19 02:30:46 - __main__ - INFO - train.py : 201 line - Epoch: 2, Step: 39, Saving Model to './models/test'.
+2021-11-19 02:31:08 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 44/83, Val. Loss: 3.4199, Val. PPL: 30.566
+2021-11-19 02:31:30 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 48/83, Val. Loss: 3.4359, Val. PPL: 31.059
+2021-11-19 02:31:52 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 52/83, Val. Loss: 3.4016, Val. PPL: 30.013
+2021-11-19 02:32:13 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 56/83, Val. Loss: 3.3833, Val. PPL: 29.469
+2021-11-19 02:32:35 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 60/83, Val. Loss: 3.3960, Val. PPL: 29.843
+2021-11-19 02:32:57 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 64/83, Val. Loss: 3.3446, Val. PPL: 28.350
+2021-11-19 02:32:57 - __main__ - INFO - train.py : 201 line - Epoch: 2, Step: 63, Saving Model to './models/test'.
+2021-11-19 02:33:19 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 68/83, Val. Loss: 3.4061, Val. PPL: 30.147
+2021-11-19 02:33:40 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 72/83, Val. Loss: 3.3875, Val. PPL: 29.591
+2021-11-19 02:34:02 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 76/83, Val. Loss: 3.4293, Val. PPL: 30.856
+2021-11-19 02:34:24 - __main__ - INFO - train.py : 191 line - Epoch: 3, Step: 80/83, Val. Loss: 3.3982, Val. PPL: 29.911
+2021-11-19 02:34:42 - __main__ - INFO - train.py : 209 line - End eval of epoch 3. Val. Loss: 3.3487, Val. PPL: 28.47
+2021-11-19 02:34:42 - __main__ - INFO - train.py : 212 line - Average loss: 3.3631  Elapsed time: 0:07:38
+2021-11-19 02:34:42 - __main__ - INFO - train.py : 165 line - Epoch 4/40
+2021-11-19 02:35:08 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 4/83, Val. Loss: 3.4003, Val. PPL: 29.974
+2021-11-19 02:35:30 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 8/83, Val. Loss: 3.3930, Val. PPL: 29.755
+2021-11-19 02:35:51 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 12/83, Val. Loss: 3.4096, Val. PPL: 30.253
+2021-11-19 02:36:13 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 16/83, Val. Loss: 3.3338, Val. PPL: 28.045
+2021-11-19 02:36:14 - __main__ - INFO - train.py : 201 line - Epoch: 3, Step: 15, Saving Model to './models/test'.
+2021-11-19 02:36:36 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 20/83, Val. Loss: 3.3515, Val. PPL: 28.547
+2021-11-19 02:36:58 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 24/83, Val. Loss: 3.4003, Val. PPL: 29.974
+2021-11-19 02:37:19 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 28/83, Val. Loss: 3.3814, Val. PPL: 29.411
+2021-11-19 02:37:41 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 32/83, Val. Loss: 3.3525, Val. PPL: 28.574
+2021-11-19 02:38:04 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 36/83, Val. Loss: 3.3698, Val. PPL: 29.074
+2021-11-19 02:38:25 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 40/83, Val. Loss: 3.3540, Val. PPL: 28.618
+2021-11-19 02:38:47 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 44/83, Val. Loss: 3.3543, Val. PPL: 28.627
+2021-11-19 02:39:09 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 48/83, Val. Loss: 3.3712, Val. PPL: 29.114
+2021-11-19 02:39:31 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 52/83, Val. Loss: 3.3639, Val. PPL: 28.901
+2021-11-19 02:39:52 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 56/83, Val. Loss: 3.3866, Val. PPL: 29.566
+2021-11-19 02:40:14 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 60/83, Val. Loss: 3.3603, Val. PPL: 28.797
+2021-11-19 02:40:36 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 64/83, Val. Loss: 3.3226, Val. PPL: 27.732
+2021-11-19 02:40:37 - __main__ - INFO - train.py : 201 line - Epoch: 3, Step: 63, Saving Model to './models/test'.
+2021-11-19 02:40:58 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 68/83, Val. Loss: 3.3129, Val. PPL: 27.465
+2021-11-19 02:40:59 - __main__ - INFO - train.py : 201 line - Epoch: 3, Step: 67, Saving Model to './models/test'.
+2021-11-19 02:41:21 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 72/83, Val. Loss: 3.3332, Val. PPL: 28.028
+2021-11-19 02:41:43 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 76/83, Val. Loss: 3.3452, Val. PPL: 28.366
+2021-11-19 02:42:04 - __main__ - INFO - train.py : 191 line - Epoch: 4, Step: 80/83, Val. Loss: 3.3454, Val. PPL: 28.373
+2021-11-19 02:42:23 - __main__ - INFO - train.py : 209 line - End eval of epoch 4. Val. Loss: 3.3820, Val. PPL: 29.43
+2021-11-19 02:42:23 - __main__ - INFO - train.py : 212 line - Average loss: 3.3146  Elapsed time: 0:07:41
+2021-11-19 02:42:23 - __main__ - INFO - train.py : 165 line - Epoch 5/40
+2021-11-19 02:42:49 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 4/83, Val. Loss: 3.3605, Val. PPL: 28.804
+2021-11-19 02:43:12 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 8/83, Val. Loss: 3.3859, Val. PPL: 29.546
+2021-11-19 02:43:33 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 12/83, Val. Loss: 3.3624, Val. PPL: 28.858
+2021-11-19 02:43:55 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 16/83, Val. Loss: 3.3554, Val. PPL: 28.657
+2021-11-19 02:44:17 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 20/83, Val. Loss: 3.3387, Val. PPL: 28.183
+2021-11-19 02:44:39 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 24/83, Val. Loss: 3.3470, Val. PPL: 28.416
+2021-11-19 02:45:02 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 28/83, Val. Loss: 3.3210, Val. PPL: 27.687
+2021-11-19 02:45:23 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 32/83, Val. Loss: 3.3473, Val. PPL: 28.426
+2021-11-19 02:45:45 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 36/83, Val. Loss: 3.3339, Val. PPL: 28.048
+2021-11-19 02:46:07 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 40/83, Val. Loss: 3.3305, Val. PPL: 27.953
+2021-11-19 02:46:29 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 44/83, Val. Loss: 3.3128, Val. PPL: 27.462
+2021-11-19 02:46:29 - __main__ - INFO - train.py : 201 line - Epoch: 4, Step: 43, Saving Model to './models/test'.
+2021-11-19 02:46:51 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 48/83, Val. Loss: 3.3217, Val. PPL: 27.708
+2021-11-19 02:47:13 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 52/83, Val. Loss: 3.3396, Val. PPL: 28.207
+2021-11-19 02:47:35 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 56/83, Val. Loss: 3.3310, Val. PPL: 27.967
+2021-11-19 02:47:57 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 60/83, Val. Loss: 3.3388, Val. PPL: 28.186
+2021-11-19 02:48:18 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 64/83, Val. Loss: 3.3161, Val. PPL: 27.553
+2021-11-19 02:48:40 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 68/83, Val. Loss: 3.3361, Val. PPL: 28.110
+2021-11-19 02:49:01 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 72/83, Val. Loss: 3.3314, Val. PPL: 27.977
+2021-11-19 02:49:23 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 76/83, Val. Loss: 3.2858, Val. PPL: 26.731
+2021-11-19 02:49:24 - __main__ - INFO - train.py : 201 line - Epoch: 4, Step: 75, Saving Model to './models/test'.
+2021-11-19 02:49:46 - __main__ - INFO - train.py : 191 line - Epoch: 5, Step: 80/83, Val. Loss: 3.3455, Val. PPL: 28.375
+2021-11-19 02:50:04 - __main__ - INFO - train.py : 209 line - End eval of epoch 5. Val. Loss: 3.3250, Val. PPL: 27.80
+2021-11-19 02:50:04 - __main__ - INFO - train.py : 212 line - Average loss: 3.2712  Elapsed time: 0:07:41
+2021-11-19 02:50:05 - __main__ - INFO - train.py : 165 line - Epoch 6/40
+2021-11-19 02:50:30 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 4/83, Val. Loss: 3.3349, Val. PPL: 28.077
+2021-11-19 02:50:52 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 8/83, Val. Loss: 3.2885, Val. PPL: 26.802
+2021-11-19 02:51:14 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 12/83, Val. Loss: 3.2965, Val. PPL: 27.018
+2021-11-19 02:51:36 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 16/83, Val. Loss: 3.3560, Val. PPL: 28.674
+2021-11-19 02:51:58 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 20/83, Val. Loss: 3.3680, Val. PPL: 29.021
+2021-11-19 02:52:20 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 24/83, Val. Loss: 3.2948, Val. PPL: 26.971
+2021-11-19 02:52:41 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 28/83, Val. Loss: 3.3340, Val. PPL: 28.051
+2021-11-19 02:53:03 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 32/83, Val. Loss: 3.3175, Val. PPL: 27.590
+2021-11-19 02:53:25 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 36/83, Val. Loss: 3.3319, Val. PPL: 27.990
+2021-11-19 02:53:47 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 40/83, Val. Loss: 3.3379, Val. PPL: 28.161
+2021-11-19 02:54:09 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 44/83, Val. Loss: 3.3026, Val. PPL: 27.183
+2021-11-19 02:54:31 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 48/83, Val. Loss: 3.3283, Val. PPL: 27.892
+2021-11-19 02:54:52 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 52/83, Val. Loss: 3.2768, Val. PPL: 26.490
+2021-11-19 02:54:53 - __main__ - INFO - train.py : 201 line - Epoch: 5, Step: 51, Saving Model to './models/test'.
+2021-11-19 02:55:15 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 56/83, Val. Loss: 3.3102, Val. PPL: 27.390
+2021-11-19 02:55:36 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 60/83, Val. Loss: 3.2939, Val. PPL: 26.949
+2021-11-19 02:55:58 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 64/83, Val. Loss: 3.2896, Val. PPL: 26.831
+2021-11-19 02:56:20 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 68/83, Val. Loss: 3.3048, Val. PPL: 27.243
+2021-11-19 02:56:41 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 72/83, Val. Loss: 3.2909, Val. PPL: 26.867
+2021-11-19 02:57:03 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 76/83, Val. Loss: 3.2834, Val. PPL: 26.665
+2021-11-19 02:57:25 - __main__ - INFO - train.py : 191 line - Epoch: 6, Step: 80/83, Val. Loss: 3.2895, Val. PPL: 26.830
+2021-11-19 02:57:43 - __main__ - INFO - train.py : 209 line - End eval of epoch 6. Val. Loss: 3.3067, Val. PPL: 27.30
+2021-11-19 02:57:43 - __main__ - INFO - train.py : 212 line - Average loss: 3.2438  Elapsed time: 0:07:39
+2021-11-19 02:57:44 - __main__ - INFO - train.py : 165 line - Epoch 7/40
+2021-11-19 02:58:09 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 4/83, Val. Loss: 3.3163, Val. PPL: 27.557
+2021-11-19 02:58:31 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 8/83, Val. Loss: 3.3221, Val. PPL: 27.718
+2021-11-19 02:58:53 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 12/83, Val. Loss: 3.2692, Val. PPL: 26.292
+2021-11-19 02:58:54 - __main__ - INFO - train.py : 201 line - Epoch: 6, Step: 11, Saving Model to './models/test'.
+2021-11-19 02:59:16 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 16/83, Val. Loss: 3.3169, Val. PPL: 27.575
+2021-11-19 02:59:38 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 20/83, Val. Loss: 3.2927, Val. PPL: 26.917
+2021-11-19 03:00:00 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 24/83, Val. Loss: 3.3018, Val. PPL: 27.162
+2021-11-19 03:00:22 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 28/83, Val. Loss: 3.3182, Val. PPL: 27.610
+2021-11-19 03:00:45 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 32/83, Val. Loss: 3.2931, Val. PPL: 26.928
+2021-11-19 03:01:07 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 36/83, Val. Loss: 3.2990, Val. PPL: 27.086
+2021-11-19 03:01:29 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 40/83, Val. Loss: 3.2877, Val. PPL: 26.780
+2021-11-19 03:01:51 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 44/83, Val. Loss: 3.2816, Val. PPL: 26.619
+2021-11-19 03:02:12 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 48/83, Val. Loss: 3.2828, Val. PPL: 26.652
+2021-11-19 03:02:34 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 52/83, Val. Loss: 3.2952, Val. PPL: 26.982
+2021-11-19 03:02:56 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 56/83, Val. Loss: 3.2703, Val. PPL: 26.318
+2021-11-19 03:03:17 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 60/83, Val. Loss: 3.2491, Val. PPL: 25.768
+2021-11-19 03:03:18 - __main__ - INFO - train.py : 201 line - Epoch: 6, Step: 59, Saving Model to './models/test'.
+2021-11-19 03:03:40 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 64/83, Val. Loss: 3.2852, Val. PPL: 26.713
+2021-11-19 03:04:02 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 68/83, Val. Loss: 3.2844, Val. PPL: 26.692
+2021-11-19 03:04:23 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 72/83, Val. Loss: 3.2600, Val. PPL: 26.051
+2021-11-19 03:04:45 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 76/83, Val. Loss: 3.2753, Val. PPL: 26.450
+2021-11-19 03:05:06 - __main__ - INFO - train.py : 191 line - Epoch: 7, Step: 80/83, Val. Loss: 3.2925, Val. PPL: 26.910
+2021-11-19 03:05:25 - __main__ - INFO - train.py : 209 line - End eval of epoch 7. Val. Loss: 3.2903, Val. PPL: 26.85
+2021-11-19 03:05:25 - __main__ - INFO - train.py : 212 line - Average loss: 3.2246  Elapsed time: 0:07:42
+2021-11-19 03:05:25 - __main__ - INFO - train.py : 165 line - Epoch 8/40
+2021-11-19 03:05:51 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 4/83, Val. Loss: 3.3192, Val. PPL: 27.637
+2021-11-19 03:06:13 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 8/83, Val. Loss: 3.2817, Val. PPL: 26.621
+2021-11-19 03:06:35 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 12/83, Val. Loss: 3.2774, Val. PPL: 26.506
+2021-11-19 03:06:57 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 16/83, Val. Loss: 3.2757, Val. PPL: 26.461
+2021-11-19 03:07:20 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 20/83, Val. Loss: 3.2672, Val. PPL: 26.237
+2021-11-19 03:07:41 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 24/83, Val. Loss: 3.2447, Val. PPL: 25.654
+2021-11-19 03:07:42 - __main__ - INFO - train.py : 201 line - Epoch: 7, Step: 23, Saving Model to './models/test'.
+2021-11-19 03:08:04 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 28/83, Val. Loss: 3.2822, Val. PPL: 26.636
+2021-11-19 03:08:26 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 32/83, Val. Loss: 3.2718, Val. PPL: 26.358
+2021-11-19 03:08:48 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 36/83, Val. Loss: 3.2451, Val. PPL: 25.664
+2021-11-19 03:09:10 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 40/83, Val. Loss: 3.2897, Val. PPL: 26.835
+2021-11-19 03:09:32 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 44/83, Val. Loss: 3.2691, Val. PPL: 26.288
+2021-11-19 03:09:53 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 48/83, Val. Loss: 3.2765, Val. PPL: 26.483
+2021-11-19 03:10:15 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 52/83, Val. Loss: 3.2792, Val. PPL: 26.554
+2021-11-19 03:10:36 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 56/83, Val. Loss: 3.2778, Val. PPL: 26.519
+2021-11-19 03:10:58 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 60/83, Val. Loss: 3.2810, Val. PPL: 26.601
+2021-11-19 03:11:20 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 64/83, Val. Loss: 3.2672, Val. PPL: 26.237
+2021-11-19 03:11:41 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 68/83, Val. Loss: 3.2426, Val. PPL: 25.601
+2021-11-19 03:11:42 - __main__ - INFO - train.py : 201 line - Epoch: 7, Step: 67, Saving Model to './models/test'.
+2021-11-19 03:12:04 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 72/83, Val. Loss: 3.3206, Val. PPL: 27.677
+2021-11-19 03:12:26 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 76/83, Val. Loss: 3.2683, Val. PPL: 26.267
+2021-11-19 03:12:48 - __main__ - INFO - train.py : 191 line - Epoch: 8, Step: 80/83, Val. Loss: 3.2885, Val. PPL: 26.802
+2021-11-19 03:13:07 - __main__ - INFO - train.py : 209 line - End eval of epoch 8. Val. Loss: 3.3264, Val. PPL: 27.84
+2021-11-19 03:13:07 - __main__ - INFO - train.py : 212 line - Average loss: 3.1952  Elapsed time: 0:07:42
+2021-11-19 03:13:07 - __main__ - INFO - train.py : 165 line - Epoch 9/40
+2021-11-19 03:13:33 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 4/83, Val. Loss: 3.2857, Val. PPL: 26.727
+2021-11-19 03:13:55 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 8/83, Val. Loss: 3.3318, Val. PPL: 27.989
+2021-11-19 03:14:17 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 12/83, Val. Loss: 3.2794, Val. PPL: 26.560
+2021-11-19 03:14:39 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 16/83, Val. Loss: 3.2598, Val. PPL: 26.043
+2021-11-19 03:15:01 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 20/83, Val. Loss: 3.2475, Val. PPL: 25.727
+2021-11-19 03:15:24 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 24/83, Val. Loss: 3.2659, Val. PPL: 26.203
+2021-11-19 03:15:46 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 28/83, Val. Loss: 3.2649, Val. PPL: 26.176
+2021-11-19 03:16:08 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 32/83, Val. Loss: 3.2728, Val. PPL: 26.386
+2021-11-19 03:16:29 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 36/83, Val. Loss: 3.2768, Val. PPL: 26.490
+2021-11-19 03:16:51 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 40/83, Val. Loss: 3.2230, Val. PPL: 25.103
+2021-11-19 03:16:52 - __main__ - INFO - train.py : 201 line - Epoch: 8, Step: 39, Saving Model to './models/test'.
+2021-11-19 03:17:13 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 44/83, Val. Loss: 3.2932, Val. PPL: 26.929
+2021-11-19 03:17:35 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 48/83, Val. Loss: 3.3037, Val. PPL: 27.214
+2021-11-19 03:17:57 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 52/83, Val. Loss: 3.2379, Val. PPL: 25.479
+2021-11-19 03:18:19 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 56/83, Val. Loss: 3.2566, Val. PPL: 25.961
+2021-11-19 03:18:40 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 60/83, Val. Loss: 3.3044, Val. PPL: 27.231
+2021-11-19 03:19:02 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 64/83, Val. Loss: 3.2558, Val. PPL: 25.941
+2021-11-19 03:19:23 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 68/83, Val. Loss: 3.2715, Val. PPL: 26.350
+2021-11-19 03:19:45 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 72/83, Val. Loss: 3.2625, Val. PPL: 26.114
+2021-11-19 03:20:07 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 76/83, Val. Loss: 3.2527, Val. PPL: 25.859
+2021-11-19 03:20:29 - __main__ - INFO - train.py : 191 line - Epoch: 9, Step: 80/83, Val. Loss: 3.2358, Val. PPL: 25.427
+2021-11-19 03:20:47 - __main__ - INFO - train.py : 209 line - End eval of epoch 9. Val. Loss: 3.2899, Val. PPL: 26.84
+2021-11-19 03:20:47 - __main__ - INFO - train.py : 212 line - Average loss: 3.1779  Elapsed time: 0:07:41
+2021-11-19 03:20:47 - __main__ - INFO - train.py : 165 line - Epoch 10/40
+2021-11-19 03:21:14 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 4/83, Val. Loss: 3.2588, Val. PPL: 26.018
+2021-11-19 03:21:36 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 8/83, Val. Loss: 3.2562, Val. PPL: 25.951
+2021-11-19 03:21:58 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 12/83, Val. Loss: 3.2995, Val. PPL: 27.098
+2021-11-19 03:22:20 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 16/83, Val. Loss: 3.2596, Val. PPL: 26.040
+2021-11-19 03:22:42 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 20/83, Val. Loss: 3.2705, Val. PPL: 26.324
+2021-11-19 03:23:04 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 24/83, Val. Loss: 3.2267, Val. PPL: 25.196
+2021-11-19 03:23:26 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 28/83, Val. Loss: 3.2395, Val. PPL: 25.520
+2021-11-19 03:23:48 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 32/83, Val. Loss: 3.2378, Val. PPL: 25.478
+2021-11-19 03:24:10 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 36/83, Val. Loss: 3.2443, Val. PPL: 25.645
+2021-11-19 03:24:33 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 40/83, Val. Loss: 3.2596, Val. PPL: 26.040
+2021-11-19 03:24:55 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 44/83, Val. Loss: 3.2459, Val. PPL: 25.684
+2021-11-19 03:25:17 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 48/83, Val. Loss: 3.2533, Val. PPL: 25.876
+2021-11-19 03:25:39 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 52/83, Val. Loss: 3.2454, Val. PPL: 25.672
+2021-11-19 03:26:00 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 56/83, Val. Loss: 3.2753, Val. PPL: 26.450
+2021-11-19 03:26:22 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 60/83, Val. Loss: 3.2777, Val. PPL: 26.513
+2021-11-19 03:26:43 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 64/83, Val. Loss: 3.2308, Val. PPL: 25.300
+2021-11-19 03:27:05 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 68/83, Val. Loss: 3.2375, Val. PPL: 25.471
+2021-11-19 03:27:27 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 72/83, Val. Loss: 3.2593, Val. PPL: 26.031
+2021-11-19 03:27:49 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 76/83, Val. Loss: 3.2195, Val. PPL: 25.015
+2021-11-19 03:27:50 - __main__ - INFO - train.py : 201 line - Epoch: 9, Step: 75, Saving Model to './models/test'.
+2021-11-19 03:28:11 - __main__ - INFO - train.py : 191 line - Epoch: 10, Step: 80/83, Val. Loss: 3.2594, Val. PPL: 26.033
+2021-11-19 03:28:30 - __main__ - INFO - train.py : 209 line - End eval of epoch 10. Val. Loss: 3.2257, Val. PPL: 25.17
+2021-11-19 03:28:30 - __main__ - INFO - train.py : 212 line - Average loss: 3.1485  Elapsed time: 0:07:43
+2021-11-19 03:28:31 - __main__ - INFO - train.py : 165 line - Epoch 11/40
+2021-11-19 03:28:57 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 4/83, Val. Loss: 3.2459, Val. PPL: 25.684
+2021-11-19 03:29:18 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 8/83, Val. Loss: 3.2433, Val. PPL: 25.617
+2021-11-19 03:29:40 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 12/83, Val. Loss: 3.2452, Val. PPL: 25.667
+2021-11-19 03:30:02 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 16/83, Val. Loss: 3.2212, Val. PPL: 25.057
+2021-11-19 03:30:24 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 20/83, Val. Loss: 3.2697, Val. PPL: 26.303
+2021-11-19 03:30:46 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 24/83, Val. Loss: 3.2018, Val. PPL: 24.576
+2021-11-19 03:30:47 - __main__ - INFO - train.py : 201 line - Epoch: 10, Step: 23, Saving Model to './models/test'.
+2021-11-19 03:31:09 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 28/83, Val. Loss: 3.2484, Val. PPL: 25.750
+2021-11-19 03:31:30 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 32/83, Val. Loss: 3.2546, Val. PPL: 25.910
+2021-11-19 03:31:52 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 36/83, Val. Loss: 3.2235, Val. PPL: 25.116
+2021-11-19 03:32:14 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 40/83, Val. Loss: 3.2820, Val. PPL: 26.629
+2021-11-19 03:32:36 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 44/83, Val. Loss: 3.2779, Val. PPL: 26.521
+2021-11-19 03:32:58 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 48/83, Val. Loss: 3.2524, Val. PPL: 25.853
+2021-11-19 03:33:19 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 52/83, Val. Loss: 3.2608, Val. PPL: 26.071
+2021-11-19 03:33:41 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 56/83, Val. Loss: 3.2397, Val. PPL: 25.526
+2021-11-19 03:34:03 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 60/83, Val. Loss: 3.2672, Val. PPL: 26.237
+2021-11-19 03:34:24 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 64/83, Val. Loss: 3.2794, Val. PPL: 26.561
+2021-11-19 03:34:45 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 68/83, Val. Loss: 3.2586, Val. PPL: 26.014
+2021-11-19 03:35:08 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 72/83, Val. Loss: 3.2180, Val. PPL: 24.978
+2021-11-19 03:35:29 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 76/83, Val. Loss: 3.2168, Val. PPL: 24.949
+2021-11-19 03:35:50 - __main__ - INFO - train.py : 191 line - Epoch: 11, Step: 80/83, Val. Loss: 3.2497, Val. PPL: 25.784
+2021-11-19 03:36:09 - __main__ - INFO - train.py : 209 line - End eval of epoch 11. Val. Loss: 3.2945, Val. PPL: 26.96
+2021-11-19 03:36:09 - __main__ - INFO - train.py : 212 line - Average loss: 3.1428  Elapsed time: 0:07:39
+2021-11-19 03:36:09 - __main__ - INFO - train.py : 165 line - Epoch 12/40
+2021-11-19 03:36:35 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 4/83, Val. Loss: 3.2725, Val. PPL: 26.378
+2021-11-19 03:36:57 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 8/83, Val. Loss: 3.2905, Val. PPL: 26.856
+2021-11-19 03:37:19 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 12/83, Val. Loss: 3.2819, Val. PPL: 26.628
+2021-11-19 03:37:42 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 16/83, Val. Loss: 3.2399, Val. PPL: 25.531
+2021-11-19 03:38:04 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 20/83, Val. Loss: 3.2244, Val. PPL: 25.137
+2021-11-19 03:38:26 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 24/83, Val. Loss: 3.2083, Val. PPL: 24.737
+2021-11-19 03:38:48 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 28/83, Val. Loss: 3.2317, Val. PPL: 25.322
+2021-11-19 03:39:10 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 32/83, Val. Loss: 3.2464, Val. PPL: 25.698
+2021-11-19 03:39:32 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 36/83, Val. Loss: 3.2556, Val. PPL: 25.936
+2021-11-19 03:39:54 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 40/83, Val. Loss: 3.2385, Val. PPL: 25.495
+2021-11-19 03:40:15 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 44/83, Val. Loss: 3.2359, Val. PPL: 25.429
+2021-11-19 03:40:37 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 48/83, Val. Loss: 3.2729, Val. PPL: 26.388
+2021-11-19 03:40:59 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 52/83, Val. Loss: 3.2625, Val. PPL: 26.115
+2021-11-19 03:41:20 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 56/83, Val. Loss: 3.2160, Val. PPL: 24.928
+2021-11-19 03:41:42 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 60/83, Val. Loss: 3.2424, Val. PPL: 25.594
+2021-11-19 03:42:04 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 64/83, Val. Loss: 3.2577, Val. PPL: 25.989
+2021-11-19 03:42:26 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 68/83, Val. Loss: 3.2802, Val. PPL: 26.581
+2021-11-19 03:42:47 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 72/83, Val. Loss: 3.2545, Val. PPL: 25.908
+2021-11-19 03:43:09 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 76/83, Val. Loss: 3.2427, Val. PPL: 25.603
+2021-11-19 03:43:31 - __main__ - INFO - train.py : 191 line - Epoch: 12, Step: 80/83, Val. Loss: 3.2382, Val. PPL: 25.487
+2021-11-19 03:43:50 - __main__ - INFO - train.py : 209 line - End eval of epoch 12. Val. Loss: 3.2830, Val. PPL: 26.65
+2021-11-19 03:43:50 - __main__ - INFO - train.py : 212 line - Average loss: 3.1242  Elapsed time: 0:07:41
+2021-11-19 03:43:51 - __main__ - INFO - train.py : 165 line - Epoch 13/40
+2021-11-19 03:44:17 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 4/83, Val. Loss: 3.2472, Val. PPL: 25.718
+2021-11-19 03:44:39 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 8/83, Val. Loss: 3.2603, Val. PPL: 26.058
+2021-11-19 03:45:01 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 12/83, Val. Loss: 3.2231, Val. PPL: 25.105
+2021-11-19 03:45:23 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 16/83, Val. Loss: 3.2484, Val. PPL: 25.750
+2021-11-19 03:45:45 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 20/83, Val. Loss: 3.2279, Val. PPL: 25.227
+2021-11-19 03:46:07 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 24/83, Val. Loss: 3.2301, Val. PPL: 25.282
+2021-11-19 03:46:29 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 28/83, Val. Loss: 3.2286, Val. PPL: 25.245
+2021-11-19 03:46:51 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 32/83, Val. Loss: 3.2036, Val. PPL: 24.621
+2021-11-19 03:47:13 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 36/83, Val. Loss: 3.2333, Val. PPL: 25.363
+2021-11-19 03:47:34 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 40/83, Val. Loss: 3.2483, Val. PPL: 25.746
+2021-11-19 03:47:56 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 44/83, Val. Loss: 3.1710, Val. PPL: 23.830
+2021-11-19 03:47:57 - __main__ - INFO - train.py : 201 line - Epoch: 12, Step: 43, Saving Model to './models/test'.
+2021-11-19 03:48:19 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 48/83, Val. Loss: 3.2165, Val. PPL: 24.940
+2021-11-19 03:48:41 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 52/83, Val. Loss: 3.2150, Val. PPL: 24.904
+2021-11-19 03:49:02 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 56/83, Val. Loss: 3.2162, Val. PPL: 24.932
+2021-11-19 03:49:24 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 60/83, Val. Loss: 3.2217, Val. PPL: 25.070
+2021-11-19 03:49:45 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 64/83, Val. Loss: 3.2572, Val. PPL: 25.977
+2021-11-19 03:50:07 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 68/83, Val. Loss: 3.2051, Val. PPL: 24.658
+2021-11-19 03:50:29 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 72/83, Val. Loss: 3.2213, Val. PPL: 25.060
+2021-11-19 03:50:51 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 76/83, Val. Loss: 3.2437, Val. PPL: 25.629
+2021-11-19 03:51:12 - __main__ - INFO - train.py : 191 line - Epoch: 13, Step: 80/83, Val. Loss: 3.2271, Val. PPL: 25.206
+2021-11-19 03:51:31 - __main__ - INFO - train.py : 209 line - End eval of epoch 13. Val. Loss: 3.2657, Val. PPL: 26.20
+2021-11-19 03:51:31 - __main__ - INFO - train.py : 212 line - Average loss: 3.1095  Elapsed time: 0:07:41
+2021-11-19 03:51:32 - __main__ - INFO - train.py : 165 line - Epoch 14/40
+2021-11-19 03:51:58 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 4/83, Val. Loss: 3.2287, Val. PPL: 25.246
+2021-11-19 03:52:19 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 8/83, Val. Loss: 3.2323, Val. PPL: 25.337
+2021-11-19 03:52:41 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 12/83, Val. Loss: 3.2487, Val. PPL: 25.756
+2021-11-19 03:53:03 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 16/83, Val. Loss: 3.2760, Val. PPL: 26.470
+2021-11-19 03:53:25 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 20/83, Val. Loss: 3.2721, Val. PPL: 26.368
+2021-11-19 03:53:47 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 24/83, Val. Loss: 3.2639, Val. PPL: 26.152
+2021-11-19 03:54:09 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 28/83, Val. Loss: 3.2414, Val. PPL: 25.570
+2021-11-19 03:54:31 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 32/83, Val. Loss: 3.2278, Val. PPL: 25.223
+2021-11-19 03:54:53 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 36/83, Val. Loss: 3.2289, Val. PPL: 25.251
+2021-11-19 03:55:15 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 40/83, Val. Loss: 3.2400, Val. PPL: 25.534
+2021-11-19 03:55:36 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 44/83, Val. Loss: 3.2346, Val. PPL: 25.395
+2021-11-19 03:55:58 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 48/83, Val. Loss: 3.2373, Val. PPL: 25.465
+2021-11-19 03:56:20 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 52/83, Val. Loss: 3.2347, Val. PPL: 25.398
+2021-11-19 03:56:42 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 56/83, Val. Loss: 3.2337, Val. PPL: 25.374
+2021-11-19 03:57:04 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 60/83, Val. Loss: 3.2328, Val. PPL: 25.350
+2021-11-19 03:57:25 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 64/83, Val. Loss: 3.2624, Val. PPL: 26.112
+2021-11-19 03:57:47 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 68/83, Val. Loss: 3.2475, Val. PPL: 25.725
+2021-11-19 03:58:09 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 72/83, Val. Loss: 3.2110, Val. PPL: 24.804
+2021-11-19 03:58:30 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 76/83, Val. Loss: 3.2131, Val. PPL: 24.857
+2021-11-19 03:58:52 - __main__ - INFO - train.py : 191 line - Epoch: 14, Step: 80/83, Val. Loss: 3.2068, Val. PPL: 24.700
+2021-11-19 03:59:10 - __main__ - INFO - train.py : 209 line - End eval of epoch 14. Val. Loss: 3.2146, Val. PPL: 24.89
+2021-11-19 03:59:10 - __main__ - INFO - train.py : 212 line - Average loss: 3.0913  Elapsed time: 0:07:39
+2021-11-19 03:59:11 - __main__ - INFO - train.py : 165 line - Epoch 15/40
+2021-11-19 03:59:37 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 4/83, Val. Loss: 3.2638, Val. PPL: 26.150
+2021-11-19 03:59:59 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 8/83, Val. Loss: 3.2406, Val. PPL: 25.548
+2021-11-19 04:00:21 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 12/83, Val. Loss: 3.2824, Val. PPL: 26.641
+2021-11-19 04:00:43 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 16/83, Val. Loss: 3.2856, Val. PPL: 26.724
+2021-11-19 04:01:05 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 20/83, Val. Loss: 3.2148, Val. PPL: 24.898
+2021-11-19 04:01:27 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 24/83, Val. Loss: 3.2357, Val. PPL: 25.424
+2021-11-19 04:01:49 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 28/83, Val. Loss: 3.1996, Val. PPL: 24.524
+2021-11-19 04:02:10 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 32/83, Val. Loss: 3.2374, Val. PPL: 25.468
+2021-11-19 04:02:32 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 36/83, Val. Loss: 3.2265, Val. PPL: 25.193
+2021-11-19 04:02:54 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 40/83, Val. Loss: 3.1955, Val. PPL: 24.421
+2021-11-19 04:03:16 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 44/83, Val. Loss: 3.2173, Val. PPL: 24.962
+2021-11-19 04:03:37 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 48/83, Val. Loss: 3.2249, Val. PPL: 25.151
+2021-11-19 04:03:59 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 52/83, Val. Loss: 3.2061, Val. PPL: 24.683
+2021-11-19 04:04:20 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 56/83, Val. Loss: 3.2105, Val. PPL: 24.792
+2021-11-19 04:04:42 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 60/83, Val. Loss: 3.2260, Val. PPL: 25.179
+2021-11-19 04:05:03 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 64/83, Val. Loss: 3.2235, Val. PPL: 25.117
+2021-11-19 04:05:25 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 68/83, Val. Loss: 3.2232, Val. PPL: 25.109
+2021-11-19 04:05:46 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 72/83, Val. Loss: 3.2174, Val. PPL: 24.964
+2021-11-19 04:06:07 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 76/83, Val. Loss: 3.1989, Val. PPL: 24.504
+2021-11-19 04:06:28 - __main__ - INFO - train.py : 191 line - Epoch: 15, Step: 80/83, Val. Loss: 3.2435, Val. PPL: 25.623
+2021-11-19 04:06:48 - __main__ - INFO - train.py : 209 line - End eval of epoch 15. Val. Loss: 3.2565, Val. PPL: 25.96
+2021-11-19 04:06:48 - __main__ - INFO - train.py : 212 line - Average loss: 3.0789  Elapsed time: 0:07:37
+2021-11-19 04:06:48 - __main__ - INFO - train.py : 165 line - Epoch 16/40
+2021-11-19 04:07:14 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 4/83, Val. Loss: 3.2359, Val. PPL: 25.430
+2021-11-19 04:07:36 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 8/83, Val. Loss: 3.2710, Val. PPL: 26.337
+2021-11-19 04:07:58 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 12/83, Val. Loss: 3.2103, Val. PPL: 24.786
+2021-11-19 04:08:20 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 16/83, Val. Loss: 3.2290, Val. PPL: 25.253
+2021-11-19 04:08:42 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 20/83, Val. Loss: 3.1886, Val. PPL: 24.254
+2021-11-19 04:09:04 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 24/83, Val. Loss: 3.2009, Val. PPL: 24.554
+2021-11-19 04:09:26 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 28/83, Val. Loss: 3.2124, Val. PPL: 24.840
+2021-11-19 04:09:48 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 32/83, Val. Loss: 3.2197, Val. PPL: 25.021
+2021-11-19 04:10:10 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 36/83, Val. Loss: 3.2071, Val. PPL: 24.708
+2021-11-19 04:10:32 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 40/83, Val. Loss: 3.2546, Val. PPL: 25.910
+2021-11-19 04:10:53 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 44/83, Val. Loss: 3.1986, Val. PPL: 24.498
+2021-11-19 04:11:15 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 48/83, Val. Loss: 3.1991, Val. PPL: 24.509
+2021-11-19 04:11:37 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 52/83, Val. Loss: 3.2288, Val. PPL: 25.250
+2021-11-19 04:11:59 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 56/83, Val. Loss: 3.2065, Val. PPL: 24.692
+2021-11-19 04:12:21 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 60/83, Val. Loss: 3.2136, Val. PPL: 24.869
+2021-11-19 04:12:43 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 64/83, Val. Loss: 3.2398, Val. PPL: 25.529
+2021-11-19 04:13:05 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 68/83, Val. Loss: 3.2178, Val. PPL: 24.974
+2021-11-19 04:13:27 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 72/83, Val. Loss: 3.2118, Val. PPL: 24.824
+2021-11-19 04:13:48 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 76/83, Val. Loss: 3.2706, Val. PPL: 26.327
+2021-11-19 04:14:10 - __main__ - INFO - train.py : 191 line - Epoch: 16, Step: 80/83, Val. Loss: 3.2070, Val. PPL: 24.705
+2021-11-19 04:14:29 - __main__ - INFO - train.py : 209 line - End eval of epoch 16. Val. Loss: 3.1999, Val. PPL: 24.53
+2021-11-19 04:14:29 - __main__ - INFO - train.py : 212 line - Average loss: 3.0635  Elapsed time: 0:07:41
+2021-11-19 04:14:29 - __main__ - INFO - train.py : 165 line - Epoch 17/40
+2021-11-19 04:14:55 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 4/83, Val. Loss: 3.2609, Val. PPL: 26.073
+2021-11-19 04:15:17 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 8/83, Val. Loss: 3.2485, Val. PPL: 25.751
+2021-11-19 04:15:39 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 12/83, Val. Loss: 3.2508, Val. PPL: 25.812
+2021-11-19 04:16:01 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 16/83, Val. Loss: 3.2262, Val. PPL: 25.183
+2021-11-19 04:16:23 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 20/83, Val. Loss: 3.2501, Val. PPL: 25.793
+2021-11-19 04:16:45 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 24/83, Val. Loss: 3.1850, Val. PPL: 24.168
+2021-11-19 04:17:07 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 28/83, Val. Loss: 3.2127, Val. PPL: 24.845
+2021-11-19 04:17:29 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 32/83, Val. Loss: 3.2496, Val. PPL: 25.779
+2021-11-19 04:17:51 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 36/83, Val. Loss: 3.2221, Val. PPL: 25.082
+2021-11-19 04:18:14 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 40/83, Val. Loss: 3.2180, Val. PPL: 24.979
+2021-11-19 04:18:36 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 44/83, Val. Loss: 3.2410, Val. PPL: 25.560
+2021-11-19 04:18:57 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 48/83, Val. Loss: 3.2071, Val. PPL: 24.708
+2021-11-19 04:19:19 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 52/83, Val. Loss: 3.2363, Val. PPL: 25.438
+2021-11-19 04:19:41 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 56/83, Val. Loss: 3.2661, Val. PPL: 26.210
+2021-11-19 04:20:03 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 60/83, Val. Loss: 3.2120, Val. PPL: 24.829
+2021-11-19 04:20:24 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 64/83, Val. Loss: 3.1941, Val. PPL: 24.387
+2021-11-19 04:20:46 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 68/83, Val. Loss: 3.1930, Val. PPL: 24.362
+2021-11-19 04:21:08 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 72/83, Val. Loss: 3.2076, Val. PPL: 24.719
+2021-11-19 04:21:29 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 76/83, Val. Loss: 3.2108, Val. PPL: 24.798
+2021-11-19 04:21:51 - __main__ - INFO - train.py : 191 line - Epoch: 17, Step: 80/83, Val. Loss: 3.2003, Val. PPL: 24.540
+2021-11-19 04:22:10 - __main__ - INFO - train.py : 209 line - End eval of epoch 17. Val. Loss: 3.2251, Val. PPL: 25.16
+2021-11-19 04:22:10 - __main__ - INFO - train.py : 212 line - Average loss: 3.0533  Elapsed time: 0:07:41
+2021-11-19 04:22:10 - __main__ - INFO - train.py : 165 line - Epoch 18/40
+2021-11-19 04:22:36 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 4/83, Val. Loss: 3.2648, Val. PPL: 26.174
+2021-11-19 04:22:58 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 8/83, Val. Loss: 3.2417, Val. PPL: 25.576
+2021-11-19 04:23:20 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 12/83, Val. Loss: 3.2217, Val. PPL: 25.072
+2021-11-19 04:23:42 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 16/83, Val. Loss: 3.2106, Val. PPL: 24.793
+2021-11-19 04:24:04 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 20/83, Val. Loss: 3.2218, Val. PPL: 25.074
+2021-11-19 04:24:26 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 24/83, Val. Loss: 3.2405, Val. PPL: 25.546
+2021-11-19 04:24:47 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 28/83, Val. Loss: 3.2379, Val. PPL: 25.480
+2021-11-19 04:25:09 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 32/83, Val. Loss: 3.2141, Val. PPL: 24.880
+2021-11-19 04:25:31 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 36/83, Val. Loss: 3.2102, Val. PPL: 24.783
+2021-11-19 04:25:53 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 40/83, Val. Loss: 3.2202, Val. PPL: 25.033
+2021-11-19 04:26:15 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 44/83, Val. Loss: 3.1926, Val. PPL: 24.351
+2021-11-19 04:26:37 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 48/83, Val. Loss: 3.2116, Val. PPL: 24.819
+2021-11-19 04:27:00 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 52/83, Val. Loss: 3.2003, Val. PPL: 24.541
+2021-11-19 04:27:22 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 56/83, Val. Loss: 3.2266, Val. PPL: 25.194
+2021-11-19 04:27:44 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 60/83, Val. Loss: 3.3061, Val. PPL: 27.278
+2021-11-19 04:28:05 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 64/83, Val. Loss: 3.2704, Val. PPL: 26.322
+2021-11-19 04:28:27 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 68/83, Val. Loss: 3.2151, Val. PPL: 24.907
+2021-11-19 04:28:48 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 72/83, Val. Loss: 3.2024, Val. PPL: 24.591
+2021-11-19 04:29:10 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 76/83, Val. Loss: 3.1967, Val. PPL: 24.452
+2021-11-19 04:29:32 - __main__ - INFO - train.py : 191 line - Epoch: 18, Step: 80/83, Val. Loss: 3.2090, Val. PPL: 24.754
+2021-11-19 04:29:50 - __main__ - INFO - train.py : 209 line - End eval of epoch 18. Val. Loss: 3.2204, Val. PPL: 25.04
+2021-11-19 04:29:50 - __main__ - INFO - train.py : 212 line - Average loss: 3.0480  Elapsed time: 0:07:41
+2021-11-19 04:29:51 - __main__ - INFO - train.py : 165 line - Epoch 19/40
+2021-11-19 04:30:17 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 4/83, Val. Loss: 3.2281, Val. PPL: 25.231
+2021-11-19 04:30:39 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 8/83, Val. Loss: 3.2336, Val. PPL: 25.371
+2021-11-19 04:31:01 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 12/83, Val. Loss: 3.2526, Val. PPL: 25.858
+2021-11-19 04:31:23 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 16/83, Val. Loss: 3.2316, Val. PPL: 25.319
+2021-11-19 04:31:45 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 20/83, Val. Loss: 3.2140, Val. PPL: 24.878
+2021-11-19 04:32:07 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 24/83, Val. Loss: 3.2385, Val. PPL: 25.497
+2021-11-19 04:32:29 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 28/83, Val. Loss: 3.1992, Val. PPL: 24.513
+2021-11-19 04:32:51 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 32/83, Val. Loss: 3.2293, Val. PPL: 25.261
+2021-11-19 04:33:13 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 36/83, Val. Loss: 3.1965, Val. PPL: 24.448
+2021-11-19 04:33:35 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 40/83, Val. Loss: 3.2332, Val. PPL: 25.362
+2021-11-19 04:33:56 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 44/83, Val. Loss: 3.2471, Val. PPL: 25.715
+2021-11-19 04:34:19 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 48/83, Val. Loss: 3.2004, Val. PPL: 24.542
+2021-11-19 04:34:41 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 52/83, Val. Loss: 3.1937, Val. PPL: 24.378
+2021-11-19 04:35:02 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 56/83, Val. Loss: 3.2398, Val. PPL: 25.529
+2021-11-19 04:35:24 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 60/83, Val. Loss: 3.1624, Val. PPL: 23.627
+2021-11-19 04:35:25 - __main__ - INFO - train.py : 201 line - Epoch: 18, Step: 59, Saving Model to './models/test'.
+2021-11-19 04:35:47 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 64/83, Val. Loss: 3.2022, Val. PPL: 24.585
+2021-11-19 04:36:08 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 68/83, Val. Loss: 3.2093, Val. PPL: 24.762
+2021-11-19 04:36:30 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 72/83, Val. Loss: 3.2110, Val. PPL: 24.804
+2021-11-19 04:36:52 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 76/83, Val. Loss: 3.2207, Val. PPL: 25.045
+2021-11-19 04:37:13 - __main__ - INFO - train.py : 191 line - Epoch: 19, Step: 80/83, Val. Loss: 3.2026, Val. PPL: 24.596
+2021-11-19 04:37:32 - __main__ - INFO - train.py : 209 line - End eval of epoch 19. Val. Loss: 3.1995, Val. PPL: 24.52
+2021-11-19 04:37:32 - __main__ - INFO - train.py : 212 line - Average loss: 3.0272  Elapsed time: 0:07:42
+2021-11-19 04:37:32 - __main__ - INFO - train.py : 165 line - Epoch 20/40
+2021-11-19 04:37:58 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 4/83, Val. Loss: 3.2716, Val. PPL: 26.354
+2021-11-19 04:38:20 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 8/83, Val. Loss: 3.2234, Val. PPL: 25.114
+2021-11-19 04:38:42 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 12/83, Val. Loss: 3.2196, Val. PPL: 25.018
+2021-11-19 04:39:04 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 16/83, Val. Loss: 3.1989, Val. PPL: 24.506
+2021-11-19 04:39:26 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 20/83, Val. Loss: 3.1951, Val. PPL: 24.413
+2021-11-19 04:39:48 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 24/83, Val. Loss: 3.2214, Val. PPL: 25.064
+2021-11-19 04:40:10 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 28/83, Val. Loss: 3.2012, Val. PPL: 24.563
+2021-11-19 04:40:32 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 32/83, Val. Loss: 3.2251, Val. PPL: 25.157
+2021-11-19 04:40:54 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 36/83, Val. Loss: 3.2364, Val. PPL: 25.441
+2021-11-19 04:41:16 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 40/83, Val. Loss: 3.2833, Val. PPL: 26.664
+2021-11-19 04:41:38 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 44/83, Val. Loss: 3.2119, Val. PPL: 24.826
+2021-11-19 04:41:59 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 48/83, Val. Loss: 3.2126, Val. PPL: 24.845
+2021-11-19 04:42:21 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 52/83, Val. Loss: 3.2320, Val. PPL: 25.330
+2021-11-19 04:42:43 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 56/83, Val. Loss: 3.2067, Val. PPL: 24.698
+2021-11-19 04:43:05 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 60/83, Val. Loss: 3.2052, Val. PPL: 24.662
+2021-11-19 04:43:27 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 64/83, Val. Loss: 3.2010, Val. PPL: 24.556
+2021-11-19 04:43:49 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 68/83, Val. Loss: 3.1961, Val. PPL: 24.436
+2021-11-19 04:44:11 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 72/83, Val. Loss: 3.1975, Val. PPL: 24.471
+2021-11-19 04:44:33 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 76/83, Val. Loss: 3.2340, Val. PPL: 25.382
+2021-11-19 04:44:54 - __main__ - INFO - train.py : 191 line - Epoch: 20, Step: 80/83, Val. Loss: 3.2224, Val. PPL: 25.089
+2021-11-19 04:45:13 - __main__ - INFO - train.py : 209 line - End eval of epoch 20. Val. Loss: 3.1923, Val. PPL: 24.35
+2021-11-19 04:45:13 - __main__ - INFO - train.py : 212 line - Average loss: 3.0119  Elapsed time: 0:07:41
+2021-11-19 04:45:13 - __main__ - INFO - train.py : 165 line - Epoch 21/40
+2021-11-19 04:45:40 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 4/83, Val. Loss: 3.2574, Val. PPL: 25.981
+2021-11-19 04:46:02 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 8/83, Val. Loss: 3.1945, Val. PPL: 24.398
+2021-11-19 04:46:24 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 12/83, Val. Loss: 3.2307, Val. PPL: 25.298
+2021-11-19 04:46:46 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 16/83, Val. Loss: 3.2067, Val. PPL: 24.697
+2021-11-19 04:47:08 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 20/83, Val. Loss: 3.2475, Val. PPL: 25.727
+2021-11-19 04:47:30 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 24/83, Val. Loss: 3.2079, Val. PPL: 24.728
+2021-11-19 04:47:53 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 28/83, Val. Loss: 3.2015, Val. PPL: 24.570
+2021-11-19 04:48:15 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 32/83, Val. Loss: 3.1967, Val. PPL: 24.451
+2021-11-19 04:48:37 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 36/83, Val. Loss: 3.2300, Val. PPL: 25.279
+2021-11-19 04:48:58 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 40/83, Val. Loss: 3.2560, Val. PPL: 25.945
+2021-11-19 04:49:20 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 44/83, Val. Loss: 3.2172, Val. PPL: 24.959
+2021-11-19 04:49:42 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 48/83, Val. Loss: 3.2187, Val. PPL: 24.996
+2021-11-19 04:50:04 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 52/83, Val. Loss: 3.2421, Val. PPL: 25.588
+2021-11-19 04:50:26 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 56/83, Val. Loss: 3.2132, Val. PPL: 24.858
+2021-11-19 04:50:47 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 60/83, Val. Loss: 3.2290, Val. PPL: 25.253
+2021-11-19 04:51:09 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 64/83, Val. Loss: 3.2242, Val. PPL: 25.132
+2021-11-19 04:51:31 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 68/83, Val. Loss: 3.1987, Val. PPL: 24.502
+2021-11-19 04:51:53 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 72/83, Val. Loss: 3.2264, Val. PPL: 25.188
+2021-11-19 04:52:14 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 76/83, Val. Loss: 3.2203, Val. PPL: 25.035
+2021-11-19 04:52:36 - __main__ - INFO - train.py : 191 line - Epoch: 21, Step: 80/83, Val. Loss: 3.2272, Val. PPL: 25.209
+2021-11-19 04:52:55 - __main__ - INFO - train.py : 209 line - End eval of epoch 21. Val. Loss: 3.2406, Val. PPL: 25.55
+2021-11-19 04:52:55 - __main__ - INFO - train.py : 212 line - Average loss: 2.9963  Elapsed time: 0:07:42
+2021-11-19 04:52:56 - __main__ - INFO - train.py : 165 line - Epoch 22/40
+2021-11-19 04:53:22 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 4/83, Val. Loss: 3.2188, Val. PPL: 24.998
+2021-11-19 04:53:44 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 8/83, Val. Loss: 3.1987, Val. PPL: 24.501
+2021-11-19 04:54:06 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 12/83, Val. Loss: 3.2591, Val. PPL: 26.027
+2021-11-19 04:54:28 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 16/83, Val. Loss: 3.2479, Val. PPL: 25.736
+2021-11-19 04:54:50 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 20/83, Val. Loss: 3.2475, Val. PPL: 25.726
+2021-11-19 04:55:11 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 24/83, Val. Loss: 3.2175, Val. PPL: 24.965
+2021-11-19 04:55:33 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 28/83, Val. Loss: 3.2383, Val. PPL: 25.490
+2021-11-19 04:55:55 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 32/83, Val. Loss: 3.2129, Val. PPL: 24.851
+2021-11-19 04:56:17 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 36/83, Val. Loss: 3.2382, Val. PPL: 25.487
+2021-11-19 04:56:39 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 40/83, Val. Loss: 3.2203, Val. PPL: 25.035
+2021-11-19 04:57:01 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 44/83, Val. Loss: 3.2277, Val. PPL: 25.221
+2021-11-19 04:57:23 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 48/83, Val. Loss: 3.2039, Val. PPL: 24.628
+2021-11-19 04:57:45 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 52/83, Val. Loss: 3.1975, Val. PPL: 24.472
+2021-11-19 04:58:06 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 56/83, Val. Loss: 3.2172, Val. PPL: 24.959
+2021-11-19 04:58:28 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 60/83, Val. Loss: 3.2252, Val. PPL: 25.160
+2021-11-19 04:58:50 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 64/83, Val. Loss: 3.2191, Val. PPL: 25.006
+2021-11-19 04:59:11 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 68/83, Val. Loss: 3.1897, Val. PPL: 24.282
+2021-11-19 04:59:33 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 72/83, Val. Loss: 3.2459, Val. PPL: 25.686
+2021-11-19 04:59:54 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 76/83, Val. Loss: 3.1765, Val. PPL: 23.962
+2021-11-19 05:00:15 - __main__ - INFO - train.py : 191 line - Epoch: 22, Step: 80/83, Val. Loss: 3.1758, Val. PPL: 23.946
+2021-11-19 05:00:34 - __main__ - INFO - train.py : 209 line - End eval of epoch 22. Val. Loss: 3.2307, Val. PPL: 25.30
+2021-11-19 05:00:34 - __main__ - INFO - train.py : 212 line - Average loss: 2.9974  Elapsed time: 0:07:39
+2021-11-19 05:00:35 - __main__ - INFO - train.py : 165 line - Epoch 23/40
+2021-11-19 05:01:00 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 4/83, Val. Loss: 3.2356, Val. PPL: 25.422
+2021-11-19 05:01:22 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 8/83, Val. Loss: 3.2036, Val. PPL: 24.621
+2021-11-19 05:01:44 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 12/83, Val. Loss: 3.2198, Val. PPL: 25.023
+2021-11-19 05:02:06 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 16/83, Val. Loss: 3.2192, Val. PPL: 25.009
+2021-11-19 05:02:28 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 20/83, Val. Loss: 3.2276, Val. PPL: 25.219
+2021-11-19 05:02:49 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 24/83, Val. Loss: 3.2132, Val. PPL: 24.858
+2021-11-19 05:03:11 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 28/83, Val. Loss: 3.2437, Val. PPL: 25.628
+2021-11-19 05:03:34 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 32/83, Val. Loss: 3.2243, Val. PPL: 25.135
+2021-11-19 05:03:56 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 36/83, Val. Loss: 3.2328, Val. PPL: 25.352
+2021-11-19 05:04:17 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 40/83, Val. Loss: 3.1689, Val. PPL: 23.782
+2021-11-19 05:04:39 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 44/83, Val. Loss: 3.2390, Val. PPL: 25.508
+2021-11-19 05:05:01 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 48/83, Val. Loss: 3.1995, Val. PPL: 24.520
+2021-11-19 05:05:22 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 52/83, Val. Loss: 3.2681, Val. PPL: 26.262
+2021-11-19 05:05:44 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 56/83, Val. Loss: 3.1938, Val. PPL: 24.381
+2021-11-19 05:06:06 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 60/83, Val. Loss: 3.2422, Val. PPL: 25.590
+2021-11-19 05:06:27 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 64/83, Val. Loss: 3.2194, Val. PPL: 25.013
+2021-11-19 05:06:49 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 68/83, Val. Loss: 3.1984, Val. PPL: 24.492
+2021-11-19 05:07:11 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 72/83, Val. Loss: 3.2157, Val. PPL: 24.919
+2021-11-19 05:07:32 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 76/83, Val. Loss: 3.2243, Val. PPL: 25.137
+2021-11-19 05:07:54 - __main__ - INFO - train.py : 191 line - Epoch: 23, Step: 80/83, Val. Loss: 3.1766, Val. PPL: 23.966
+2021-11-19 05:08:13 - __main__ - INFO - train.py : 209 line - End eval of epoch 23. Val. Loss: 3.2041, Val. PPL: 24.63
+2021-11-19 05:08:13 - __main__ - INFO - train.py : 212 line - Average loss: 2.9942  Elapsed time: 0:07:39
+2021-11-19 05:08:14 - __main__ - INFO - train.py : 165 line - Epoch 24/40
+2021-11-19 05:08:40 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 4/83, Val. Loss: 3.2372, Val. PPL: 25.462
+2021-11-19 05:09:02 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 8/83, Val. Loss: 3.2045, Val. PPL: 24.642
+2021-11-19 05:09:24 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 12/83, Val. Loss: 3.2470, Val. PPL: 25.713
+2021-11-19 05:09:46 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 16/83, Val. Loss: 3.1962, Val. PPL: 24.440
+2021-11-19 05:10:07 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 20/83, Val. Loss: 3.2419, Val. PPL: 25.581
+2021-11-19 05:10:30 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 24/83, Val. Loss: 3.1919, Val. PPL: 24.334
+2021-11-19 05:10:52 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 28/83, Val. Loss: 3.2040, Val. PPL: 24.632
+2021-11-19 05:11:14 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 32/83, Val. Loss: 3.2072, Val. PPL: 24.709
+2021-11-19 05:11:35 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 36/83, Val. Loss: 3.2504, Val. PPL: 25.801
+2021-11-19 05:11:57 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 40/83, Val. Loss: 3.2119, Val. PPL: 24.825
+2021-11-19 05:12:19 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 44/83, Val. Loss: 3.2702, Val. PPL: 26.318
+2021-11-19 05:12:41 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 48/83, Val. Loss: 3.1873, Val. PPL: 24.223
+2021-11-19 05:13:02 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 52/83, Val. Loss: 3.1952, Val. PPL: 24.414
+2021-11-19 05:13:24 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 56/83, Val. Loss: 3.2262, Val. PPL: 25.185
+2021-11-19 05:13:45 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 60/83, Val. Loss: 3.2174, Val. PPL: 24.963
+2021-11-19 05:14:07 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 64/83, Val. Loss: 3.1776, Val. PPL: 23.988
+2021-11-19 05:14:28 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 68/83, Val. Loss: 3.1758, Val. PPL: 23.946
+2021-11-19 05:14:50 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 72/83, Val. Loss: 3.1726, Val. PPL: 23.870
+2021-11-19 05:15:12 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 76/83, Val. Loss: 3.2122, Val. PPL: 24.834
+2021-11-19 05:15:34 - __main__ - INFO - train.py : 191 line - Epoch: 24, Step: 80/83, Val. Loss: 3.2271, Val. PPL: 25.207
+2021-11-19 05:15:52 - __main__ - INFO - train.py : 209 line - End eval of epoch 24. Val. Loss: 3.1718, Val. PPL: 23.85
+2021-11-19 05:15:52 - __main__ - INFO - train.py : 212 line - Average loss: 2.9653  Elapsed time: 0:07:39
+2021-11-19 05:15:53 - __main__ - INFO - train.py : 165 line - Epoch 25/40
+2021-11-19 05:16:18 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 4/83, Val. Loss: 3.1907, Val. PPL: 24.305
+2021-11-19 05:16:40 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 8/83, Val. Loss: 3.2049, Val. PPL: 24.654
+2021-11-19 05:17:03 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 12/83, Val. Loss: 3.2385, Val. PPL: 25.495
+2021-11-19 05:17:24 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 16/83, Val. Loss: 3.1752, Val. PPL: 23.932
+2021-11-19 05:17:46 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 20/83, Val. Loss: 3.2059, Val. PPL: 24.678
+2021-11-19 05:18:08 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 24/83, Val. Loss: 3.2476, Val. PPL: 25.727
+2021-11-19 05:18:30 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 28/83, Val. Loss: 3.2198, Val. PPL: 25.022
+2021-11-19 05:18:52 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 32/83, Val. Loss: 3.2334, Val. PPL: 25.367
+2021-11-19 05:19:13 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 36/83, Val. Loss: 3.2272, Val. PPL: 25.210
+2021-11-19 05:19:36 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 40/83, Val. Loss: 3.2314, Val. PPL: 25.316
+2021-11-19 05:19:57 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 44/83, Val. Loss: 3.2422, Val. PPL: 25.591
+2021-11-19 05:20:19 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 48/83, Val. Loss: 3.2159, Val. PPL: 24.926
+2021-11-19 05:20:41 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 52/83, Val. Loss: 3.2183, Val. PPL: 24.985
+2021-11-19 05:21:03 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 56/83, Val. Loss: 3.2199, Val. PPL: 25.026
+2021-11-19 05:21:25 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 60/83, Val. Loss: 3.1875, Val. PPL: 24.227
+2021-11-19 05:21:46 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 64/83, Val. Loss: 3.1997, Val. PPL: 24.526
+2021-11-19 05:22:08 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 68/83, Val. Loss: 3.2358, Val. PPL: 25.426
+2021-11-19 05:22:29 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 72/83, Val. Loss: 3.2358, Val. PPL: 25.426
+2021-11-19 05:22:51 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 76/83, Val. Loss: 3.2682, Val. PPL: 26.265
+2021-11-19 05:23:13 - __main__ - INFO - train.py : 191 line - Epoch: 25, Step: 80/83, Val. Loss: 3.2259, Val. PPL: 25.176
+2021-11-19 05:23:32 - __main__ - INFO - train.py : 209 line - End eval of epoch 25. Val. Loss: 3.2233, Val. PPL: 25.11
+2021-11-19 05:23:32 - __main__ - INFO - train.py : 212 line - Average loss: 2.9648  Elapsed time: 0:07:39
+2021-11-19 05:23:32 - __main__ - INFO - train.py : 165 line - Epoch 26/40
+2021-11-19 05:23:58 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 4/83, Val. Loss: 3.2492, Val. PPL: 25.769
+2021-11-19 05:24:20 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 8/83, Val. Loss: 3.2175, Val. PPL: 24.966
+2021-11-19 05:24:42 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 12/83, Val. Loss: 3.1914, Val. PPL: 24.322
+2021-11-19 05:25:04 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 16/83, Val. Loss: 3.2138, Val. PPL: 24.873
+2021-11-19 05:25:26 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 20/83, Val. Loss: 3.2285, Val. PPL: 25.241
+2021-11-19 05:25:48 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 24/83, Val. Loss: 3.1986, Val. PPL: 24.498
+2021-11-19 05:26:10 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 28/83, Val. Loss: 3.2385, Val. PPL: 25.496
+2021-11-19 05:26:33 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 32/83, Val. Loss: 3.2069, Val. PPL: 24.703
+2021-11-19 05:26:55 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 36/83, Val. Loss: 3.1938, Val. PPL: 24.382
+2021-11-19 05:27:17 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 40/83, Val. Loss: 3.2306, Val. PPL: 25.294
+2021-11-19 05:27:38 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 44/83, Val. Loss: 3.2025, Val. PPL: 24.593
+2021-11-19 05:28:00 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 48/83, Val. Loss: 3.2156, Val. PPL: 24.919
+2021-11-19 05:28:22 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 52/83, Val. Loss: 3.2072, Val. PPL: 24.709
+2021-11-19 05:28:43 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 56/83, Val. Loss: 3.2197, Val. PPL: 25.021
+2021-11-19 05:29:05 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 60/83, Val. Loss: 3.2033, Val. PPL: 24.614
+2021-11-19 05:29:26 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 64/83, Val. Loss: 3.2501, Val. PPL: 25.793
+2021-11-19 05:29:48 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 68/83, Val. Loss: 3.2053, Val. PPL: 24.663
+2021-11-19 05:30:10 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 72/83, Val. Loss: 3.2021, Val. PPL: 24.585
+2021-11-19 05:30:31 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 76/83, Val. Loss: 3.2286, Val. PPL: 25.245
+2021-11-19 05:30:53 - __main__ - INFO - train.py : 191 line - Epoch: 26, Step: 80/83, Val. Loss: 3.2361, Val. PPL: 25.433
+2021-11-19 05:31:12 - __main__ - INFO - train.py : 209 line - End eval of epoch 26. Val. Loss: 3.2017, Val. PPL: 24.57
+2021-11-19 05:31:12 - __main__ - INFO - train.py : 212 line - Average loss: 2.9579  Elapsed time: 0:07:40
+2021-11-19 05:31:12 - __main__ - INFO - train.py : 165 line - Epoch 27/40
+2021-11-19 05:31:39 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 4/83, Val. Loss: 3.2166, Val. PPL: 24.943
+2021-11-19 05:32:01 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 8/83, Val. Loss: 3.2235, Val. PPL: 25.115
+2021-11-19 05:32:22 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 12/83, Val. Loss: 3.2382, Val. PPL: 25.487
+2021-11-19 05:32:45 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 16/83, Val. Loss: 3.2607, Val. PPL: 26.069
+2021-11-19 05:33:07 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 20/83, Val. Loss: 3.2010, Val. PPL: 24.556
+2021-11-19 05:33:30 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 24/83, Val. Loss: 3.2228, Val. PPL: 25.097
+2021-11-19 05:33:51 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 28/83, Val. Loss: 3.1781, Val. PPL: 24.001
+2021-11-19 05:34:13 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 32/83, Val. Loss: 3.2234, Val. PPL: 25.114
+2021-11-19 05:34:35 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 36/83, Val. Loss: 3.2441, Val. PPL: 25.638
+2021-11-19 05:34:57 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 40/83, Val. Loss: 3.2018, Val. PPL: 24.576
+2021-11-19 05:35:19 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 44/83, Val. Loss: 3.2142, Val. PPL: 24.883
+2021-11-19 05:35:41 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 48/83, Val. Loss: 3.2316, Val. PPL: 25.319
+2021-11-19 05:36:03 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 52/83, Val. Loss: 3.2256, Val. PPL: 25.168
+2021-11-19 05:36:25 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 56/83, Val. Loss: 3.2198, Val. PPL: 25.022
+2021-11-19 05:36:46 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 60/83, Val. Loss: 3.2186, Val. PPL: 24.994
+2021-11-19 05:37:08 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 64/83, Val. Loss: 3.1946, Val. PPL: 24.400
+2021-11-19 05:37:29 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 68/83, Val. Loss: 3.2201, Val. PPL: 25.029
+2021-11-19 05:37:51 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 72/83, Val. Loss: 3.1932, Val. PPL: 24.367
+2021-11-19 05:38:12 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 76/83, Val. Loss: 3.2059, Val. PPL: 24.677
+2021-11-19 05:38:34 - __main__ - INFO - train.py : 191 line - Epoch: 27, Step: 80/83, Val. Loss: 3.1989, Val. PPL: 24.506
+2021-11-19 05:38:53 - __main__ - INFO - train.py : 209 line - End eval of epoch 27. Val. Loss: 3.2200, Val. PPL: 25.03
+2021-11-19 05:38:53 - __main__ - INFO - train.py : 212 line - Average loss: 2.9395  Elapsed time: 0:07:41
+2021-11-19 05:38:53 - __main__ - INFO - train.py : 165 line - Epoch 28/40
+2021-11-19 05:39:19 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 4/83, Val. Loss: 3.2704, Val. PPL: 26.322
+2021-11-19 05:39:41 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 8/83, Val. Loss: 3.2138, Val. PPL: 24.873
+2021-11-19 05:40:02 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 12/83, Val. Loss: 3.2446, Val. PPL: 25.651
+2021-11-19 05:40:25 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 16/83, Val. Loss: 3.2469, Val. PPL: 25.710
+2021-11-19 05:40:47 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 20/83, Val. Loss: 3.2364, Val. PPL: 25.443
+2021-11-19 05:41:09 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 24/83, Val. Loss: 3.2134, Val. PPL: 24.863
+2021-11-19 05:41:31 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 28/83, Val. Loss: 3.2223, Val. PPL: 25.087
+2021-11-19 05:41:53 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 32/83, Val. Loss: 3.2135, Val. PPL: 24.866
+2021-11-19 05:42:15 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 36/83, Val. Loss: 3.2567, Val. PPL: 25.965
+2021-11-19 05:42:37 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 40/83, Val. Loss: 3.2328, Val. PPL: 25.350
+2021-11-19 05:42:59 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 44/83, Val. Loss: 3.2613, Val. PPL: 26.083
+2021-11-19 05:43:21 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 48/83, Val. Loss: 3.2249, Val. PPL: 25.152
+2021-11-19 05:43:43 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 52/83, Val. Loss: 3.2350, Val. PPL: 25.406
+2021-11-19 05:44:05 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 56/83, Val. Loss: 3.1985, Val. PPL: 24.496
+2021-11-19 05:44:27 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 60/83, Val. Loss: 3.2171, Val. PPL: 24.957
+2021-11-19 05:44:48 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 64/83, Val. Loss: 3.1600, Val. PPL: 23.570
+2021-11-19 05:44:49 - __main__ - INFO - train.py : 201 line - Epoch: 27, Step: 63, Saving Model to './models/test'.
+2021-11-19 05:45:11 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 68/83, Val. Loss: 3.1837, Val. PPL: 24.136
+2021-11-19 05:45:33 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 72/83, Val. Loss: 3.1921, Val. PPL: 24.340
+2021-11-19 05:45:55 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 76/83, Val. Loss: 3.2146, Val. PPL: 24.894
+2021-11-19 05:46:17 - __main__ - INFO - train.py : 191 line - Epoch: 28, Step: 80/83, Val. Loss: 3.2077, Val. PPL: 24.722
+2021-11-19 05:46:35 - __main__ - INFO - train.py : 209 line - End eval of epoch 28. Val. Loss: 3.2466, Val. PPL: 25.70
+2021-11-19 05:46:35 - __main__ - INFO - train.py : 212 line - Average loss: 2.9289  Elapsed time: 0:07:43
+2021-11-19 05:46:36 - __main__ - INFO - train.py : 165 line - Epoch 29/40
+2021-11-19 05:47:02 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 4/83, Val. Loss: 3.2551, Val. PPL: 25.923
+2021-11-19 05:47:24 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 8/83, Val. Loss: 3.1930, Val. PPL: 24.361
+2021-11-19 05:47:46 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 12/83, Val. Loss: 3.2561, Val. PPL: 25.947
+2021-11-19 05:48:08 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 16/83, Val. Loss: 3.2272, Val. PPL: 25.210
+2021-11-19 05:48:30 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 20/83, Val. Loss: 3.2356, Val. PPL: 25.422
+2021-11-19 05:48:52 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 24/83, Val. Loss: 3.2194, Val. PPL: 25.012
+2021-11-19 05:49:14 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 28/83, Val. Loss: 3.2652, Val. PPL: 26.184
+2021-11-19 05:49:36 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 32/83, Val. Loss: 3.2013, Val. PPL: 24.563
+2021-11-19 05:49:58 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 36/83, Val. Loss: 3.2126, Val. PPL: 24.844
+2021-11-19 05:50:21 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 40/83, Val. Loss: 3.2224, Val. PPL: 25.090
+2021-11-19 05:50:42 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 44/83, Val. Loss: 3.2327, Val. PPL: 25.348
+2021-11-19 05:51:05 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 48/83, Val. Loss: 3.2022, Val. PPL: 24.587
+2021-11-19 05:51:27 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 52/83, Val. Loss: 3.2488, Val. PPL: 25.759
+2021-11-19 05:51:48 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 56/83, Val. Loss: 3.2093, Val. PPL: 24.761
+2021-11-19 05:52:10 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 60/83, Val. Loss: 3.2220, Val. PPL: 25.077
+2021-11-19 05:52:32 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 64/83, Val. Loss: 3.2296, Val. PPL: 25.270
+2021-11-19 05:52:53 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 68/83, Val. Loss: 3.2351, Val. PPL: 25.409
+2021-11-19 05:53:15 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 72/83, Val. Loss: 3.2146, Val. PPL: 24.894
+2021-11-19 05:53:37 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 76/83, Val. Loss: 3.2238, Val. PPL: 25.123
+2021-11-19 05:53:59 - __main__ - INFO - train.py : 191 line - Epoch: 29, Step: 80/83, Val. Loss: 3.2507, Val. PPL: 25.807
+2021-11-19 05:54:17 - __main__ - INFO - train.py : 209 line - End eval of epoch 29. Val. Loss: 3.2383, Val. PPL: 25.49
+2021-11-19 05:54:17 - __main__ - INFO - train.py : 212 line - Average loss: 2.9089  Elapsed time: 0:07:42
+2021-11-19 05:54:17 - __main__ - INFO - train.py : 165 line - Epoch 30/40
+2021-11-19 05:54:43 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 4/83, Val. Loss: 3.2176, Val. PPL: 24.969
+2021-11-19 05:55:05 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 8/83, Val. Loss: 3.2297, Val. PPL: 25.272
+2021-11-19 05:55:28 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 12/83, Val. Loss: 3.2073, Val. PPL: 24.712
+2021-11-19 05:55:50 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 16/83, Val. Loss: 3.2269, Val. PPL: 25.201
+2021-11-19 05:56:12 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 20/83, Val. Loss: 3.2424, Val. PPL: 25.595
+2021-11-19 05:56:34 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 24/83, Val. Loss: 3.2233, Val. PPL: 25.110
+2021-11-19 05:56:56 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 28/83, Val. Loss: 3.2399, Val. PPL: 25.532
+2021-11-19 05:57:18 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 32/83, Val. Loss: 3.2190, Val. PPL: 25.003
+2021-11-19 05:57:41 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 36/83, Val. Loss: 3.2533, Val. PPL: 25.875
+2021-11-19 05:58:03 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 40/83, Val. Loss: 3.2412, Val. PPL: 25.563
+2021-11-19 05:58:25 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 44/83, Val. Loss: 3.2457, Val. PPL: 25.680
+2021-11-19 05:58:47 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 48/83, Val. Loss: 3.2039, Val. PPL: 24.628
+2021-11-19 05:59:09 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 52/83, Val. Loss: 3.2600, Val. PPL: 26.051
+2021-11-19 05:59:32 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 56/83, Val. Loss: 3.2491, Val. PPL: 25.767
+2021-11-19 05:59:53 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 60/83, Val. Loss: 3.2297, Val. PPL: 25.273
+2021-11-19 06:00:15 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 64/83, Val. Loss: 3.2295, Val. PPL: 25.266
+2021-11-19 06:00:36 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 68/83, Val. Loss: 3.2308, Val. PPL: 25.300
+2021-11-19 06:00:58 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 72/83, Val. Loss: 3.2157, Val. PPL: 24.922
+2021-11-19 06:01:20 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 76/83, Val. Loss: 3.2033, Val. PPL: 24.614
+2021-11-19 06:01:42 - __main__ - INFO - train.py : 191 line - Epoch: 30, Step: 80/83, Val. Loss: 3.2543, Val. PPL: 25.903
+2021-11-19 06:02:01 - __main__ - INFO - train.py : 209 line - End eval of epoch 30. Val. Loss: 3.2337, Val. PPL: 25.37
+2021-11-19 06:02:01 - __main__ - INFO - train.py : 212 line - Average loss: 2.9058  Elapsed time: 0:07:44
+2021-11-19 06:02:01 - __main__ - INFO - train.py : 165 line - Epoch 31/40
+2021-11-19 06:02:27 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 4/83, Val. Loss: 3.2049, Val. PPL: 24.653
+2021-11-19 06:02:49 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 8/83, Val. Loss: 3.2167, Val. PPL: 24.946
+2021-11-19 06:03:11 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 12/83, Val. Loss: 3.2403, Val. PPL: 25.541
+2021-11-19 06:03:33 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 16/83, Val. Loss: 3.2182, Val. PPL: 24.982
+2021-11-19 06:03:55 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 20/83, Val. Loss: 3.2152, Val. PPL: 24.908
+2021-11-19 06:04:17 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 24/83, Val. Loss: 3.2016, Val. PPL: 24.573
+2021-11-19 06:04:38 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 28/83, Val. Loss: 3.2334, Val. PPL: 25.365
+2021-11-19 06:05:00 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 32/83, Val. Loss: 3.1837, Val. PPL: 24.135
+2021-11-19 06:05:22 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 36/83, Val. Loss: 3.2058, Val. PPL: 24.675
+2021-11-19 06:05:44 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 40/83, Val. Loss: 3.2035, Val. PPL: 24.619
+2021-11-19 06:06:06 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 44/83, Val. Loss: 3.2364, Val. PPL: 25.441
+2021-11-19 06:06:28 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 48/83, Val. Loss: 3.2353, Val. PPL: 25.414
+2021-11-19 06:06:50 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 52/83, Val. Loss: 3.2187, Val. PPL: 24.995
+2021-11-19 06:07:12 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 56/83, Val. Loss: 3.2103, Val. PPL: 24.786
+2021-11-19 06:07:33 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 60/83, Val. Loss: 3.2146, Val. PPL: 24.893
+2021-11-19 06:07:55 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 64/83, Val. Loss: 3.2273, Val. PPL: 25.212
+2021-11-19 06:08:16 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 68/83, Val. Loss: 3.2517, Val. PPL: 25.834
+2021-11-19 06:08:38 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 72/83, Val. Loss: 3.2643, Val. PPL: 26.162
+2021-11-19 06:08:59 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 76/83, Val. Loss: 3.2019, Val. PPL: 24.578
+2021-11-19 06:09:21 - __main__ - INFO - train.py : 191 line - Epoch: 31, Step: 80/83, Val. Loss: 3.2516, Val. PPL: 25.832
+2021-11-19 06:09:40 - __main__ - INFO - train.py : 209 line - End eval of epoch 31. Val. Loss: 3.2459, Val. PPL: 25.69
+2021-11-19 06:09:40 - __main__ - INFO - train.py : 212 line - Average loss: 2.9087  Elapsed time: 0:07:39
+2021-11-19 06:09:40 - __main__ - INFO - train.py : 165 line - Epoch 32/40
+2021-11-19 06:10:06 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 4/83, Val. Loss: 3.2297, Val. PPL: 25.273
+2021-11-19 06:10:28 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 8/83, Val. Loss: 3.2251, Val. PPL: 25.155
+2021-11-19 06:10:50 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 12/83, Val. Loss: 3.2185, Val. PPL: 24.992
+2021-11-19 06:11:12 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 16/83, Val. Loss: 3.2442, Val. PPL: 25.640
+2021-11-19 06:11:34 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 20/83, Val. Loss: 3.2150, Val. PPL: 24.902
+2021-11-19 06:11:56 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 24/83, Val. Loss: 3.2066, Val. PPL: 24.695
+2021-11-19 06:12:18 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 28/83, Val. Loss: 3.2269, Val. PPL: 25.202
+2021-11-19 06:12:40 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 32/83, Val. Loss: 3.2649, Val. PPL: 26.176
+2021-11-19 06:13:02 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 36/83, Val. Loss: 3.2542, Val. PPL: 25.899
+2021-11-19 06:13:24 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 40/83, Val. Loss: 3.2413, Val. PPL: 25.568
+2021-11-19 06:13:46 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 44/83, Val. Loss: 3.2210, Val. PPL: 25.054
+2021-11-19 06:14:08 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 48/83, Val. Loss: 3.2358, Val. PPL: 25.427
+2021-11-19 06:14:30 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 52/83, Val. Loss: 3.2283, Val. PPL: 25.237
+2021-11-19 06:14:52 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 56/83, Val. Loss: 3.2315, Val. PPL: 25.317
+2021-11-19 06:15:14 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 60/83, Val. Loss: 3.2171, Val. PPL: 24.955
+2021-11-19 06:15:36 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 64/83, Val. Loss: 3.2163, Val. PPL: 24.936
+2021-11-19 06:15:57 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 68/83, Val. Loss: 3.2085, Val. PPL: 24.743
+2021-11-19 06:16:19 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 72/83, Val. Loss: 3.2547, Val. PPL: 25.912
+2021-11-19 06:16:41 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 76/83, Val. Loss: 3.2005, Val. PPL: 24.544
+2021-11-19 06:17:03 - __main__ - INFO - train.py : 191 line - Epoch: 32, Step: 80/83, Val. Loss: 3.2589, Val. PPL: 26.021
+2021-11-19 06:17:22 - __main__ - INFO - train.py : 209 line - End eval of epoch 32. Val. Loss: 3.2647, Val. PPL: 26.17
+2021-11-19 06:17:22 - __main__ - INFO - train.py : 212 line - Average loss: 2.9059  Elapsed time: 0:07:42
+2021-11-19 06:17:22 - __main__ - INFO - train.py : 165 line - Epoch 33/40
+2021-11-19 06:17:49 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 4/83, Val. Loss: 3.2257, Val. PPL: 25.171
+2021-11-19 06:18:10 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 8/83, Val. Loss: 3.2136, Val. PPL: 24.869
+2021-11-19 06:18:32 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 12/83, Val. Loss: 3.2244, Val. PPL: 25.138
+2021-11-19 06:18:54 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 16/83, Val. Loss: 3.2238, Val. PPL: 25.124
+2021-11-19 06:19:15 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 20/83, Val. Loss: 3.2483, Val. PPL: 25.747
+2021-11-19 06:19:37 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 24/83, Val. Loss: 3.1977, Val. PPL: 24.477
+2021-11-19 06:19:59 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 28/83, Val. Loss: 3.2634, Val. PPL: 26.139
+2021-11-19 06:20:21 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 32/83, Val. Loss: 3.2168, Val. PPL: 24.948
+2021-11-19 06:20:43 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 36/83, Val. Loss: 3.1969, Val. PPL: 24.456
+2021-11-19 06:21:05 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 40/83, Val. Loss: 3.2218, Val. PPL: 25.073
+2021-11-19 06:21:27 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 44/83, Val. Loss: 3.2209, Val. PPL: 25.050
+2021-11-19 06:21:49 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 48/83, Val. Loss: 3.1931, Val. PPL: 24.363
+2021-11-19 06:22:11 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 52/83, Val. Loss: 3.2658, Val. PPL: 26.201
+2021-11-19 06:22:32 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 56/83, Val. Loss: 3.2600, Val. PPL: 26.049
+2021-11-19 06:22:54 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 60/83, Val. Loss: 3.2009, Val. PPL: 24.554
+2021-11-19 06:23:15 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 64/83, Val. Loss: 3.2303, Val. PPL: 25.287
+2021-11-19 06:23:37 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 68/83, Val. Loss: 3.2250, Val. PPL: 25.154
+2021-11-19 06:23:59 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 72/83, Val. Loss: 3.2304, Val. PPL: 25.290
+2021-11-19 06:24:21 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 76/83, Val. Loss: 3.2343, Val. PPL: 25.388
+2021-11-19 06:24:42 - __main__ - INFO - train.py : 191 line - Epoch: 33, Step: 80/83, Val. Loss: 3.2369, Val. PPL: 25.454
+2021-11-19 06:25:01 - __main__ - INFO - train.py : 209 line - End eval of epoch 33. Val. Loss: 3.2620, Val. PPL: 26.10
+2021-11-19 06:25:01 - __main__ - INFO - train.py : 212 line - Average loss: 2.8816  Elapsed time: 0:07:39
+2021-11-19 06:25:02 - __main__ - INFO - train.py : 165 line - Epoch 34/40
+2021-11-19 06:25:28 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 4/83, Val. Loss: 3.2226, Val. PPL: 25.093
+2021-11-19 06:25:50 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 8/83, Val. Loss: 3.2312, Val. PPL: 25.309
+2021-11-19 06:26:12 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 12/83, Val. Loss: 3.2331, Val. PPL: 25.358
+2021-11-19 06:26:34 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 16/83, Val. Loss: 3.2083, Val. PPL: 24.738
+2021-11-19 06:26:56 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 20/83, Val. Loss: 3.2146, Val. PPL: 24.893
+2021-11-19 06:27:17 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 24/83, Val. Loss: 3.2064, Val. PPL: 24.690
+2021-11-19 06:27:40 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 28/83, Val. Loss: 3.2114, Val. PPL: 24.814
+2021-11-19 06:28:02 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 32/83, Val. Loss: 3.2584, Val. PPL: 26.007
+2021-11-19 06:28:24 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 36/83, Val. Loss: 3.2145, Val. PPL: 24.891
+2021-11-19 06:28:45 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 40/83, Val. Loss: 3.2100, Val. PPL: 24.779
+2021-11-19 06:29:07 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 44/83, Val. Loss: 3.2332, Val. PPL: 25.360
+2021-11-19 06:29:29 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 48/83, Val. Loss: 3.2281, Val. PPL: 25.232
+2021-11-19 06:29:51 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 52/83, Val. Loss: 3.2187, Val. PPL: 24.996
+2021-11-19 06:30:13 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 56/83, Val. Loss: 3.2460, Val. PPL: 25.688
+2021-11-19 06:30:35 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 60/83, Val. Loss: 3.2453, Val. PPL: 25.671
+2021-11-19 06:30:57 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 64/83, Val. Loss: 3.1657, Val. PPL: 23.706
+2021-11-19 06:31:18 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 68/83, Val. Loss: 3.2192, Val. PPL: 25.007
+2021-11-19 06:31:40 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 72/83, Val. Loss: 3.2409, Val. PPL: 25.556
+2021-11-19 06:32:01 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 76/83, Val. Loss: 3.2783, Val. PPL: 26.530
+2021-11-19 06:32:23 - __main__ - INFO - train.py : 191 line - Epoch: 34, Step: 80/83, Val. Loss: 3.2427, Val. PPL: 25.603
+2021-11-19 06:32:42 - __main__ - INFO - train.py : 209 line - End eval of epoch 34. Val. Loss: 3.2215, Val. PPL: 25.07
+2021-11-19 06:32:42 - __main__ - INFO - train.py : 212 line - Average loss: 2.8673  Elapsed time: 0:07:41
+2021-11-19 06:32:42 - __main__ - INFO - train.py : 165 line - Epoch 35/40
+2021-11-19 06:33:09 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 4/83, Val. Loss: 3.2599, Val. PPL: 26.048
+2021-11-19 06:33:30 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 8/83, Val. Loss: 3.2182, Val. PPL: 24.984
+2021-11-19 06:33:52 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 12/83, Val. Loss: 3.2381, Val. PPL: 25.486
+2021-11-19 06:34:14 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 16/83, Val. Loss: 3.2044, Val. PPL: 24.640
+2021-11-19 06:34:36 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 20/83, Val. Loss: 3.2483, Val. PPL: 25.746
+2021-11-19 06:34:57 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 24/83, Val. Loss: 3.2338, Val. PPL: 25.377
+2021-11-19 06:35:20 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 28/83, Val. Loss: 3.2449, Val. PPL: 25.660
+2021-11-19 06:35:41 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 32/83, Val. Loss: 3.2357, Val. PPL: 25.424
+2021-11-19 06:36:03 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 36/83, Val. Loss: 3.1853, Val. PPL: 24.175
+2021-11-19 06:36:25 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 40/83, Val. Loss: 3.2149, Val. PPL: 24.901
+2021-11-19 06:36:47 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 44/83, Val. Loss: 3.2143, Val. PPL: 24.885
+2021-11-19 06:37:09 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 48/83, Val. Loss: 3.2386, Val. PPL: 25.499
+2021-11-19 06:37:31 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 52/83, Val. Loss: 3.1829, Val. PPL: 24.116
+2021-11-19 06:37:53 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 56/83, Val. Loss: 3.2630, Val. PPL: 26.128
+2021-11-19 06:38:15 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 60/83, Val. Loss: 3.2287, Val. PPL: 25.247
+2021-11-19 06:38:36 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 64/83, Val. Loss: 3.2463, Val. PPL: 25.695
+2021-11-19 06:38:58 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 68/83, Val. Loss: 3.2729, Val. PPL: 26.388
+2021-11-19 06:39:20 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 72/83, Val. Loss: 3.2101, Val. PPL: 24.782
+2021-11-19 06:39:42 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 76/83, Val. Loss: 3.2346, Val. PPL: 25.397
+2021-11-19 06:40:03 - __main__ - INFO - train.py : 191 line - Epoch: 35, Step: 80/83, Val. Loss: 3.2316, Val. PPL: 25.321
+2021-11-19 06:40:22 - __main__ - INFO - train.py : 209 line - End eval of epoch 35. Val. Loss: 3.2258, Val. PPL: 25.17
+2021-11-19 06:40:22 - __main__ - INFO - train.py : 212 line - Average loss: 2.8597  Elapsed time: 0:07:40
+2021-11-19 06:40:23 - __main__ - INFO - train.py : 165 line - Epoch 36/40
+2021-11-19 06:40:49 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 4/83, Val. Loss: 3.2472, Val. PPL: 25.719
+2021-11-19 06:41:11 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 8/83, Val. Loss: 3.2147, Val. PPL: 24.897
+2021-11-19 06:41:33 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 12/83, Val. Loss: 3.2267, Val. PPL: 25.196
+2021-11-19 06:41:55 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 16/83, Val. Loss: 3.2369, Val. PPL: 25.455
+2021-11-19 06:42:17 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 20/83, Val. Loss: 3.2502, Val. PPL: 25.796
+2021-11-19 06:42:39 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 24/83, Val. Loss: 3.2057, Val. PPL: 24.673
+2021-11-19 06:43:01 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 28/83, Val. Loss: 3.2465, Val. PPL: 25.701
+2021-11-19 06:43:23 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 32/83, Val. Loss: 3.2137, Val. PPL: 24.872
+2021-11-19 06:43:45 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 36/83, Val. Loss: 3.2564, Val. PPL: 25.956
+2021-11-19 06:44:07 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 40/83, Val. Loss: 3.2167, Val. PPL: 24.946
+2021-11-19 06:44:29 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 44/83, Val. Loss: 3.2453, Val. PPL: 25.671
+2021-11-19 06:44:51 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 48/83, Val. Loss: 3.2517, Val. PPL: 25.833
+2021-11-19 06:45:13 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 52/83, Val. Loss: 3.2534, Val. PPL: 25.878
+2021-11-19 06:45:35 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 56/83, Val. Loss: 3.2737, Val. PPL: 26.408
+2021-11-19 06:45:57 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 60/83, Val. Loss: 3.2317, Val. PPL: 25.323
+2021-11-19 06:46:19 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 64/83, Val. Loss: 3.2519, Val. PPL: 25.839
+2021-11-19 06:46:41 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 68/83, Val. Loss: 3.1772, Val. PPL: 23.979
+2021-11-19 06:47:03 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 72/83, Val. Loss: 3.2446, Val. PPL: 25.651
+2021-11-19 06:47:25 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 76/83, Val. Loss: 3.2241, Val. PPL: 25.131
+2021-11-19 06:47:47 - __main__ - INFO - train.py : 191 line - Epoch: 36, Step: 80/83, Val. Loss: 3.2081, Val. PPL: 24.733
+2021-11-19 06:48:06 - __main__ - INFO - train.py : 209 line - End eval of epoch 36. Val. Loss: 3.2095, Val. PPL: 24.77
+2021-11-19 06:48:06 - __main__ - INFO - train.py : 212 line - Average loss: 2.8710  Elapsed time: 0:07:43
+2021-11-19 06:48:06 - __main__ - INFO - train.py : 165 line - Epoch 37/40
+2021-11-19 06:48:32 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 4/83, Val. Loss: 3.2269, Val. PPL: 25.201
+2021-11-19 06:48:54 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 8/83, Val. Loss: 3.2509, Val. PPL: 25.813
+2021-11-19 06:49:16 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 12/83, Val. Loss: 3.2592, Val. PPL: 26.027
+2021-11-19 06:49:38 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 16/83, Val. Loss: 3.2502, Val. PPL: 25.796
+2021-11-19 06:50:00 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 20/83, Val. Loss: 3.2441, Val. PPL: 25.639
+2021-11-19 06:50:22 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 24/83, Val. Loss: 3.2387, Val. PPL: 25.501
+2021-11-19 06:50:43 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 28/83, Val. Loss: 3.2024, Val. PPL: 24.592
+2021-11-19 06:51:06 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 32/83, Val. Loss: 3.2317, Val. PPL: 25.324
+2021-11-19 06:51:29 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 36/83, Val. Loss: 3.2576, Val. PPL: 25.986
+2021-11-19 06:51:50 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 40/83, Val. Loss: 3.2126, Val. PPL: 24.843
+2021-11-19 06:52:12 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 44/83, Val. Loss: 3.2324, Val. PPL: 25.339
+2021-11-19 06:52:34 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 48/83, Val. Loss: 3.2028, Val. PPL: 24.600
+2021-11-19 06:52:56 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 52/83, Val. Loss: 3.2138, Val. PPL: 24.872
+2021-11-19 06:53:18 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 56/83, Val. Loss: 3.2150, Val. PPL: 24.903
+2021-11-19 06:53:40 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 60/83, Val. Loss: 3.2685, Val. PPL: 26.273
+2021-11-19 06:54:02 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 64/83, Val. Loss: 3.2607, Val. PPL: 26.067
+2021-11-19 06:54:24 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 68/83, Val. Loss: 3.2383, Val. PPL: 25.490
+2021-11-19 06:54:45 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 72/83, Val. Loss: 3.2391, Val. PPL: 25.510
+2021-11-19 06:55:07 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 76/83, Val. Loss: 3.2070, Val. PPL: 24.705
+2021-11-19 06:55:29 - __main__ - INFO - train.py : 191 line - Epoch: 37, Step: 80/83, Val. Loss: 3.2454, Val. PPL: 25.672
+2021-11-19 06:55:48 - __main__ - INFO - train.py : 209 line - End eval of epoch 37. Val. Loss: 3.2214, Val. PPL: 25.06
+2021-11-19 06:55:48 - __main__ - INFO - train.py : 212 line - Average loss: 2.8587  Elapsed time: 0:07:42
+2021-11-19 06:55:48 - __main__ - INFO - train.py : 165 line - Epoch 38/40
+2021-11-19 06:56:14 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 4/83, Val. Loss: 3.2347, Val. PPL: 25.398
+2021-11-19 06:56:36 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 8/83, Val. Loss: 3.2524, Val. PPL: 25.853
+2021-11-19 06:56:57 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 12/83, Val. Loss: 3.2248, Val. PPL: 25.148
+2021-11-19 06:57:19 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 16/83, Val. Loss: 3.2564, Val. PPL: 25.956
+2021-11-19 06:57:41 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 20/83, Val. Loss: 3.2226, Val. PPL: 25.094
+2021-11-19 06:58:03 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 24/83, Val. Loss: 3.2403, Val. PPL: 25.541
+2021-11-19 06:58:24 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 28/83, Val. Loss: 3.2283, Val. PPL: 25.238
+2021-11-19 06:58:46 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 32/83, Val. Loss: 3.2329, Val. PPL: 25.354
+2021-11-19 06:59:08 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 36/83, Val. Loss: 3.2055, Val. PPL: 24.667
+2021-11-19 06:59:30 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 40/83, Val. Loss: 3.1954, Val. PPL: 24.419
+2021-11-19 06:59:52 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 44/83, Val. Loss: 3.2414, Val. PPL: 25.570
+2021-11-19 07:00:14 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 48/83, Val. Loss: 3.2297, Val. PPL: 25.271
+2021-11-19 07:00:36 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 52/83, Val. Loss: 3.2361, Val. PPL: 25.435
+2021-11-19 07:00:58 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 56/83, Val. Loss: 3.2269, Val. PPL: 25.202
+2021-11-19 07:01:20 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 60/83, Val. Loss: 3.2505, Val. PPL: 25.804
+2021-11-19 07:01:42 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 64/83, Val. Loss: 3.2582, Val. PPL: 26.004
+2021-11-19 07:02:04 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 68/83, Val. Loss: 3.2381, Val. PPL: 25.486
+2021-11-19 07:02:26 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 72/83, Val. Loss: 3.2542, Val. PPL: 25.899
+2021-11-19 07:02:47 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 76/83, Val. Loss: 3.2230, Val. PPL: 25.102
+2021-11-19 07:03:09 - __main__ - INFO - train.py : 191 line - Epoch: 38, Step: 80/83, Val. Loss: 3.2208, Val. PPL: 25.048
+2021-11-19 07:03:28 - __main__ - INFO - train.py : 209 line - End eval of epoch 38. Val. Loss: 3.2373, Val. PPL: 25.46
+2021-11-19 07:03:28 - __main__ - INFO - train.py : 212 line - Average loss: 2.8614  Elapsed time: 0:07:40
+2021-11-19 07:03:28 - __main__ - INFO - train.py : 165 line - Epoch 39/40
+2021-11-19 07:03:54 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 4/83, Val. Loss: 3.2684, Val. PPL: 26.270
+2021-11-19 07:04:17 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 8/83, Val. Loss: 3.2307, Val. PPL: 25.298
+2021-11-19 07:04:38 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 12/83, Val. Loss: 3.2285, Val. PPL: 25.241
+2021-11-19 07:05:00 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 16/83, Val. Loss: 3.2473, Val. PPL: 25.720
+2021-11-19 07:05:22 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 20/83, Val. Loss: 3.2213, Val. PPL: 25.059
+2021-11-19 07:05:44 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 24/83, Val. Loss: 3.2484, Val. PPL: 25.750
+2021-11-19 07:06:06 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 28/83, Val. Loss: 3.2345, Val. PPL: 25.394
+2021-11-19 07:06:28 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 32/83, Val. Loss: 3.2438, Val. PPL: 25.630
+2021-11-19 07:06:50 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 36/83, Val. Loss: 3.2575, Val. PPL: 25.984
+2021-11-19 07:07:12 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 40/83, Val. Loss: 3.2343, Val. PPL: 25.387
+2021-11-19 07:07:34 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 44/83, Val. Loss: 3.2258, Val. PPL: 25.174
+2021-11-19 07:07:56 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 48/83, Val. Loss: 3.2710, Val. PPL: 26.337
+2021-11-19 07:08:18 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 52/83, Val. Loss: 3.1992, Val. PPL: 24.512
+2021-11-19 07:08:40 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 56/83, Val. Loss: 3.2510, Val. PPL: 25.815
+2021-11-19 07:09:01 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 60/83, Val. Loss: 3.2383, Val. PPL: 25.490
+2021-11-19 07:09:23 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 64/83, Val. Loss: 3.2490, Val. PPL: 25.763
+2021-11-19 07:09:45 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 68/83, Val. Loss: 3.2068, Val. PPL: 24.699
+2021-11-19 07:10:07 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 72/83, Val. Loss: 3.2043, Val. PPL: 24.637
+2021-11-19 07:10:28 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 76/83, Val. Loss: 3.2406, Val. PPL: 25.549
+2021-11-19 07:10:49 - __main__ - INFO - train.py : 191 line - Epoch: 39, Step: 80/83, Val. Loss: 3.2217, Val. PPL: 25.072
+2021-11-19 07:11:09 - __main__ - INFO - train.py : 209 line - End eval of epoch 39. Val. Loss: 3.2316, Val. PPL: 25.32
+2021-11-19 07:11:09 - __main__ - INFO - train.py : 212 line - Average loss: 2.8594  Elapsed time: 0:07:41
+2021-11-19 07:11:09 - __main__ - INFO - train.py : 165 line - Epoch 40/40
+2021-11-19 07:11:35 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 4/83, Val. Loss: 3.2176, Val. PPL: 24.969
+2021-11-19 07:11:56 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 8/83, Val. Loss: 3.2163, Val. PPL: 24.935
+2021-11-19 07:12:18 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 12/83, Val. Loss: 3.2258, Val. PPL: 25.173
+2021-11-19 07:12:40 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 16/83, Val. Loss: 3.2310, Val. PPL: 25.306
+2021-11-19 07:13:02 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 20/83, Val. Loss: 3.2269, Val. PPL: 25.200
+2021-11-19 07:13:24 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 24/83, Val. Loss: 3.2088, Val. PPL: 24.750
+2021-11-19 07:13:46 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 28/83, Val. Loss: 3.2290, Val. PPL: 25.254
+2021-11-19 07:14:08 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 32/83, Val. Loss: 3.2441, Val. PPL: 25.638
+2021-11-19 07:14:30 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 36/83, Val. Loss: 3.2410, Val. PPL: 25.560
+2021-11-19 07:14:52 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 40/83, Val. Loss: 3.2735, Val. PPL: 26.404
+2021-11-19 07:15:14 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 44/83, Val. Loss: 3.2557, Val. PPL: 25.937
+2021-11-19 07:15:35 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 48/83, Val. Loss: 3.2406, Val. PPL: 25.550
+2021-11-19 07:15:57 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 52/83, Val. Loss: 3.2130, Val. PPL: 24.853
+2021-11-19 07:16:19 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 56/83, Val. Loss: 3.2233, Val. PPL: 25.110
+2021-11-19 07:16:41 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 60/83, Val. Loss: 3.2312, Val. PPL: 25.310
+2021-11-19 07:17:03 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 64/83, Val. Loss: 3.2214, Val. PPL: 25.063
+2021-11-19 07:17:24 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 68/83, Val. Loss: 3.2355, Val. PPL: 25.419
+2021-11-19 07:17:46 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 72/83, Val. Loss: 3.2354, Val. PPL: 25.417
+2021-11-19 07:18:08 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 76/83, Val. Loss: 3.2611, Val. PPL: 26.078
+2021-11-19 07:18:29 - __main__ - INFO - train.py : 191 line - Epoch: 40, Step: 80/83, Val. Loss: 3.1946, Val. PPL: 24.401
+2021-11-19 07:18:48 - __main__ - INFO - train.py : 209 line - End eval of epoch 40. Val. Loss: 3.2367, Val. PPL: 25.45
+2021-11-19 07:18:48 - __main__ - INFO - train.py : 212 line - Average loss: 2.8445  Elapsed time: 0:07:39
+2021-11-19 07:18:48 - __main__ - INFO - train.py : 214 line - Training finished.
