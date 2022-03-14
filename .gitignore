@@ -130,7 +130,7 @@ dmypy.json
 
 
 # my files
-./datasets/
+./datasets/*
 ./src_v0/models/
 ./src_v1_multi_dec_w_att/models/
 ./src_v2_gpt/models/
