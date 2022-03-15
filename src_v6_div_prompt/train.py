@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-14 20:44:38
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-14 23:19:18
+LastEditTime: 2022-03-15 13:51:50
 '''
 
 
@@ -40,16 +40,16 @@ parser.add_argument("--epochs", default=5, type=int, help="Number of epochs")
 parser.add_argument("--lr", default=1e-05, type=float, help="Learning rate")
 parser.add_argument("--curriculums", default=[1,3], type=float, help="Curriculum rate")
 parser.add_argument("--seed", default=42, type=int, help="Random seed")
-parser.add_argument("--num_workers", default=0, type=int, help="Number of workers")
+parser.add_argument("--num_workers", default=8, type=int, help="Number of workers")
 parser.add_argument("--log_interval", default=100, type=int, help="Log interval")
 parser.add_argument("--val_interval_ratio", default=0.2, type=float, help="Eval once every interval ratio of training data")
-parser.add_argument("--train_data_path", default="../datasets/new_data_rating/train_data_with_ratings_210k.pkl", type=str, help="Train data path")
+parser.add_argument("--train_data_path", default="../datasets/new_data_rating/val_data_with_ratings_8k.pkl", type=str, help="Train data path")
 parser.add_argument("--val_data_path", default="../datasets/new_data_rating/val_data_with_ratings_8k.pkl", type=str, help="Val data path")
 parser.add_argument("--save_model", default=True, type=bool, help="Save model or not")
-parser.add_argument("--save_path", default="./models/lr1e-5_bs96_kl02", type=str, help="Save directory")
+parser.add_argument("--save_path", default="./models/test", type=str, help="Save directory")
 # parser.add_argument("--save_interval", default=1, type=int, help="Save interval")
-parser.add_argument("--log_path", default="./logs/lr1e-5_bs96_kl02.log", type=str, help="Log directory")
-parser.add_argument("--tensorboard_log_dir", default="./logs/lr1e-5_bs96_kl02", type=str, help="Tensorboard log directory")
+parser.add_argument("--log_path", default="./logs/test.log", type=str, help="Log directory")
+parser.add_argument("--tensorboard_log_dir", default="./logs/test", type=str, help="Tensorboard log directory")
 parser.add_argument("--alpha", default=0.2, type=float, help="Factor of KLDivLoss.")
 
 global args
@@ -288,6 +288,7 @@ def train(model, train_data, valid_data):
         model.train()
         # Setting the tqdm progress bar
         for step, batch in epoch_iterator:
+            # import pdb; pdb.set_trace()
             if stage == 1:
                 idxs = torch.cat([torch.where(batch['rating']<2)[0], torch.where(batch['rating']>4)[0]])
             elif stage == 2:
@@ -313,12 +314,13 @@ def train(model, train_data, valid_data):
             model.zero_grad()
             for param_group in optimizer.param_groups:
                 args.lr = param_group['lr']
-            epoch_iterator.set_postfix(lr=args.lr, ppl=math.exp(ppl_loss), loss=total_loss.item(), kl_loss=args.alpha*kl_loss.mean().item())  # show the learning rate and loss on the progress bar
+            epoch_iterator.set_postfix(lr=args.lr, ppl=math.exp(ppl_loss), loss=total_loss.item())  # show the learning rate and loss on the progress bar
             global_steps += 1
             writer.add_scalar('train/loss', total_loss.item(), global_steps)
             writer.add_scalar('train/ppl_loss', ppl_loss, global_steps)
             writer.add_scalar('train/ppl', math.exp(ppl_loss), global_steps)
-            writer.add_scalar('train/kl_loss', args.alpha*kl_loss.mean().item(), global_steps)
+            writer.add_scalar('train/lr', args.lr, global_steps)
+            # writer.add_scalar('train/kl_loss', args.alpha*kl_loss.mean().item(), global_steps) # , kl_loss=args.alpha*kl_loss.mean().item()
             # if not graph_writed:
             #     writer.add_graph(model.module, batch)
             #     graph_writed = 1
@@ -329,7 +331,7 @@ def train(model, train_data, valid_data):
                 writer.add_scalar('eval/loss', val_loss, global_steps)
                 writer.add_scalar('eval/ppl_loss', ppl_loss, global_steps)
                 writer.add_scalar('eval/ppl', ppl, global_steps)
-                writer.add_scalar('eval/kldiv_loss', kldiv_loss, global_steps)
+                # writer.add_scalar('eval/kldiv_loss', kldiv_loss, global_steps)
                 # Save model
                 if val_loss < best_val_loss:
                     best_val_loss = val_loss
@@ -351,7 +353,7 @@ def train(model, train_data, valid_data):
         writer.add_scalar('eval/loss', val_loss, global_steps)
         writer.add_scalar('eval/ppl_loss', ppl_loss, global_steps)
         writer.add_scalar('eval/ppl', ppl, global_steps)
-        writer.add_scalar('eval/kldiv_loss', kldiv_loss, global_steps)
+        # writer.add_scalar('eval/kldiv_loss', kldiv_loss, global_steps)
         model.train()
         logger.info("Average loss: %.4f  Elapsed time: %s" % (avg_loss / (len(train_datasets[stage-1]) + 1), format_time(time.time()-t1)))
         print("Average loss: %.4f  Elapsed time: %s" % (avg_loss / (len(train_datasets[stage-1]) + 1), format_time(time.time()-t1)))

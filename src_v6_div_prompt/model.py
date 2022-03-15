@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-14 20:44:37
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-14 22:40:13
+LastEditTime: 2022-03-15 23:25:20
 '''
 
 
@@ -253,41 +253,41 @@ class MultiModalAttentionLayer(nn.Module):
 
 
 
-class AggregateLayer(nn.Module):
-    def __init__(self, model_cfgs):
-        '''
-        Aggregate the attention outputs.
-        '''
-        super(AggregateLayer, self).__init__()
-        self.type = model_cfgs['agg']['type']
-        self.input_dim = model_cfgs['MM_ATT']['attention_dim']
-        self.output_dim = model_cfgs['agg']['output_dim']
-        self.agg_num_layers = model_cfgs['agg']['num_layers']
-        self.dropout_rate = model_cfgs['dropout']
+# class AggregateLayer(nn.Module):
+#     def __init__(self, model_cfgs):
+#         '''
+#         Aggregate the attention outputs.
+#         '''
+#         super(AggregateLayer, self).__init__()
+#         self.type = model_cfgs['agg']['type']
+#         self.input_dim = model_cfgs['MM_ATT']['attention_dim']
+#         self.output_dim = model_cfgs['agg']['output_dim']
+#         self.agg_num_layers = model_cfgs['agg']['num_layers']
+#         self.dropout_rate = model_cfgs['dropout']
 
-        # for aggregate multi-layer rnns
-        if model_cfgs['agg']['type'] == 'RNN':
-            self.agg_layer = nn.RNN(self.input_dim, self.output_dim, num_layers=self.agg_num_layers, nonlinearity = "relu", dropout=self.dropout_rate)
-        elif model_cfgs['agg']['type'] == 'LSTM':
-            self.agg_layer = nn.LSTM(self.input_dim, self.output_dim, num_layers=self.agg_num_layers, dropout=self.dropout_rate)
-        elif model_cfgs['agg']['type'] == 'GRU':
-            self.agg_layer = nn.GRU(self.input_dim, self.output_dim, num_layers=self.agg_num_layers, dropout=self.dropout_rate)
+#         # for aggregate multi-layer rnns
+#         if model_cfgs['agg']['type'] == 'RNN':
+#             self.agg_layer = nn.RNN(self.input_dim, self.output_dim, num_layers=self.agg_num_layers, nonlinearity = "relu", dropout=self.dropout_rate)
+#         elif model_cfgs['agg']['type'] == 'LSTM':
+#             self.agg_layer = nn.LSTM(self.input_dim, self.output_dim, num_layers=self.agg_num_layers, dropout=self.dropout_rate)
+#         elif model_cfgs['agg']['type'] == 'GRU':
+#             self.agg_layer = nn.GRU(self.input_dim, self.output_dim, num_layers=self.agg_num_layers, dropout=self.dropout_rate)
         
-        self.init_weights()
+#         self.init_weights()
 
-    def forward(self, input):
-        '''
-        Args:
-            input (self_attention_output): [seq_len, bs, attention_dim]
-        '''
-        self.agg_layer.flatten_parameters()
-        output_agg, hidden_agg = self.agg_layer(input)
+#     def forward(self, input):
+#         '''
+#         Args:
+#             input (self_attention_output): [seq_len, bs, attention_dim]
+#         '''
+#         self.agg_layer.flatten_parameters()
+#         output_agg, hidden_agg = self.agg_layer(input)
         
-        return output_agg # [seq_len, batch_size, agg_output_dim]
+#         return output_agg # [seq_len, batch_size, agg_output_dim]
 
-    def init_weights(self):
-        init.xavier_normal_(self.agg_layer.weight_ih_l0)
-        init.orthogonal_(self.agg_layer.weight_hh_l0)
+#     def init_weights(self):
+#         init.xavier_normal_(self.agg_layer.weight_ih_l0)
+#         init.orthogonal_(self.agg_layer.weight_hh_l0)
 
 
 class GPT2_Decoder(nn.Module):
@@ -315,7 +315,7 @@ class GPT2_Decoder(nn.Module):
 
     def forward(self, concat_output, input_ids, \
                 topic_ids, tpw_att_mask, tpw_type_ids, \
-                attention_mask=None, type_ids=None, is_train=True):
+                attention_mask=None, type_ids=None, is_train=False):
         '''
         Params:
             concat_output: [batch_size, seq_len, hidden_dim + attention_dim]
@@ -325,8 +325,7 @@ class GPT2_Decoder(nn.Module):
             tpw_type_ids: [batch_size, topic_prompt_length]
             attention_mask: [batch_size, seq_len * _sent_length * 2]
             type_ids: [batch_size, seq_len * _sent_length * 2]
-        '''    
-        
+        '''
         # process topic ids
         topic_ids_np = topic_ids.cpu().tolist() # [batch_size, topic_prompt_length]
         topic_ids_wenlan = torch.zeros(topic_ids.size(0), topic_ids.size(1), 2048, dtype=torch.float32).to(topic_ids.device)
@@ -341,46 +340,46 @@ class GPT2_Decoder(nn.Module):
             for j in range(input_ids.size(1)):
                 input_ids_wenlan[i][j] = torch.tensor(self.token_id2emb[input_ids_np[i][j]], dtype=torch.float32)
 
-        # import pdb; pdb.set_trace()
-        # process final input embs
-        # input_embs = torch.cat([topic_ids_wenlan, concat_output], dim=1)
-        # input_embs = torch.cat([input_embs, input_ids_wenlan], dim=1) # [batch_size, topic_prompt_length + seq_len + seq_len * _sent_length * 2, 2048]
-        input_embs = topic_ids_wenlan
-        _type_ids = tpw_type_ids
-        _type_ids_list = list(range(1,concat_output.size(1)))+[1]
-        _attention_mask = tpw_att_mask
-        # process labels
-        prompt_length = topic_ids.size(1)
-        _labels = torch.zeros(prompt_length, dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(input_ids.device)
-        for i in range(concat_output.size(1)):
-            input_embs = torch.cat([input_embs, concat_output[:,i,:].unsqueeze(1)], dim=1)
-            input_embs = torch.cat([input_embs, input_ids_wenlan[:,i*44:(i+1)*44,:]], dim=1)
-            _type_ids = torch.cat([_type_ids, torch.tensor(_type_ids_list[i], dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
-            _type_ids = torch.cat([_type_ids, type_ids[:,i*44:(i+1)*44]], dim=1)
-            _attention_mask = torch.cat([_attention_mask, torch.ones(1, dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(attention_mask.device)], dim=1)
-            _attention_mask = torch.cat([_attention_mask, attention_mask[:,i*44:(i+1)*44]], dim=1)
-            _labels = torch.cat([_labels, torch.zeros(1, dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(input_ids.device)], dim=1)
-            _labels = torch.cat([_labels, input_ids[:,i*44:(i+1)*44]], dim=1)
-        input_embs = torch.cat([input_embs, input_ids_wenlan[:,-1,:].unsqueeze(1)], dim=1) # add [SEP]
-        _type_ids = torch.cat([_type_ids, type_ids[:,-1].unsqueeze(1)], dim=1)
-        _attention_mask = torch.cat([_attention_mask, attention_mask[:,-1].unsqueeze(1)], dim=1)
-        _labels = torch.cat([_labels, input_ids[:,-1].unsqueeze(1)], dim=1)
-
-        # process type_ids: [1]*40 + [2]*40 + [3]*40 + [4]*40 + [1]*40
-        # exp_prompt_type_ids = torch.tensor(list(range(1,concat_output.size(1)))+[1], dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)
-        # prompt_type_ids = torch.cat([tpw_type_ids, exp_prompt_type_ids], dim=1).to(input_ids.device)
-        # type_ids = torch.cat([prompt_type_ids, type_ids], dim=1).to(input_ids.device) # [seq_len + seq_len * _sent_length * 2]
-        
-        # process attention mask
-        # exp_att_mask = torch.ones(concat_output.size(1), dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(attention_mask.device)
-        # prompt_attention_mask = torch.cat([tpw_att_mask, exp_att_mask], dim=1).to(attention_mask.device)
-        # attention_mask = torch.cat([prompt_attention_mask, attention_mask], dim=1) # [seq_len + seq_len * _sent_length * 2]
-        # import pdb; pdb.set_trace()
-
-        out1 = self.projector_layer1(input_embs)
-        out1 = self.tanh(out1)
-        gpt_input_embs = self.projector_layer2(out1)
         if is_train:
+            # import pdb; pdb.set_trace()
+            # process final input embs
+            # input_embs = torch.cat([topic_ids_wenlan, concat_output], dim=1)
+            # input_embs = torch.cat([input_embs, input_ids_wenlan], dim=1) # [batch_size, topic_prompt_length + seq_len + seq_len * _sent_length * 2, 2048]
+            input_embs = topic_ids_wenlan
+            _type_ids = tpw_type_ids
+            _type_ids_list = list(range(1,concat_output.size(1)))+[1]
+            _attention_mask = tpw_att_mask
+            # process labels
+            prompt_length = topic_ids.size(1)
+            _labels = torch.zeros(prompt_length, dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(input_ids.device)
+            for i in range(concat_output.size(1)):
+                input_embs = torch.cat([input_embs, concat_output[:,i,:].unsqueeze(1)], dim=1)
+                input_embs = torch.cat([input_embs, input_ids_wenlan[:,i*44:(i+1)*44,:]], dim=1)
+                _type_ids = torch.cat([_type_ids, torch.tensor(_type_ids_list[i], dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
+                _type_ids = torch.cat([_type_ids, type_ids[:,i*44:(i+1)*44]], dim=1)
+                _attention_mask = torch.cat([_attention_mask, torch.ones(1, dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(attention_mask.device)], dim=1)
+                _attention_mask = torch.cat([_attention_mask, attention_mask[:,i*44:(i+1)*44]], dim=1)
+                _labels = torch.cat([_labels, torch.zeros(1, dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(input_ids.device)], dim=1)
+                _labels = torch.cat([_labels, input_ids[:,i*44:(i+1)*44]], dim=1)
+            input_embs = torch.cat([input_embs, input_ids_wenlan[:,-1,:].unsqueeze(1)], dim=1) # add [SEP]
+            _type_ids = torch.cat([_type_ids, type_ids[:,-1].unsqueeze(1)], dim=1)
+            _attention_mask = torch.cat([_attention_mask, attention_mask[:,-1].unsqueeze(1)], dim=1)
+            _labels = torch.cat([_labels, input_ids[:,-1].unsqueeze(1)], dim=1)
+
+            # process type_ids: [1]*40 + [2]*40 + [3]*40 + [4]*40 + [1]*40
+            # exp_prompt_type_ids = torch.tensor(list(range(1,concat_output.size(1)))+[1], dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)
+            # prompt_type_ids = torch.cat([tpw_type_ids, exp_prompt_type_ids], dim=1).to(input_ids.device)
+            # type_ids = torch.cat([prompt_type_ids, type_ids], dim=1).to(input_ids.device) # [seq_len + seq_len * _sent_length * 2]
+            
+            # process attention mask
+            # exp_att_mask = torch.ones(concat_output.size(1), dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(attention_mask.device)
+            # prompt_attention_mask = torch.cat([tpw_att_mask, exp_att_mask], dim=1).to(attention_mask.device)
+            # attention_mask = torch.cat([prompt_attention_mask, attention_mask], dim=1) # [seq_len + seq_len * _sent_length * 2]
+            # import pdb; pdb.set_trace()
+
+            out1 = self.projector_layer1(input_embs)
+            out1 = self.tanh(out1)
+            gpt_input_embs = self.projector_layer2(out1)
             res = self.gpt2(
                 inputs_embeds=gpt_input_embs,
                 token_type_ids=_type_ids,
@@ -389,10 +388,57 @@ class GPT2_Decoder(nn.Module):
                 return_dict=True
             ) # ['loss', 'logits', 'past_key_values']
         else:
+            input_embs = topic_ids_wenlan
+            prompt_length = topic_ids.size(1)
+            _type_ids = tpw_type_ids
+            _type_ids_list = list(range(1,concat_output.size(1)))+[1]
+            _attention_mask = tpw_att_mask
+            i = 1
+            input_embs = torch.cat([input_embs, concat_output[:,0,:].unsqueeze(1)], dim=1)
+            _type_ids = torch.cat([_type_ids, torch.tensor(_type_ids_list[0], dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
+            _attention_mask = torch.cat([_attention_mask, torch.ones(1, dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(attention_mask.device)], dim=1)
+            input_embs = torch.cat([input_embs, input_ids_wenlan[:,:44,:]], dim=1)
+
+            # _type_ids = torch.cat([_type_ids, type_ids[:,:44]], dim=1)
+            while i <= input_ids_wenlan.size(1) // 44:
+                if i >= concat_output.size(1): break;
+                input_embs = torch.cat([input_embs, concat_output[:,i,:].unsqueeze(1)], dim=1)
+                input_embs = torch.cat([input_embs, input_ids_wenlan[:,i*44:(i+1)*44,:]], dim=1)
+                # _type_ids = torch.cat([_type_ids, torch.tensor(_type_ids_list[i], dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
+                # _type_ids = torch.cat([_type_ids, type_ids[:,i*44:(i+1)*44]], dim=1)
+                i += 1
+            # add type_ids
+            for i in range(input_ids.size(1)):
+                if i % 44 == 0:
+                    _type_ids = torch.cat([_type_ids, torch.zeros(1, dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
+                else:
+                    if input_ids[0][i] == 0:
+                        _type_ids = torch.cat([_type_ids, torch.zeros(1, dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
+                    else:
+                        _type_ids = torch.cat([_type_ids, torch.tensor(_type_ids_list[i//44], dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
+                    if i in [43, 87, 131, 175]:
+                        _type_ids = torch.cat([_type_ids, torch.tensor(_type_ids_list[i//44], dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
+            # add attention mask
+            for i in range(input_ids.size(1)):
+                if input_ids[0][i] == 0:
+                    _attention_mask = torch.cat([_attention_mask, torch.zeros(1, dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(attention_mask.device)], dim=1)
+                else:
+                    _attention_mask = torch.cat([_attention_mask, torch.ones(1, dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(attention_mask.device)], dim=1)
+                if i in [43, 87, 131, 175]:
+                    _attention_mask = torch.cat([_attention_mask, torch.ones(1, dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(attention_mask.device)], dim=1)
+            _labels = torch.zeros(input_embs.size(1), dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(input_ids.device)
+
+            out1 = self.projector_layer1(input_embs)
+            out1 = self.tanh(out1)
+            gpt_input_embs = self.projector_layer2(out1)
+
             # import pdb; pdb.set_trace()
+            # print(input_ids.size(1), gpt_input_embs.shape, _type_ids.shape)
             res = self.gpt2(
                 inputs_embeds=gpt_input_embs,
-                # token_type_ids=type_ids[:,:gpt_input_embs.size(1)],
+                # token_type_ids=torch.tensor(_type_ids[:,:gpt_input_embs.size(1)], dtype=torch.long).unsqueeze(0),
+                token_type_ids=torch.tensor(_type_ids, dtype=torch.long),
+                attention_mask=torch.tensor(_attention_mask, dtype=torch.long),
                 labels=_labels,
                 return_dict=True
             )
@@ -489,10 +535,10 @@ class EXPTeller(nn.Module):
         # loss = torch.zeros(batch_size, seq_len).to(device)
 
         res = self.decoder(mm_attention_output.transpose(0, 1), decoder_input, \
-                           batch['topic_ids'], batch['tpw_attention_mask'], batch['tpw_type_ids'], \
-                           batch['attention_mask'], batch['type_ids'], self.train_flag)
+                        batch['topic_ids'], batch['tpw_attention_mask'], batch['tpw_type_ids'], \
+                        batch['attention_mask'], batch['type_ids'], self.train_flag)
         loss, outputs = res['loss'], res['logits']
 
         return loss, (img_kl_loss + text_kl_loss).mean(), outputs # [batch_size, seq_len+_max_seq_length, vocab_size]
-        
+
 

@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-14 20:44:37
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-14 21:22:31
+LastEditTime: 2022-03-15 23:23:20
 '''
 
 
@@ -51,5 +51,5 @@ class data_config():
     def __init__(self):
         self.topic_prompt_length = 15
         self.max_sent_length = 20
-        # self.max_seq_length = 200
+        self.max_seq_length = 215
 
