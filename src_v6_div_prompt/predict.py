@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-15 13:50:46
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-15 22:12:07
+LastEditTime: 2022-03-16 13:31:44
 '''
 
 import argparse
@@ -176,7 +176,7 @@ def sample_sequence(
                                 temperature=1.0, repitition_penalty=1.0, device=device)
     else:
         with torch.no_grad():
-            for _ in range(length):
+            for _ in range(length-inputs['targets'].size(1)):
                 # print(inputs['targets'].shape)
                 if inputs['targets'].size(1) % 45 == 0:
                     inputs['targets'] = torch.cat([inputs['targets'], \
@@ -266,13 +266,13 @@ def main():
     parser.add_argument("--seed", default=42, type=int, help="Random seed")
     parser.add_argument("--num_workers", default=4, type=int, help="Number of workers")
     parser.add_argument("--data_path", default="../datasets/new_data_rating/final_test_50.pkl", type=str, help="Data directory")
-    parser.add_argument("--model_path", default="./models/lr1e-5_bs96_kl02/best_val_model.pth", type=str, help="Model path")
+    parser.add_argument("--model_path", default="./models/lr1e-6_bs96_kl02/best_val_model.pth", type=str, help="Model path")
     parser.add_argument("--tokenizer_path", default="./vocab/vocab.txt", type=str, required=False, help="词表路径")
     parser.add_argument("--beam_size", default=0, type=int, required=False, help="beam search size") # 20: 13min
     parser.add_argument("--temperature", default=1.1, type=float, required=False, help="生成温度")
     parser.add_argument("--topk", default=10, type=int, required=False, help="最高几选一")
     parser.add_argument("--topp", default=0.7, type=float, required=False, help="最高积累概率")
-    parser.add_argument("--repetition_penalty", default=1.5, type=float, required=False)
+    parser.add_argument("--repetition_penalty", default=1.1, type=float, required=False)
     # parser.add_argument("--prefix", default="今天", type=str, required=False, help="生成文章的开头")
     parser.add_argument("--save_samples", action="store_true", help="保存产生的样本")
     parser.add_argument("--save_samples_path", default=".", type=str, required=False, help="保存样本的路径")
@@ -341,7 +341,7 @@ def main():
         for _ in range(args.n_samples):
             label = test_dataset.dataset[idx]['targets']
             label_tokens = tokenizer.convert_ids_to_tokens(label)
-            # encoded = [tokenizer.convert_tokens_to_ids('[#START#]')] # Input [#START#] token
+            # encoded = [tokenizer.convert_tokens_to_ids('[#START#]我们')] # Input [#START#] token
             start_input = test_dataset.dataset[idx]
             # start_input['targets'] = np.asarray(encoded)
             start_input['targets'] = np.asarray([])
