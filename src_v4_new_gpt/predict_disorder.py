@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-14 14:56:21
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-14 16:06:55
+LastEditTime: 2022-03-17 15:13:28
 Description: change the order of the input and generate the output.
 '''
 
@@ -212,8 +212,8 @@ def main():
     parser.add_argument("--tokenizer_path", default="./vocab/vocab.txt", type=str, required=False, help="词表路径")
     parser.add_argument("--beam_size", default=0, type=int, required=False, help="beam search size") # 20: 13min
     parser.add_argument("--temperature", default=1.1, type=float, required=False, help="生成温度")
-    parser.add_argument("--topk", default=10, type=int, required=False, help="最高几选一")
-    parser.add_argument("--topp", default=0.7, type=float, required=False, help="最高积累概率")
+    parser.add_argument("--topk", default=1, type=int, required=False, help="最高几选一")
+    parser.add_argument("--topp", default=0, type=float, required=False, help="最高积累概率")
     parser.add_argument("--repetition_penalty", default=1.5, type=float, required=False)
     parser.add_argument("--n_samples", default=1, type=int, required=False, help="生成的样本数量")
     # parser.add_argument("--save_samples", action="store_true", help="保存产生的样本")
@@ -228,7 +228,7 @@ def main():
     args = parser.parse_args()
     # print("args:\n" + args.__repr__())
     
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3" # args.device_ids
+    os.environ["CUDA_VISIBLE_DEVICES"] = "3,1,2,0" # args.device_ids
     device_ids = [int(item) for item in args.device_ids.split(",")]
     beam_size = args.beam_size
     batch_size = args.batch_size
@@ -263,7 +263,7 @@ def main():
     
     # =====> generate samples <=====
     while 1:
-        f1 = open("res/final_lr1e-5_bs96_ln_newcl_kl02_tk10_tp07_tm1o1_rpt1o5_disorder.txt", "w", encoding="utf-8")
+        f1 = open("res/final_lr1e-5_bs96_ln_newcl_kl02_tk1_tp0_tm1o1_rpt1o5_disorder.txt", "w", encoding="utf-8")
         # f2 = open("res/labels_cl_ln_lr1e-5_ep3.txt", "w", encoding="utf-8")
         for idx in trange(0,len(test_dataset.dataset),1): # len(test_dataset.dataset)
             n_preds = []

@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-15 13:50:46
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-16 13:31:44
+LastEditTime: 2022-03-16 22:56:56
 '''
 
 import argparse
@@ -177,7 +177,7 @@ def sample_sequence(
     else:
         with torch.no_grad():
             for _ in range(length-inputs['targets'].size(1)):
-                # print(inputs['targets'].shape)
+                # print(inputs['targets'])
                 if inputs['targets'].size(1) % 45 == 0:
                     inputs['targets'] = torch.cat([inputs['targets'], \
                         torch.tensor([1], dtype=torch.long, device=device).unsqueeze(0)], dim=1)
@@ -341,10 +341,12 @@ def main():
         for _ in range(args.n_samples):
             label = test_dataset.dataset[idx]['targets']
             label_tokens = tokenizer.convert_ids_to_tokens(label)
-            # encoded = [tokenizer.convert_tokens_to_ids('[#START#]我们')] # Input [#START#] token
+            encoded = [tokenizer.convert_tokens_to_ids(item) for item in ['[#START#]', '我', '们']] # Input [#START#] token
             start_input = test_dataset.dataset[idx]
-            # start_input['targets'] = np.asarray(encoded)
-            start_input['targets'] = np.asarray([])
+            start_input['targets'] = np.asarray(encoded)
+            # import pdb; pdb.set_trace()
+            # print(start_input['targets'])
+            # start_input['targets'] = np.asarray([])
             preds = sample_sequence(
                 model,
                 start_input,

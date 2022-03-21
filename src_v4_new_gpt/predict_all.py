@@ -3,7 +3,7 @@ Author: Aman
 Date: 2021-11-19 00:39:07
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-01-25 08:52:38
+LastEditTime: 2022-03-17 15:11:23
 '''
 
 import argparse
@@ -311,14 +311,14 @@ def main():
     parser.add_argument("--seed", default=42, type=int, help="Random seed")
     parser.add_argument("--num_workers", default=8, type=int, help="Number of workers")
     parser.add_argument("--data_path", default="../datasets/new_data_rating/final_test_50.pkl", type=str, help="Data directory")
-    parser.add_argument("--model_path", default="./models/final_5ep_1e-5_bsz96_wocl_allpos-4/epoch_3.pth", type=str, help="Model path")
+    parser.add_argument("--model_path", default="./models/final_5ep_lr1e-5_bsz96_ln_newcl/epoch_3.pth", type=str, help="Model path")
     parser.add_argument("--tokenizer_path", default="./vocab/vocab.txt", type=str, required=False, help="词表路径")
     parser.add_argument("--beam_size", default=0, type=int, required=False, help="beam search size") # 20: 13min
-    parser.add_argument("--temperature", default=1.1, type=float, required=False, help="生成温度")
-    parser.add_argument("--topk", default=5, type=int, required=False, help="最高几选一")
-    parser.add_argument("--topp", default=0.9, type=float, required=False, help="最高积累概率")
-    parser.add_argument("--repetition_penalty", default=1.4, type=float, required=False)
-    parser.add_argument("--n_samples", default=10, type=int, required=False, help="生成的样本数量")
+    parser.add_argument("--temperature", default=1.1, type=float, required=False, help="生成温度") # 1.1
+    parser.add_argument("--topk", default=1, type=int, required=False, help="最高几选一") # 5
+    parser.add_argument("--topp", default=0, type=float, required=False, help="最高积累概率") # 0.9
+    parser.add_argument("--repetition_penalty", default=1.5, type=float, required=False) # 1.4
+    parser.add_argument("--n_samples", default=1, type=int, required=False, help="生成的样本数量")
     # parser.add_argument("--save_samples", action="store_true", help="保存产生的样本")
     # parser.add_argument("--save_samples_path", default=".", type=str, required=False, help="保存样本的路径")
     
@@ -359,7 +359,7 @@ def main():
 
     # print("Loading data...")
     test_data_file = args.data_path
-    test_data = MyDataset(test_data_file, tokenizer, data_config)
+    test_data = MyDataset(test_data_file, tokenizer, data_config, False)
     test_dataset = DataLoader(test_data, batch_size=batch_size, shuffle=False, num_workers=num_workers)
     # print("Data test loaded.")
 
@@ -372,7 +372,7 @@ def main():
     
     # =====> generate samples <=====
     while 1:
-        f1 = open("res/samples_wocl_ln_lr1e-5_ep3_all_pos-4.txt", "w", encoding="utf-8")
+        f1 = open("res/final_lr1e-5_bs96_ln_newcl_tk1_tp0_tm1o1_rpt1o5.txt", "w", encoding="utf-8")
         # f2 = open("res/labels_cl_ln_lr1e-5_ep3.txt", "w", encoding="utf-8")
         for idx in trange(0,len(test_dataset.dataset),1): # len(test_dataset.dataset)
             n_preds = []
@@ -455,7 +455,7 @@ def main():
 
 
     # =====> Calculate the PPL of label and top-1 prediction of the test data <=====
-    while 1:
+    while 0:
         label_probs = []
         top1_probs = []
         epoch_iterator = tqdm(test_dataset, ncols=100, leave=False)
