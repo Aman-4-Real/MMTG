@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-04 14:13:14
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-08 22:48:05
+LastEditTime: 2022-03-26 16:32:48
 '''
 
 
@@ -50,7 +50,7 @@ parser.add_argument("--save_path", default="./models/lr2e-6_bs96_kl01", type=str
 # parser.add_argument("--save_interval", default=1, type=int, help="Save interval")
 parser.add_argument("--log_path", default="./logs/lr2e-6_bs96_kl01.log", type=str, help="Log directory")
 parser.add_argument("--tensorboard_log_dir", default="./logs/lr2e-6_bs96_kl01", type=str, help="Tensorboard log directory")
-parser.add_argument("--alpha", default=0.1, type=float, help="Factor of KLDivLoss.")
+parser.add_argument("--alpha", default=0.2, type=float, help="Factor of KLDivLoss.")
 
 global args
 args = parser.parse_args()
