@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-21 19:38:25
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-21 21:29:48
+LastEditTime: 2022-03-24 13:13:43
 '''
 
 
@@ -46,10 +46,10 @@ parser.add_argument("--val_interval_ratio", default=0.2, type=float, help="Eval 
 parser.add_argument("--train_data_path", default="../datasets/new_data_rating/train_data_with_ratings_210k.pkl", type=str, help="Train data path")
 parser.add_argument("--val_data_path", default="../datasets/new_data_rating/val_data_with_ratings_8k.pkl", type=str, help="Val data path")
 parser.add_argument("--save_model", default=True, type=bool, help="Save model or not")
-parser.add_argument("--save_path", default="./models/lr1e-5_bs96_kl02", type=str, help="Save directory")
+parser.add_argument("--save_path", default="./models/lr1e-5_bs96_kl02_add", type=str, help="Save directory")
 # parser.add_argument("--save_interval", default=1, type=int, help="Save interval")
-parser.add_argument("--log_path", default="./logs/lr1e-5_bs96_kl02.log", type=str, help="Log directory")
-parser.add_argument("--tensorboard_log_dir", default="./logs/lr1e-5_bs96_kl02", type=str, help="Tensorboard log directory")
+parser.add_argument("--log_path", default="./logs/lr1e-5_bs96_kl02_add.log", type=str, help="Log directory")
+parser.add_argument("--tensorboard_log_dir", default="./logs/lr1e-5_bs96_kl02_add", type=str, help="Tensorboard log directory")
 parser.add_argument("--alpha", default=0.2, type=float, help="Factor of KLDivLoss.")
 
 global args

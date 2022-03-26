@@ -1,9 +1,9 @@
 '''
 Author: Aman
-Date: 2022-03-21 19:38:25
+Date: 2022-03-23 22:02:05
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-25 02:54:56
+LastEditTime: 2022-03-25 00:35:25
 '''
 
 
@@ -25,8 +25,6 @@ from configs import data_config, model_cfgs
 from model import EXPTeller
 from MyDataset import MyDataset
 from utils import *
-
-# os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 
 
 
@@ -89,7 +87,7 @@ def beam_decode(
                 for i in range(seq_len):
                     tmp_targets[0][i] = torch.tensor(seq_beams[i][beam_i][0], dtype=torch.long, device=device)
                 inputs['targets'] = tmp_targets
-                _, _, outputs = model.forward(inputs) # [batch_size, seq_len, now_sent_length, vocab_size]
+                _, outputs = model.forward(inputs) # [batch_size, seq_len, now_sent_length, vocab_size]
                 next_token_logits = outputs[0, :, -1, :8102] # [seq_len, vocab_size]
                 # next_tokens = torch.zeros([seq_len, 1], dtype=torch.long).to(device)
                 generated = inputs['targets']
@@ -209,26 +207,38 @@ def calculate_sent_prob(model, start_input, label, length, device):
     inputs = start_input
     for k, v in inputs.items():
         if k == 'targets':
-            inputs[k] = torch.tensor(v, dtype=torch.long, device=device).unsqueeze(0)
+            if len(v) == 1:
+                inputs[k] = torch.tensor(v, dtype=torch.long, device=device).unsqueeze(0)
+            else:
+                inputs[k] = torch.tensor(v, dtype=torch.long, device=device)
+        elif k == 'img_embs' or k == 'r_embs':
+            if len(v) == 2:
+                inputs[k] = v.clone().detach().unsqueeze(0)
+            # else:
+            #     inputs[k] = v.clone().detach()
         else:
-            inputs[k] = torch.tensor(v, dtype=torch.float32, device=device).unsqueeze(0)
+            if len(v) == 1:
+                inputs[k] = v.clone().detach().unsqueeze(0)
+            # else:
+            #     inputs[k] = v.clone().detach()
     generated = inputs['targets']
-    probs = []
-    max_probs = []
+    probs = [[] for _ in range(len(generated))]
+    max_probs = [[] for _ in range(len(generated))]
     with torch.no_grad():
         for t in range(length-1):
             # import pdb; pdb.set_trace()
-            _, _, outputs = model.forward(inputs) # [batch_size, seq_len, now_sent_length, vocab_size]
-            next_token_logits = outputs[0, -1, :] # [seq_len, vocab_size]
-            # next_tokens = torch.zeros([1], dtype=torch.long).to(device)
-            generated = inputs['targets']
-            
-            probabilities = F.softmax(next_token_logits, dim=-1)
-            probs.append(-np.log(probabilities[label[t+1]].item()))
-            max_probs.append(-np.log(np.max(probabilities.cpu().numpy())))
-            next_tokens = torch.tensor(label[t+1], dtype=torch.long, device=device).unsqueeze(0).unsqueeze(0)
-            # import pdb; pdb.set_trace()
-            inputs['targets'] = torch.cat((generated, next_tokens), dim=-1)
+            _, _, outputs = model.forward(inputs) # [batch_size, now_sent_length, vocab_size]
+            curr_token = torch.zeros(outputs.size(0), dtype=torch.long, device=device).unsqueeze(1)
+            for i in range(outputs.size(0)):
+                next_token_logits = outputs[i, -1, :] # [vocab_size]
+                # generated = inputs['targets'][i]
+                probabilities = F.softmax(next_token_logits, dim=-1)
+                probs[i].append(-np.log(probabilities[label[i][t+1]].item()))
+                max_probs[i].append(-np.log(np.max(probabilities.cpu().numpy())))
+                next_token = torch.tensor(label[i][t+1], dtype=torch.long, device=device).unsqueeze(0)
+                # import pdb; pdb.set_trace()
+                curr_token[i] = next_token
+            inputs['targets'] = torch.cat((inputs['targets'], curr_token), dim=-1)
             # import pdb; pdb.set_trace()
         # generated = generated.tolist()[0]
     return probs, max_probs
@@ -236,56 +246,51 @@ def calculate_sent_prob(model, start_input, label, length, device):
 
 
 def test(model, test_dataset, device):
-    criterion = nn.CrossEntropyLoss()
     model.eval()
-    _loss = 0.0
+    ppl_loss = 0.0
     with torch.no_grad():
         epoch_iterator = tqdm(test_dataset, ncols=100, leave=False)
         for i, batch in enumerate(epoch_iterator):
             batch = {k: v.to(device) for k, v in batch.items()}
-            _, _, outputs = model.forward(batch) # [batch_size, seq_len, _max_sent_length*2, vocab_size]
-            outputs = outputs.contiguous().view(-1, outputs.shape[-1])
-            target = batch['targets'].contiguous().view(-1) # [batch_size*seq_len*_max_sent_length*2]
-            loss = criterion(outputs, target)
-            loss = loss.mean()
-            _loss += loss.item()
-    _loss /= len(test_dataset)
-    ppl = math.exp(_loss)
+            _loss, _, outputs = model.forward(batch) # [batch_size, seq_len*_max_sent_length*2, vocab_size]
+            ppl_loss += torch.mean(_loss.mean(dim=-1)).item()
+            outputs = outputs.contiguous()
+            target = batch['targets'].contiguous() # [batch_size*seq_len*_max_sent_length*2]
+    ppl_loss /= len(test_dataset)
+    ppl = math.exp(ppl_loss)
 
-    return _loss, ppl
+    return ppl_loss, ppl
 
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--device_ids", default="0,1,2,3", type=str, help="GPU device ids")
-    parser.add_argument("--batch_size", default=128, type=int, help="Test batch size")
+    parser.add_argument("--batch_size", default=32, type=int, help="Test batch size")
     parser.add_argument("--seed", default=42, type=int, help="Random seed")
-    parser.add_argument("--num_workers", default=4, type=int, help="Number of workers")
+    parser.add_argument("--num_workers", default=8, type=int, help="Number of workers")
     parser.add_argument("--data_path", default="../datasets/new_data_rating/final_test_50.pkl", type=str, help="Data directory")
-    parser.add_argument("--model_path", default="./models/lr1e-5_bs96_kl02_add/epoch_3.pth", type=str, help="Model path")
+    parser.add_argument("--model_path", default="./models/lr1e-5_bs96_kl02_add/epoch_5.pth", type=str, help="Model path")
     parser.add_argument("--tokenizer_path", default="./vocab/vocab.txt", type=str, required=False, help="词表路径")
     parser.add_argument("--beam_size", default=0, type=int, required=False, help="beam search size") # 20: 13min
     parser.add_argument("--temperature", default=1.1, type=float, required=False, help="生成温度")
-    parser.add_argument("--topk", default=10, type=int, required=False, help="最高几选一")
-    parser.add_argument("--topp", default=0.7, type=float, required=False, help="最高积累概率")
+    parser.add_argument("--topk", default=1, type=int, required=False, help="最高几选一")
+    parser.add_argument("--topp", default=0, type=float, required=False, help="最高积累概率")
     parser.add_argument("--repetition_penalty", default=1.5, type=float, required=False)
-    # parser.add_argument("--prefix", default="今天", type=str, required=False, help="生成文章的开头")
-    parser.add_argument("--save_samples", action="store_true", help="保存产生的样本")
-    parser.add_argument("--save_samples_path", default=".", type=str, required=False, help="保存样本的路径")
-    parser.add_argument("--n_samples", default=5, type=int, required=False, help="生成的样本数量")
+    parser.add_argument("--n_samples", default=1, type=int, required=False, help="生成的样本数量")
+    # parser.add_argument("--save_samples", action="store_true", help="保存产生的样本")
+    # parser.add_argument("--save_samples_path", default=".", type=str, required=False, help="保存样本的路径")
     
 
     # global args
     global model_cfgs, data_config
     model_cfgs = model_cfgs
-    model_cfgs['dropout'] = 0
     data_config = data_config()
     
     args = parser.parse_args()
-    print("args:\n" + args.__repr__())
+    # print("args:\n" + args.__repr__())
     
-    os.environ["CUDA_VISIBLE_DEVICES"] = args.device_ids  # 此处设置程序使用哪些显卡
+    os.environ["CUDA_VISIBLE_DEVICES"] = "2,0,3,1" # args.device_ids
     device_ids = [int(item) for item in args.device_ids.split(",")]
     beam_size = args.beam_size
     batch_size = args.batch_size
@@ -295,13 +300,13 @@ def main():
     topp = args.topp
     repetition_penalty = args.repetition_penalty
     length = data_config.max_seq_length # 200
+    n_samples = args.n_samples
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     # load tokenizer
     tokenizer = BertTokenizer.from_pretrained(args.tokenizer_path)
-    print("vocab_size: ", len(tokenizer.vocab))
-    # import pdb; pdb.set_trace()
+    # print("vocab_size: ", len(tokenizer.vocab))
     
     # load model
     checkpoint = torch.load(args.model_path)
@@ -309,80 +314,34 @@ def main():
     model.to(device)
     model = nn.DataParallel(model, device_ids=device_ids)
     model.load_state_dict(checkpoint['model'])
-    print("Loaded model from {}".format(args.model_path))
+    # print("Loaded model from {}".format(args.model_path))
 
-
-    print("Loading data...")
+    # print("Loading data...")
     test_data_file = args.data_path
     test_data = MyDataset(test_data_file, tokenizer, data_config, False)
     test_dataset = DataLoader(test_data, batch_size=batch_size, shuffle=False, num_workers=num_workers)
-    print("Data test loaded.")
-    # test_loss, ppl = test(model, test_dataset, device)
-    # print("Test loss: %.4f, PPL: %.4f" % (test_loss, ppl))
+    # print("Data test loaded.")
+
+
+    while 0:
+        ppl_loss, ppl = test(model, test_dataset, device)
+        print("PPL loss: %.4f, PPL: %.4f" % (ppl_loss, ppl))
+        break
     
-    def swap(item, m, n):
-        item[[m,n], :] = item[[n,m], :]
-        # print(item)
-        # item[:,:] = 9
-        return item
-
-
-    print("Now displaying any instance of the test data. 0 <= idx < %d" % (len(test_data)))
-    while True:
-        # input a idx
-        idx = eval(input("Input a idx: "))
-        print("="*100)
-        print("idx:", idx)
-        topic_list = ''.join(tokenizer.convert_ids_to_tokens(test_dataset.dataset[idx]['topic_ids']))
-        print(topic_list.replace('[PAD]', ''))
-        for _ in range(args.n_samples):
-            label = test_dataset.dataset[idx]['targets']
-            label_tokens = tokenizer.convert_ids_to_tokens(label)
-            encoded = [tokenizer.convert_tokens_to_ids('[#START#]')] # Input [#START#] token
-            start_input = test_dataset.dataset[idx]
-            start_input['targets'] = np.asarray(encoded)
-            preds = sample_sequence(
-                model,
-                start_input,
-                length=length,
-                tokenizer=tokenizer,
-                temperature=temperature,
-                beam_size=beam_size,
-                top_k=topk,
-                top_p=topp,
-                repitition_penalty=repetition_penalty,
-                device=device,
-            )
-            preds = [tokenizer.convert_ids_to_tokens(line) for line in preds]
-            # all_idx_of_eos = [i for i,v in enumerate(preds) if v=='[#EOS#]']
-            # if len(all_idx_of_eos) >= 10 and '[SEP]' not in preds[:all_idx_of_eos[-1]]:
-            #     eos_idx = all_idx_of_eos[9]
-            #     preds = preds[:eos_idx+1] + ['[SEP]']
-            # elif '[SEP]' in preds:
-            #     sep_idx = preds.index('[SEP]')
-            #     preds = preds[:sep_idx+1]
-            # else:
-            #     preds = preds + ['[SEP]']
-            # print("Prediction:")
-            # sep_idx = preds.index('[SEP]')
-            # preds = preds[:sep_idx]
-            print(" ".join(preds))
-            print(''.join(preds[:-1]).replace('[PAD]', '').replace('[#START#]', '').replace('[#EOS#]', '，'))
-            print("-"*80)
-        
-        while 0:
-            try:
+    
+    # =====> generate samples <=====
+    while 1:
+        f1 = open("res/lr1e-5_ep5_add_bs96_kl02_tk1_tp0_tm1o1_rpt1o5.txt", "w", encoding="utf-8")
+        # f2 = open("res/labels_cl_ln_lr1e-5_ep3.txt", "w", encoding="utf-8")
+        for idx in trange(0,len(test_dataset.dataset),1): # len(test_dataset.dataset)
+            n_preds = []
+            for _ in range(n_samples):
+                encoded = [tokenizer.convert_tokens_to_ids('[#START#]')] # Input [#START#] token
                 start_input = test_dataset.dataset[idx]
                 start_input['targets'] = np.asarray(encoded)
-                # print(start_input['img_embs'])
-                m, n = input("Swap: ").split()
-                swap_input = start_input
-                swap_input['img_embs'] = swap(swap_input['img_embs'], int(m), int(n))
-                swap_input['r_embs'] = swap(swap_input['r_embs'], int(m), int(n))
-                # print(swap_input['img_embs'])
                 preds = sample_sequence(
                     model,
-                    swap_input,
+                    start_input,
                     length=length,
                     tokenizer=tokenizer,
                     temperature=temperature,
@@ -393,33 +352,57 @@ def main():
                     device=device,
                 )
                 preds = [tokenizer.convert_ids_to_tokens(line) for line in preds]
-                # print("Swap Prediction:")
-                # sep_idx = preds.index('[SEP]')
-                # preds = preds[:sep_idx]
-                # print(" ".join(preds))
-                print(''.join(preds[:-1]).replace('[PAD]', '').replace('[#START#]', '').replace('[#EOS#]', '，'))
-            except:
-                break
+                all_idx_of_eos = [i for i,v in enumerate(preds) if v=='[#EOS#]']
+                if len(all_idx_of_eos) >= 10 and '[SEP]' not in preds[:all_idx_of_eos[-1]]:
+                    eos_idx = all_idx_of_eos[9]
+                    preds = preds[:eos_idx+1] + ['[SEP]']
+                elif '[SEP]' in preds:
+                    sep_idx = preds.index('[SEP]')
+                    preds = preds[:sep_idx+1]
+                else:
+                    preds = preds + ['[SEP]']
+                # print(("".join(preds[:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', ''))
+                # tmp = ''.join(preds).replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', '')
+                tmp = ''.join(preds).replace('[SEP]', '').replace('[PAD]', '').replace('[#START#]', '').replace('[#EOS#]', '，')
+                while tmp[-1] == '，':
+                    tmp = tmp[:-1]
+                n_preds += [tmp]
+                
+            label = test_dataset.dataset[idx]['targets']
+            label_tokens = tokenizer.convert_ids_to_tokens(label)
+            sep_idx = label_tokens.index('[SEP]')
+            label_tokens = label_tokens[:sep_idx+1]
+            # label_out = ("".join(label_tokens[:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', '')
+            # print(n_preds)
+            # print(label_out)
+            for j in range(len(n_preds)):
+                f1.write(n_preds[j]+'\n')
+                # f2.write(label_out+'\n')
+        f1.close()
+        # f2.close()
+        break
         
 
-        print("Label:")
-        sep_idx = label_tokens.index('[SEP]')
-        label_tokens = label_tokens[:sep_idx]
-        # print(" ".join(label_tokens))
-        print(''.join(label_tokens).replace('[PAD]', '').replace('[#START#]', '').replace('[#EOS#]', '，'))
 
-        # ===================== for probs caculation =====================
-        # print("-"*80)
-        # import pdb; pdb.set_trace()
-        # start_input = test_dataset.dataset[idx]
-        # start_input['targets'] = np.asarray(encoded)
-        # probs, maxprobs = calculate_sent_prob(model, start_input, label, length, device)
-        # valid_len = test_dataset.dataset[idx]['targets'].tolist().index(102) + 1
-        # print("Label Probs:", sum(probs[:valid_len])/valid_len, \
-        #       "Top-1 Probs:", sum(maxprobs[:valid_len])/valid_len)
-        
-        print("="*100)
-    
+    # =====> Calculate the PPL of label and top-1 prediction of the test data <=====
+    while 0:
+        label_probs = []
+        top1_probs = []
+        epoch_iterator = tqdm(test_dataset, ncols=100, leave=False)
+        for batch in epoch_iterator:
+            labels = batch['targets'].tolist() # bs * 200
+            label_tokens = [tokenizer.convert_ids_to_tokens(label) for label in labels]
+            encoded = [[tokenizer.convert_tokens_to_ids('[#START#]')] for i in range(batch['topic_emb'].size(0))] # Input [#START#] token
+            start_input = batch
+            start_input['targets'] = np.asarray(encoded)
+            probs, maxprobs = calculate_sent_prob(model, start_input, labels, length, device)
+            valid_len = [labels[j].index(102) + 1 for j in range(batch['topic_emb'].size(0))]
+            label_probs += [sum(probs[j][:valid_len[j]])/valid_len[j] for j in range(batch['topic_emb'].size(0))]
+            top1_probs += [sum(maxprobs[j][:valid_len[j]])/valid_len[j] for j in range(batch['topic_emb'].size(0))]
+        print("Label Probs:", np.mean(label_probs), "Top-1 Probs:", np.mean(top1_probs))
+        print("Label PPL:", np.exp(np.mean(label_probs)), "Top-1 PPL:", np.exp(np.mean(top1_probs)))
+        break
+
 
 
 if __name__ == "__main__":

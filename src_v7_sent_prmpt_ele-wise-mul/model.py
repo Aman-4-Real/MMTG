@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-21 19:38:24
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-21 21:11:29
+LastEditTime: 2022-03-24 13:11:18
 '''
 
 
@@ -250,11 +250,12 @@ class GPT2_Decoder(nn.Module):
             attention_mask: [batch_size, seq_len * _sent_length * 2]
             type_ids: [batch_size, seq_len * _sent_length * 2]
         '''
+        # import pdb; pdb.set_trace()
         # process labels
         prompt_length = topic_ids.size(1)
         batch_size = concat_output.size(0)
         seq_len = concat_output.size(1)
-        sent_length = input_ids.size(1)//seq_len
+        sent_length = 44 # input_ids.size(1)//seq_len
         # labels = torch.cat([torch.zeros(prompt_length, dtype=torch.long).unsqueeze(0).repeat(batch_size,1).to(input_ids.device), input_ids], dim=1)
         labels = torch.cat([topic_ids, input_ids], dim=1)
 
@@ -271,26 +272,23 @@ class GPT2_Decoder(nn.Module):
         for i in range(batch_size):
             for j in range(input_ids.size(1)):
                 _id = input_ids_np[i][j]
-                if j == input_ids.size(1) - 1:
-                    input_ids_wenlan[i][j] = torch.tensor(self.token_id2emb[_id], dtype=torch.float32).to(input_ids.device)
-                    continue
-                input_ids_wenlan[i][j] = torch.tensor(self.token_id2emb[_id], dtype=torch.float32).to(input_ids.device) * concat_output[i][j//sent_length]
+                # if j == input_ids.size(1) - 1:
+                input_ids_wenlan[i][j] = torch.tensor(self.token_id2emb[_id], dtype=torch.float32).to(input_ids.device)
+                    # continue
+                # input_ids_wenlan[i][j] = torch.tensor(self.token_id2emb[_id], dtype=torch.float32).to(input_ids.device) + concat_output[i][j//sent_length]
+            for k in range(seq_len):
+                input_ids_wenlan[i,sent_length*k:sent_length*(k+1)] = input_ids_wenlan[i,sent_length*k:sent_length*(k+1)] + concat_output[i,k]
 
-        # process final input embs
-        # input_embs = torch.cat([topic_ids_wenlan, concat_output], dim=1)
-        input_embs = torch.cat([topic_ids_wenlan, input_ids_wenlan], dim=1) # [batch_size, topic_prompt_length + seq_len + seq_len * _sent_length * 2, 2048]
-
-        # process type_ids: [1]*44 + [2]*44 + [3]*44 + [4]*44 + [1]*44
-        # exp_prompt_type_ids = torch.tensor(list(range(1,seq_len))+[1], dtype=torch.long).unsqueeze(0).repeat(batch_size,1).to(type_ids.device)
-        # prompt_type_ids = torch.cat([tpw_type_ids, exp_prompt_type_ids], dim=1).to(input_ids.device)
-        type_ids = torch.cat([tpw_type_ids, type_ids], dim=1).to(input_ids.device) # [seq_len + seq_len * _sent_length * 2]
-        
-        # process attention mask
-        # exp_att_mask = torch.ones(concat_output.size(1), dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(attention_mask.device)
-        # prompt_attention_mask = torch.cat([tpw_att_mask, exp_att_mask], dim=1).to(attention_mask.device)
-        attention_mask = torch.cat([tpw_att_mask, attention_mask], dim=1) # [seq_len + seq_len * _sent_length * 2]
-        
         if is_train:
+            # process final input embs
+            input_embs = torch.cat([topic_ids_wenlan, input_ids_wenlan], dim=1)
+
+            # process type_ids: [1]*44 + [2]*44 + [3]*44 + [4]*44 + [1]*44
+            type_ids = torch.cat([tpw_type_ids, type_ids], dim=1).to(input_ids.device) # [seq_len + seq_len * _sent_length * 2]
+            
+            # process attention mask
+            attention_mask = torch.cat([tpw_att_mask, attention_mask], dim=1) # [seq_len + seq_len * _sent_length * 2]
+        
             out1 = self.projector_layer1(input_embs)
             out1 = self.tanh(out1)
             gpt_input_embs = self.projector_layer2(out1)
@@ -304,44 +302,32 @@ class GPT2_Decoder(nn.Module):
         
         # inference
         else:
-            input_embs = topic_ids_wenlan
-            prompt_length = topic_ids.size(1)
+            # import pdb; pdb.set_trace()
+
+            # process final input embs
+            input_embs = torch.cat([topic_ids_wenlan, input_ids_wenlan], dim=1)
+
             _type_ids = tpw_type_ids
             _type_ids_list = list(range(1,concat_output.size(1)))+[1]
-            _attention_mask = tpw_att_mask
-            i = 1
-            input_embs = torch.cat([input_embs, concat_output[:,0,:].unsqueeze(1)], dim=1)
-            _type_ids = torch.cat([_type_ids, torch.tensor(_type_ids_list[0], dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
-            _attention_mask = torch.cat([_attention_mask, torch.ones(1, dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(attention_mask.device)], dim=1)
-            input_embs = torch.cat([input_embs, input_ids_wenlan[:,:44,:]], dim=1)
-
-            # _type_ids = torch.cat([_type_ids, type_ids[:,:44]], dim=1)
-            while i <= input_ids_wenlan.size(1) // 44:
-                if i >= concat_output.size(1): break;
-                input_embs = torch.cat([input_embs, concat_output[:,i,:].unsqueeze(1)], dim=1)
-                input_embs = torch.cat([input_embs, input_ids_wenlan[:,i*44:(i+1)*44,:]], dim=1)
-                # _type_ids = torch.cat([_type_ids, torch.tensor(_type_ids_list[i], dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
-                # _type_ids = torch.cat([_type_ids, type_ids[:,i*44:(i+1)*44]], dim=1)
-                i += 1
+            
+            # input_embs = torch.cat([input_embs, concat_output[:,0,:].unsqueeze(1)], dim=1)
+            # _attention_mask = torch.cat([_attention_mask, torch.ones(1, dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(attention_mask.device)], dim=1)
+            # input_embs = torch.cat([input_embs, input_ids_wenlan[:,:44,:]], dim=1)
+            
             # add type_ids
             for i in range(input_ids.size(1)):
-                if i % 44 == 0:
+                if (i + 1) % 22 == 0 or (i + 1) % 22 == 1:
                     _type_ids = torch.cat([_type_ids, torch.zeros(1, dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
                 else:
-                    if input_ids[0][i] == 0:
-                        _type_ids = torch.cat([_type_ids, torch.zeros(1, dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
-                    else:
-                        _type_ids = torch.cat([_type_ids, torch.tensor(_type_ids_list[i//44], dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
-                    if i in [43, 87, 131, 175]:
-                        _type_ids = torch.cat([_type_ids, torch.tensor(_type_ids_list[i//44], dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
+                    cat_type_id = torch.zeros(1, dtype=torch.long) if input_ids[0][i] == 0 else torch.tensor(_type_ids_list[i//sent_length], dtype=torch.long)
+                    _type_ids = torch.cat([_type_ids, cat_type_id.unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
+                    
             # add attention mask
+            _attention_mask = tpw_att_mask
             for i in range(input_ids.size(1)):
-                if input_ids[0][i] == 0:
-                    _attention_mask = torch.cat([_attention_mask, torch.zeros(1, dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(attention_mask.device)], dim=1)
-                else:
-                    _attention_mask = torch.cat([_attention_mask, torch.ones(1, dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(attention_mask.device)], dim=1)
-                if i in [43, 87, 131, 175]:
-                    _attention_mask = torch.cat([_attention_mask, torch.ones(1, dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(attention_mask.device)], dim=1)
+                cat_att_mask = torch.zeros(1, dtype=torch.long) if input_ids[0][i] == 0 else torch.ones(1, dtype=torch.long)
+                _attention_mask = torch.cat([_attention_mask, cat_att_mask.unsqueeze(0).repeat(concat_output.size(0),1).to(attention_mask.device)], dim=1)
+            
             _labels = torch.zeros(input_embs.size(1), dtype=torch.long).unsqueeze(0).repeat(concat_output.size(0),1).to(input_ids.device)
 
             out1 = self.projector_layer1(input_embs)
