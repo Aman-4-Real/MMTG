@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-10 02:22:27
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-28 15:09:11
+LastEditTime: 2022-03-29 22:39:56
 '''
 
 
@@ -22,7 +22,7 @@ from tqdm import tqdm, trange
 from transformers import BertTokenizer
 
 from configs import data_config, model_cfgs
-from model import EXPTeller
+from model_wo_topic import EXPTeller
 from MyDataset import MyDataset
 from utils import *
 
@@ -314,7 +314,7 @@ def main():
     parser.add_argument("--seed", default=42, type=int, help="Random seed")
     parser.add_argument("--num_workers", default=8, type=int, help="Number of workers")
     parser.add_argument("--data_path", default="../datasets/new_data_rating/final_test_50.pkl", type=str, help="Data directory")
-    parser.add_argument("--model_path", default="/data/caoqian/gen_exp/src_v5_refine/models/models/lr1e-5_bs96_kl02/epoch_3.pth", type=str, help="Model path")
+    parser.add_argument("--model_path", default="./models/lr1e-5_bs96_kl02_wo_topic/epoch_3.pth", type=str, help="Model path") # /data/caoqian/gen_exp/src_v5_refine/models/
     parser.add_argument("--tokenizer_path", default="./vocab/vocab.txt", type=str, required=False, help="词表路径")
     parser.add_argument("--beam_size", default=0, type=int, required=False, help="beam search size") # 20: 13min
     parser.add_argument("--temperature", default=1.1, type=float, required=False, help="生成温度")
@@ -334,7 +334,7 @@ def main():
     args = parser.parse_args()
     # print("args:\n" + args.__repr__())
     
-    os.environ["CUDA_VISIBLE_DEVICES"] = "3,2,0,1" # args.device_ids
+    os.environ["CUDA_VISIBLE_DEVICES"] = "2,1,0,3" # args.device_ids
     device_ids = [int(item) for item in args.device_ids.split(",")]
     beam_size = args.beam_size
     batch_size = args.batch_size
@@ -375,7 +375,7 @@ def main():
     
     # =====> generate samples <=====
     while 1:
-        f1 = open("res/lr1e-5_bs96_kl02_tk10_tp07_tm1o1_rpt1o5_ep3.txt", "w", encoding="utf-8")
+        f1 = open("res/lr1e-5_bs96_kl02_tk10_tp07_tm1o1_rpt1o5_wo_topic-1.txt", "w", encoding="utf-8")
         # f2 = open("res/labels_cl_ln_lr1e-5_ep3.txt", "w", encoding="utf-8")
         for idx in trange(0,len(test_dataset.dataset),1): # len(test_dataset.dataset)
             n_preds = []
@@ -408,12 +408,16 @@ def main():
                     preds = preds + ['[SEP]']
                 # print(("".join(preds[:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', ''))
                 tmp = ''.join(preds).replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', '')
-                while tmp[-1] == '，':
-                    tmp = tmp[:-1]
-                if len(tmp.split('，')) >= 10:
-                    n_preds += ['，'.join(tmp.split('，')[:10])]
-                else:
+                try:
+                    while tmp[-1] == '，':
+                        tmp = tmp[:-1]
+                    n_preds += [tmp]
+                except:
                     continue
+                # if len(tmp.split('，')) >= 10:
+                #     n_preds += ['，'.join(tmp.split('，')[:10])]
+                # else:
+                #     continue
                 cnt -= 1
                 
             label = test_dataset.dataset[idx]['targets']
@@ -466,7 +470,7 @@ def main():
 
 
     # =====> Calculate the PPL of label and top-1 prediction of the test data <=====
-    while 1:
+    while 0:
         label_probs = []
         top1_probs = []
         epoch_iterator = tqdm(test_dataset, ncols=100, leave=False)
