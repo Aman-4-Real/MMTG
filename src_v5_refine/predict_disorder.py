@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-14 14:56:21
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-17 15:06:10
+LastEditTime: 2022-03-30 17:17:08
 Description: change the order of the input and generate the output.
 '''
 
@@ -23,7 +23,7 @@ from tqdm import tqdm, trange
 from transformers import BertTokenizer
 
 from configs import data_config, model_cfgs
-from model import EXPTeller
+from model_wo_topic import EXPTeller
 from MyDataset import MyDataset
 from utils import *
 
@@ -208,7 +208,7 @@ def main():
     parser.add_argument("--seed", default=42, type=int, help="Random seed")
     parser.add_argument("--num_workers", default=8, type=int, help="Number of workers")
     parser.add_argument("--data_path", default="../datasets/new_data_rating/final_test_50.pkl", type=str, help="Data directory")
-    parser.add_argument("--model_path", default="./models/lr1e-5_bs96_kl02/epoch_3.pth", type=str, help="Model path")
+    parser.add_argument("--model_path", default="./models/lr1e-5_bs96_kl02_wo_topic/epoch_3.pth", type=str, help="Model path")
     parser.add_argument("--tokenizer_path", default="./vocab/vocab.txt", type=str, required=False, help="词表路径")
     parser.add_argument("--beam_size", default=0, type=int, required=False, help="beam search size") # 20: 13min
     parser.add_argument("--temperature", default=1.1, type=float, required=False, help="生成温度")
@@ -228,7 +228,7 @@ def main():
     args = parser.parse_args()
     # print("args:\n" + args.__repr__())
     
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1,0,2,3" # args.device_ids
+    os.environ["CUDA_VISIBLE_DEVICES"] = "3,0,2,1" # args.device_ids
     device_ids = [int(item) for item in args.device_ids.split(",")]
     beam_size = args.beam_size
     batch_size = args.batch_size
@@ -263,7 +263,7 @@ def main():
     
     # =====> generate samples <=====
     while 1:
-        f1 = open("res/lr1e-5_bs96_kl02_tk1_tp0_tm1o1_rpt1o5_disorder.txt", "w", encoding="utf-8")
+        f1 = open("res/lr1e-5_bs96_kl02_tk1_tp0_tm1o1_rpt1o5_wo_topic_disorder.txt", "w", encoding="utf-8")
         # f2 = open("res/labels_cl_ln_lr1e-5_ep3.txt", "w", encoding="utf-8")
         for idx in trange(0,len(test_dataset.dataset),1): # len(test_dataset.dataset)
             n_preds = []

@@ -1,9 +1,9 @@
 '''
 Author: Aman
-Date: 2022-03-10 02:22:27
+Date: 2022-03-31 14:23:07
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-30 17:24:48
+LastEditTime: 2022-03-31 14:33:10
 '''
 
 
@@ -12,6 +12,7 @@ import math
 import os
 import pdb
 import time as t
+import random
 
 import numpy as np
 import torch
@@ -22,7 +23,7 @@ from tqdm import tqdm, trange
 from transformers import BertTokenizer
 
 from configs import data_config, model_cfgs
-from model_wo_topic import EXPTeller
+from model import EXPTeller
 from MyDataset import MyDataset
 from utils import *
 
@@ -183,7 +184,7 @@ def batch_sample_sequence(
     else:
         with torch.no_grad():
             for _ in range(length-1):
-                _, _, (inputs) # [batch_size, seq_len+_max_seq_length, vocab_size]
+                _, outputs = model.forward(inputs) # [batch_size, seq_len+_max_seq_length, vocab_size]
                 curr_token = torch.zeros(outputs.size(0), dtype=torch.long, device=device).unsqueeze(1)
                 for i in range(outputs.size(0)):
                     next_token_logits = outputs[i, -1, :] # [batch_size, vocab_size]
@@ -230,9 +231,7 @@ def sample_sequence(
                 _, _, outputs = model.forward(inputs) # [batch_size, seq_len+_max_seq_length, vocab_size]
                 next_token_logits = outputs[0, -1, :] # [batch_size, vocab_size]
                 generated = inputs['targets']
-                for id in set(generated[0]):
-                    if id in [0, 1, 2, 102]: # skip punctuation
-                        continue
+                for id in set(generated):
                     next_token_logits[id] /= repitition_penalty
                 next_token_logits = next_token_logits / temperature
                 # import pdb; pdb.set_trace()
@@ -271,7 +270,7 @@ def calculate_sent_prob(model, start_input, label, length, device):
     with torch.no_grad():
         for t in range(length-1):
             # import pdb; pdb.set_trace()
-            _, _, outputs = model.forward(inputs) # [batch_size, now_sent_length, vocab_size]
+            _, outputs = model.forward(inputs) # [batch_size, now_sent_length, vocab_size]
             curr_token = torch.zeros(outputs.size(0), dtype=torch.long, device=device).unsqueeze(1)
             for i in range(outputs.size(0)):
                 next_token_logits = outputs[i, -1, :] # [vocab_size]
@@ -296,7 +295,7 @@ def test(model, test_dataset, device):
         epoch_iterator = tqdm(test_dataset, ncols=100, leave=False)
         for i, batch in enumerate(epoch_iterator):
             batch = {k: v.to(device) for k, v in batch.items()}
-            _loss, _, outputs = model.forward(batch) # [batch_size, seq_len*_max_sent_length*2, vocab_size]
+            _loss, outputs = model.forward(batch) # [batch_size, seq_len*_max_sent_length*2, vocab_size]
             ppl_loss += torch.mean(_loss.mean(dim=-1)).item()
             outputs = outputs.contiguous()
             target = batch['targets'].contiguous() # [batch_size*seq_len*_max_sent_length*2]
@@ -306,6 +305,41 @@ def test(model, test_dataset, device):
     return ppl_loss, ppl
 
 
+def input_random_dropout(input, dropout_n):
+    if dropout_n not in [2,4,6,8]:
+        raise ValueError('dropout_n must be 2,4,6,8')
+    dropout_idxs = random.sample(list(range(10)), dropout_n)
+    dropout_idxs = sorted(dropout_idxs)
+    img_drop_idxs = [idx for idx in dropout_idxs if idx < 5]
+    r_drop_idxs = [idx-5 for idx in dropout_idxs if idx >= 5]
+    if len(img_drop_idxs) == 5:
+        input['img_embs'][:, :] = 0.0
+    else: # the dropped equals to the last one
+        for idx in img_drop_idxs:
+            last_one = idx - 1
+            if last_one < 0:
+                last_one = 4
+            while last_one in img_drop_idxs:
+                # print("l2:", last_one)
+                last_one = last_one - 1
+                if last_one < 0:
+                    last_one = 4
+            input['img_embs'][idx] = input['img_embs'][last_one]
+    if len(r_drop_idxs) == 5:
+        input['r_embs'][:, :] = 0.0
+    else: # the dropped equals to the last one
+        for idx in r_drop_idxs:
+            last_one = idx - 1
+            if last_one < 0:
+                last_one = 4
+            while last_one in r_drop_idxs:
+                last_one = last_one - 1
+                if last_one < 0:
+                    last_one = 4
+            input['r_embs'][idx] = input['r_embs'][last_one]
+
+    return input
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -314,14 +348,14 @@ def main():
     parser.add_argument("--seed", default=42, type=int, help="Random seed")
     parser.add_argument("--num_workers", default=8, type=int, help="Number of workers")
     parser.add_argument("--data_path", default="../datasets/new_data_rating/final_test_50.pkl", type=str, help="Data directory")
-    parser.add_argument("--model_path", default="./models/lr1e-5_bs96_kl02_wo_topic/epoch_3.pth", type=str, help="Model path") # /data/caoqian/gen_exp/src_v5_refine/models/
+    parser.add_argument("--model_path", default="/data/caoqian/gen_exp/src_v5_refine/models/models/lr1e-5_bs96_kl02/epoch_3.pth", type=str, help="Model path")
     parser.add_argument("--tokenizer_path", default="./vocab/vocab.txt", type=str, required=False, help="词表路径")
     parser.add_argument("--beam_size", default=0, type=int, required=False, help="beam search size") # 20: 13min
     parser.add_argument("--temperature", default=1.1, type=float, required=False, help="生成温度")
-    parser.add_argument("--topk", default=1, type=int, required=False, help="最高几选一")
-    parser.add_argument("--topp", default=0, type=float, required=False, help="最高积累概率")
+    parser.add_argument("--topk", default=10, type=int, required=False, help="最高几选一")
+    parser.add_argument("--topp", default=0.7, type=float, required=False, help="最高积累概率")
     parser.add_argument("--repetition_penalty", default=1.5, type=float, required=False)
-    parser.add_argument("--n_samples", default=1, type=int, required=False, help="生成的样本数量")
+    parser.add_argument("--n_samples", default=10, type=int, required=False, help="生成的样本数量")
     # parser.add_argument("--save_samples", action="store_true", help="保存产生的样本")
     # parser.add_argument("--save_samples_path", default=".", type=str, required=False, help="保存样本的路径")
     
@@ -334,7 +368,7 @@ def main():
     args = parser.parse_args()
     # print("args:\n" + args.__repr__())
     
-    os.environ["CUDA_VISIBLE_DEVICES"] = "2,1,0,3" # args.device_ids
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1,2,0,3" # args.device_ids
     device_ids = [int(item) for item in args.device_ids.split(",")]
     beam_size = args.beam_size
     batch_size = args.batch_size
@@ -345,6 +379,10 @@ def main():
     repetition_penalty = args.repetition_penalty
     length = data_config.max_seq_length # 200
     n_samples = args.n_samples
+    # seed = args.seed
+    # torch.manual_seed(seed)
+    # torch.cuda.manual_seed(seed)
+    # random.seed(seed)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -375,15 +413,17 @@ def main():
     
     # =====> generate samples <=====
     while 1:
-        f1 = open("res/lr1e-5_bs96_kl02_tk1_tp0_tm1o1_rpt1o5_wo_topic.txt", "w", encoding="utf-8")
+        f1 = open("res/lr1e-5_bs96_kl02_tk10_tp07_tm1o1_rpt1o5_dropout02.txt", "w", encoding="utf-8")
         # f2 = open("res/labels_cl_ln_lr1e-5_ep3.txt", "w", encoding="utf-8")
+        dropout_n = 2
+        print("input_random_dropout:", dropout_n)
         for idx in trange(0,len(test_dataset.dataset),1): # len(test_dataset.dataset)
             n_preds = []
-            cnt = n_samples
-            while cnt > 0:
+            for _ in range(n_samples):
                 encoded = [tokenizer.convert_tokens_to_ids('[#START#]')] # Input [#START#] token
                 start_input = test_dataset.dataset[idx]
                 start_input['targets'] = np.asarray(encoded)
+                start_input = input_random_dropout(start_input, dropout_n)
                 preds = sample_sequence(
                     model,
                     start_input,
@@ -407,24 +447,13 @@ def main():
                 else:
                     preds = preds + ['[SEP]']
                 # print(("".join(preds[:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', ''))
-                tmp = ''.join(preds).replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', '')
-                try:
-                    while tmp[-1] == '，':
-                        tmp = tmp[:-1]
-                    n_preds += [tmp]
-                except:
-                    continue
-                # if len(tmp.split('，')) >= 10:
-                #     n_preds += ['，'.join(tmp.split('，')[:10])]
-                # else:
-                #     continue
-                cnt -= 1
+                n_preds += [("".join(preds[:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', '')]
                 
             label = test_dataset.dataset[idx]['targets']
             label_tokens = tokenizer.convert_ids_to_tokens(label)
             sep_idx = label_tokens.index('[SEP]')
             label_tokens = label_tokens[:sep_idx+1]
-            # label_out = ("".join(label_tokens[:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', '')
+            label_out = ("".join(label_tokens[:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', '')
             # print(n_preds)
             # print(label_out)
             for j in range(len(n_preds)):
