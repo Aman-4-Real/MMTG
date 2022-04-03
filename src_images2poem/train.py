@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-04-03 21:43:38
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-04-03 23:18:13
+LastEditTime: 2022-04-03 23:21:37
 '''
 
 import argparse
@@ -38,16 +38,16 @@ parser.add_argument("--val_batch_size", default=256, type=int, help="Eval batch 
 parser.add_argument("--epochs", default=5, type=int, help="Number of epochs")
 parser.add_argument("--lr", default=1e-05, type=float, help="Learning rate")
 parser.add_argument("--seed", default=42, type=int, help="Random seed")
-parser.add_argument("--num_workers", default=0, type=int, help="Number of workers")
+parser.add_argument("--num_workers", default=8, type=int, help="Number of workers")
 parser.add_argument("--log_interval", default=100, type=int, help="Log interval")
 parser.add_argument("--val_interval_ratio", default=0.2, type=float, help="Eval once every interval ratio of training data")
-parser.add_argument("--train_data_path", default="../datasets/new_data_rating/val_data_with_ratings_8k.pkl", type=str, help="Train data path")
+parser.add_argument("--train_data_path", default="../datasets/new_data_rating/train_data_with_ratings_210k.pkl", type=str, help="Train data path")
 parser.add_argument("--val_data_path", default="../datasets/new_data_rating/val_data_with_ratings_8k.pkl", type=str, help="Val data path")
 parser.add_argument("--save_model", default=True, type=bool, help="Save model or not")
-parser.add_argument("--save_path", default="./models/test", type=str, help="Save directory")
+parser.add_argument("--save_path", default="./models/lr1e-5_bs256", type=str, help="Save directory")
 # parser.add_argument("--save_interval", default=1, type=int, help="Save interval")
-parser.add_argument("--log_path", default="./logs/test.log", type=str, help="Log directory")
-parser.add_argument("--tensorboard_log_dir", default="./logs/test", type=str, help="Tensorboard log directory")
+parser.add_argument("--log_path", default="./logs/lr1e-5_bs256.log", type=str, help="Log directory")
+parser.add_argument("--tensorboard_log_dir", default="./logs/lr1e-5_bs256", type=str, help="Tensorboard log directory")
 
 global args
 args = parser.parse_args()
