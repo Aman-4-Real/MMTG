@@ -1,9 +1,9 @@
 '''
 Author: Aman
-Date: 2022-01-13 11:40:09
+Date: 2022-01-14 22:19:05
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-01-21 15:30:01
+LastEditTime: 2022-04-01 17:06:58
 '''
 
 
@@ -25,16 +25,16 @@ from transformers import AdamW, BertTokenizer, get_linear_schedule_with_warmup
 from torch.utils.tensorboard import SummaryWriter   
 
 from configs import model_cfgs, data_config
-from model_wo_text import EXPTeller
+from model_wo_img import EXPTeller
 from MyDataset import MyDataset
 from utils import *
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "3,1,2,0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "3,2,0,1"
 
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--device_ids", default="[0,1,2,3]", type=str, help="GPU device ids")
-parser.add_argument("--batch_size", default=128, type=int, help="Batch size")
+parser.add_argument("--batch_size", default=96, type=int, help="Batch size")
 parser.add_argument("--val_batch_size", default=128, type=int, help="Eval batch size")
 parser.add_argument("--epochs", default=5, type=int, help="Number of epochs")
 parser.add_argument("--lr", default=1e-05, type=float, help="Learning rate")
@@ -46,10 +46,11 @@ parser.add_argument("--val_interval_ratio", default=0.2, type=float, help="Eval 
 parser.add_argument("--train_data_path", default="../datasets/new_data_rating/train_data_with_ratings_210k.pkl", type=str, help="Train data path")
 parser.add_argument("--val_data_path", default="../datasets/new_data_rating/val_data_with_ratings_8k.pkl", type=str, help="Val data path")
 parser.add_argument("--save_model", default=True, type=bool, help="Save model or not")
-parser.add_argument("--save_path", default="./models/final_wo_text_5ep_1e-5_bsz96_cl_ln", type=str, help="Save directory")
+parser.add_argument("--save_path", default="./models/lr1e-5_bs96_kl02_wo_text", type=str, help="Save directory")
 # parser.add_argument("--save_interval", default=1, type=int, help="Save interval")
-parser.add_argument("--log_path", default="./logs/final_wo_text_5ep_1e-5_bsz96_cl_ln.log", type=str, help="Log directory")
-parser.add_argument("--tensorboard_log_dir", default="./logs/final_wo_text_5ep_1e-5_bsz96_cl_ln", type=str, help="Tensorboard log directory")
+parser.add_argument("--log_path", default="./logs/lr1e-5_bs96_kl02_wo_text.log", type=str, help="Log directory")
+parser.add_argument("--tensorboard_log_dir", default="./logs/lr1e-5_bs96_kl02_wo_text", type=str, help="Tensorboard log directory")
+parser.add_argument("--alpha", default=0.2, type=float, help="Factor of KLDivLoss.")
 
 global args
 args = parser.parse_args()
@@ -114,7 +115,8 @@ print("Data loaded.")
 def main(trial=None):
     if trial: # This is for optuna optimization of hyperparameters (learning rate, dropout rate, etc.)
         # args.lr = trial.suggest_loguniform("lr", 1e-4, 1e-2)
-        args.lr = trial.suggest_discrete_uniform("lr", 5e-5, 1e-3, 5e-5)
+        args.lr = trial.suggest_discrete_uniform("lr", 5e-6, 2.5e-5, 5e-6)
+        args.batch_size = trial.suggest_categorical("batch_size", [32, 64, 96])
         # args.dropout = trial.suggest_uniform("dropout", 0.0, 0.5)
         # args.epochs = trial.suggest_int("epochs", 5, 15)
         # model_cfgs['image']['num_layers'] = trial.suggest_int("image_rnn_num_layers", 2, 8)
@@ -218,23 +220,27 @@ class MyLoss(torch.nn.Module):
 
 
 def train(model, train_data, valid_data):
-    print("Now lr is ", args.lr)
-    logger.info('Now lr is %s.' % args.lr)
+    # args.tensorboard_log_dir = f"logs/optuna_10trials/5ep_lr{args.lr}".replace('.','e') + f"_bsz{args.batch_size}"
+    # if not os.path.exists(args.tensorboard_log_dir):
+    #     os.makedirs(args.tensorboard_log_dir)
+    # writer = SummaryWriter(args.tensorboard_log_dir)
+    # args.save_path = f"models/optuna_10trials/5ep_lr{args.lr}".replace('.','e') + f"_bsz{args.batch_size}" # "./models/optuna_10trials" + 
+
+    print("Now lr is ", args.lr, "Now batch_size is ", args.batch_size)
+    logger.info('Now lr is %s, batch_size is %s.' % (args.lr, args.batch_size))
     
     train_dataset_1 = DataLoader(train_data, batch_size=2*batch_size, shuffle=True, num_workers=args.num_workers)
     valid_dataset_1 = DataLoader(valid_data, batch_size=2*val_batch_size, shuffle=True, num_workers=args.num_workers)
     train_dataset_2 = DataLoader(train_data, batch_size=batch_size, shuffle=True, num_workers=args.num_workers)
     valid_dataset_2 = DataLoader(valid_data, batch_size=val_batch_size, shuffle=True, num_workers=args.num_workers)
-    train_dataset_3 = DataLoader(train_data, batch_size=batch_size, shuffle=True, num_workers=args.num_workers)
-    valid_dataset_3 = DataLoader(valid_data, batch_size=val_batch_size, shuffle=True, num_workers=args.num_workers)
 
-    train_datasets = [train_dataset_1, train_dataset_2, train_dataset_3]
-    valid_datasets = [valid_dataset_1, valid_dataset_2, valid_dataset_3]
+    train_datasets = [train_dataset_1, train_dataset_2, train_dataset_2]
+    valid_datasets = [valid_dataset_1, valid_dataset_2, valid_dataset_2]
     optimizer = AdamW(model.parameters(), lr=args.lr)
     # optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()))
     training_steps = int(len(train_dataset_1) * curriculums[0] + \
                          len(train_dataset_2) * (curriculums[1] - curriculums[0]) + \
-                         len(train_dataset_3) * (args.epochs - curriculums[1]))
+                         len(train_dataset_2) * (args.epochs - curriculums[1]))
     print('Total training steps:', training_steps)
     logger.info('* number of training steps: %d' % training_steps) # number of training steps
     one_epoch_steps = len(train_dataset_1)
@@ -268,9 +274,9 @@ def train(model, train_data, valid_data):
                                     bar_format="{l_bar}{r_bar}")
         else:
             stage = 3
-            epoch_iterator = tqdm(enumerate(train_dataset_3),
+            epoch_iterator = tqdm(enumerate(train_dataset_2),
                                     desc="%s: %d/%d Epochs >> Steps" % ("Train", epoch + 1, args.epochs),
-                                    total=len(train_dataset_3),
+                                    total=len(train_dataset_2),
                                     bar_format="{l_bar}{r_bar}")
         avg_loss = 0.0
         model.train()
@@ -284,37 +290,40 @@ def train(model, train_data, valid_data):
                 idxs = torch.arange(len(batch['rating']))
             batch = {k: v[idxs].to(device) for k, v in batch.items()}
             ratings = batch['rating'].to(device)
-            _loss, outputs = model.forward(batch) # [batch_size, seq_len+_max_seq_length, vocab_size]
+            _loss, kl_loss, outputs = model.forward(batch) # [batch_size, seq_len+_max_seq_length, vocab_size]
             # import pdb; pdb.set_trace()
             outputs = outputs.contiguous() # .view(-1, outputs.shape[-1])
             targets = batch['targets'].contiguous() # .view(-1) # [batch_size, _max_seq_length]
             ppl_loss = torch.mean(_loss.mean(dim=-1))
             loss = criterion(outputs, targets, ratings, stage)
             # loss = criterion(outputs, targets)
-            loss = loss.mean()
-            # print("---loss: ", loss.item())
-            loss.backward()
+            total_loss = loss.mean() + args.alpha * kl_loss.mean()
+            # print("---loss: ", total_loss.item())
+            # import pdb; pdb.set_trace()
+            total_loss.backward()
             nn.utils.clip_grad_norm_(model.parameters(), 1.0)  # clip gradient
             optimizer.step()
             scheduler.step()
             model.zero_grad()
             for param_group in optimizer.param_groups:
                 args.lr = param_group['lr']
-            epoch_iterator.set_postfix(lr=args.lr, ppl=math.exp(ppl_loss), loss=loss.item())  # show the learning rate and loss on the progress bar
+            epoch_iterator.set_postfix(lr=args.lr, ppl=math.exp(ppl_loss), loss=total_loss.item(), kl_loss=args.alpha*kl_loss.mean().item())  # show the learning rate and loss on the progress bar
             global_steps += 1
-            writer.add_scalar('train/loss', loss.item(), global_steps)
+            writer.add_scalar('train/loss', total_loss.item(), global_steps)
             writer.add_scalar('train/ppl_loss', ppl_loss, global_steps)
             writer.add_scalar('train/ppl', math.exp(ppl_loss), global_steps)
+            writer.add_scalar('train/kl_loss', args.alpha*kl_loss.mean().item(), global_steps)
             # if not graph_writed:
             #     writer.add_graph(model.module, batch)
             #     graph_writed = 1
             if step > 0 and (step + 1) % int(len(train_datasets[stage-1]) * args.val_interval_ratio) == 0:
-                val_loss, ppl_loss, ppl = evaluate(model, valid_datasets[stage-1], stage, criterion)
+                val_loss, ppl_loss, ppl, kldiv_loss = evaluate(model, valid_datasets[stage-1], stage, criterion)
                 logger.info("Epoch: %d, Step: %d/%d, Val. Loss: %.4f, Val. PPL: %.3f" % (epoch + 1, step + 1, len(train_datasets[stage-1]), val_loss, ppl))
                 print(" Epoch: %d, Step: %d/%d, Val. Loss: %.4f, Val. PPL: %.3f" % (epoch + 1, step + 1, len(train_datasets[stage-1]), val_loss, ppl))
                 writer.add_scalar('eval/loss', val_loss, global_steps)
                 writer.add_scalar('eval/ppl_loss', ppl_loss, global_steps)
                 writer.add_scalar('eval/ppl', ppl, global_steps)
+                writer.add_scalar('eval/kldiv_loss', kldiv_loss, global_steps)
                 # Save model
                 if val_loss < best_val_loss:
                     best_val_loss = val_loss
@@ -322,7 +331,7 @@ def train(model, train_data, valid_data):
                         if not os.path.exists(args.save_path):
                             os.makedirs(args.save_path)
                         state = {'model': model.state_dict(), 'args': args, 'model_cfgs': model_cfgs} # 'optimizer': optimizer.state_dict(), 
-                        torch.save(state, args.save_path + f"/best_val_loss_{best_val_loss:.3f}.pth")
+                        torch.save(state, args.save_path + f"/best_val_model.pth") # loss_{best_val_loss:.3f}
                         logger.info("Epoch: %d, Step: %d, Saving Model to \'%s\'." % (epoch + 1, step, args.save_path))
                         print("Epoch: %d, Step: %d, Saving Model to \'%s\'." % (epoch + 1, step, args.save_path))
                 model.train()
@@ -330,12 +339,13 @@ def train(model, train_data, valid_data):
             if step > 0 and (step + 1) % args.log_interval == 0:
                 logger.info("Epoch: %d, Step: %d/%d, Average loss: %.6f" % (epoch + 1, step + 1, len(train_datasets[stage-1]), avg_loss / (step + 1)))
         # End of epoch
-        val_loss, ppl_loss, ppl = evaluate(model, valid_datasets[stage-1], stage, criterion)
+        val_loss, ppl_loss, ppl, kldiv_loss = evaluate(model, valid_datasets[stage-1], stage, criterion)
         logger.info("End eval of epoch %d. Val. Loss: %.4f, Val. PPL: %.2f" % (epoch + 1, val_loss, ppl))
         print("End eval of epoch %d. Val. Loss: %.4f, Val. PPL: %.2f" % (epoch + 1, val_loss, ppl))
         writer.add_scalar('eval/loss', val_loss, global_steps)
         writer.add_scalar('eval/ppl_loss', ppl_loss, global_steps)
         writer.add_scalar('eval/ppl', ppl, global_steps)
+        writer.add_scalar('eval/kldiv_loss', kldiv_loss, global_steps)
         model.train()
         logger.info("Average loss: %.4f  Elapsed time: %s" % (avg_loss / (len(train_datasets[stage-1]) + 1), format_time(time.time()-t1)))
         print("Average loss: %.4f  Elapsed time: %s" % (avg_loss / (len(train_datasets[stage-1]) + 1), format_time(time.time()-t1)))
@@ -350,13 +360,14 @@ def train(model, train_data, valid_data):
     logger.info("Training finished.")
     print("Training finished.")
 
-    return ppl
+    return val_loss + ppl_loss
 
 
 def evaluate(model, valid_dataset, stage, criterion):
     model.eval()
     valid_loss = 0.0
     ppl_loss = 0.0
+    kldiv_loss = 0.0
     with torch.no_grad():
         epoch_iterator = tqdm(valid_dataset, ncols=100, leave=False)
         for i, batch in enumerate(epoch_iterator):
@@ -369,23 +380,25 @@ def evaluate(model, valid_dataset, stage, criterion):
             batch = {k: v[idxs].to(device) for k, v in batch.items()}
             ratings = batch['rating'].to(device)
             # import pdb; pdb.set_trace()
-            _loss, outputs = model.forward(batch) # [batch_size, seq_len*_max_sent_length*2, vocab_size]
+            _loss, kl_loss, outputs = model.forward(batch) # [batch_size, seq_len*_max_sent_length*2, vocab_size]
             ppl_loss += torch.mean(_loss.mean(dim=-1)).item()
             outputs = outputs.contiguous() # .view(-1, outputs.shape[-1])
             targets = batch['targets'].contiguous() # .view(-1) # [batch_size, _max_seq_length]
-            loss = criterion(outputs, targets, ratings, stage)            
+            loss = criterion(outputs, targets, ratings, stage)          
             # loss = criterion(_loss, ratings, stage)
-            loss = loss.mean()
-            valid_loss += loss.item()
+            total_loss = loss.mean() + args.alpha * kl_loss.mean()
+            valid_loss += total_loss.item()
+            kldiv_loss += args.alpha * kl_loss.mean().item()
     valid_loss /= len(valid_dataset)
     ppl_loss /= len(valid_dataset)
     ppl = math.exp(ppl_loss)
+    kldiv_loss /= len(valid_dataset)
 
-    return valid_loss, ppl_loss, ppl
+    return valid_loss, ppl_loss, ppl, kldiv_loss
 
 
 def optuna_optimize(trial_times):
-    study = optuna.create_study(direction="minimize", study_name="test", storage="sqlite:///optuna.db")
+    study = optuna.create_study(direction="minimize", study_name="10trials", storage="sqlite:///optuna.db")
     # >>> optuna-dashboard sqlite:///optuna.db
     study.optimize(main, n_trials=trial_times)
 
@@ -406,7 +419,7 @@ if __name__ == "__main__":
 
     main()
 
-    # optuna_optimize(4)
+    # optuna_optimize(10)
 
     time_end = time.time()
     print("Finished!\nTotal time: %s" % format_time(time_end - time_begin))

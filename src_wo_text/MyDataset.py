@@ -1,9 +1,9 @@
 '''
 Author: Aman
-Date: 2021-11-15 11:14:05
+Date: 2022-01-14 22:28:07
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-01-23 00:48:40
+LastEditTime: 2022-04-01 17:06:10
 '''
 
 from torch.utils.data import Dataset
@@ -11,7 +11,7 @@ import numpy as np
 import pickle
 
 class MyDataset(Dataset):
-    def __init__(self, file_path, tokenizer, data_config):
+    def __init__(self, file_path, tokenizer, data_config, if_train=True):
         super(MyDataset, self).__init__()
         self._filename = file_path
         f = open(file_path, 'rb')
@@ -22,6 +22,7 @@ class MyDataset(Dataset):
         self._max_sent_length = data_config.max_sent_length
         self._max_seq_length = data_config.max_seq_length
         self._total_len = len(self.data)
+        self.if_train = if_train
     
     def __len__(self):
         return self._total_len
@@ -48,9 +49,10 @@ class MyDataset(Dataset):
             'r_embs': np.asarray(r_embs),
             'targets': np.asarray(targets),
             'attention_mask': np.asarray(attention_mask),
-            'type_ids': np.asarray(type_ids),
-            # 'rating': self.data[idx]['rating']
+            'type_ids': np.asarray(type_ids)
         }
+        if self.if_train:
+            batch['rating'] = self.data[idx]['rating']
         return batch
 
     def convert_topic(self, topic_words):

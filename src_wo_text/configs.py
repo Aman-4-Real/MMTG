@@ -1,9 +1,9 @@
 '''
 Author: Aman
-Date: 2021-11-15 11:13:35
-Contact: cq335955781@gmail.com
+Date: 2022-03-04 14:13:14
+Contact: cq335955781@gmaisl.com
 LastEditors: Aman
-LastEditTime: 2022-01-09 16:06:57
+LastEditTime: 2022-04-01 17:05:39
 '''
 
 
@@ -35,15 +35,15 @@ model_cfgs = {
         'attention_heads': 4
     },
     'MM_ATT': {
-        'attention_dim': 1024
+        'attention_dim': 1
     },
-    'agg': {
-        'type': 'GRU',
-        'output_dim': 1536,
-        'num_layers': 1
-    },
+    # 'agg': {
+    #     'type': 'GRU',
+    #     'output_dim': 1536,
+    #     'num_layers': 1
+    # },
     'GPT2_PATH': '/home/caoqian/playground/GPT2-Chinese-master/5ep_tsteps5w_410335_cleaned_data/epoch00.ckpt',
-    'dropout': 0.2
+    'dropout': 0.1
 }
 
 class data_config():
