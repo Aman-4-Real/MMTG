@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-01-14 22:19:05
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-04-01 17:06:58
+LastEditTime: 2022-04-03 15:17:54
 '''
 
 
@@ -25,7 +25,7 @@ from transformers import AdamW, BertTokenizer, get_linear_schedule_with_warmup
 from torch.utils.tensorboard import SummaryWriter   
 
 from configs import model_cfgs, data_config
-from model_wo_img import EXPTeller
+from model_wo_text import EXPTeller
 from MyDataset import MyDataset
 from utils import *
 

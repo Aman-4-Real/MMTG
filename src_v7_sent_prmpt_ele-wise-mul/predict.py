@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-21 19:38:25
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-25 02:54:56
+LastEditTime: 2022-04-03 16:41:36
 '''
 
 
@@ -189,14 +189,20 @@ def sample_sequence(
                 generated = inputs['targets']
                 for id in set(generated[0]):
                     # import pdb; pdb.set_trace()
-                    if id in [0, 1, 2, 102]: # skip punctuation
+                    if id in [0, 102]: # skip punctuation
                         continue
                     next_token_logits[id] /= repitition_penalty
                 next_token_logits = next_token_logits / temperature
                 # import pdb; pdb.set_trace()
+                next_token_logits[tokenizer.convert_tokens_to_ids("[#START#]")] = -float("Inf")
+                next_token_logits[tokenizer.convert_tokens_to_ids("[#EOS#]")] = -float("Inf")
                 next_token_logits[tokenizer.convert_tokens_to_ids("[UNK]")] = -float("Inf")
-                filtered_logits = top_k_top_p_filtering(next_token_logits, top_k=top_k, top_p=top_p)[:13317]
-                next_token = torch.multinomial(F.softmax(filtered_logits, dim=-1), num_samples=1).unsqueeze(0)
+                next_token_logits[tokenizer.convert_tokens_to_ids("[SEP]")] = -float("Inf")
+                if generated[0][-1] == 0:
+                    next_token = torch.tensor([0]).to(generated.device).unsqueeze(0)
+                else:
+                    filtered_logits = top_k_top_p_filtering(next_token_logits, top_k=top_k, top_p=top_p)[:13317]
+                    next_token = torch.multinomial(F.softmax(filtered_logits, dim=-1), num_samples=1).unsqueeze(0)
                 inputs['targets'] = torch.cat((generated, next_token), dim=-1)
                 # import pdb; pdb.set_trace()
             generated = generated.tolist()[0]
@@ -263,7 +269,7 @@ def main():
     parser.add_argument("--seed", default=42, type=int, help="Random seed")
     parser.add_argument("--num_workers", default=4, type=int, help="Number of workers")
     parser.add_argument("--data_path", default="../datasets/new_data_rating/final_test_50.pkl", type=str, help="Data directory")
-    parser.add_argument("--model_path", default="./models/lr1e-5_bs96_kl02_add/epoch_3.pth", type=str, help="Model path")
+    parser.add_argument("--model_path", default="./models/lr1e-5_bs96_kl02_add/epoch_5.pth", type=str, help="Model path")
     parser.add_argument("--tokenizer_path", default="./vocab/vocab.txt", type=str, required=False, help="词表路径")
     parser.add_argument("--beam_size", default=0, type=int, required=False, help="beam search size") # 20: 13min
     parser.add_argument("--temperature", default=1.1, type=float, required=False, help="生成温度")

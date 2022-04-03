@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-14 14:56:21
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-25 00:36:33
+LastEditTime: 2022-04-03 16:43:28
 Description: change the order of the input and generate the output.
 '''
 
@@ -189,14 +189,18 @@ def sample_sequence(
                 generated = inputs['targets']
                 for id in set(generated[0]):
                     # import pdb; pdb.set_trace()
-                    if id in [0, 1, 2, 102]: # skip punctuation
+                    if id in [0, 102]: # skip punctuation
                         continue
                     next_token_logits[id] /= repitition_penalty
-                next_token_logits = next_token_logits / temperature
-                # import pdb; pdb.set_trace()
+                next_token_logits[tokenizer.convert_tokens_to_ids("[#START#]")] = -float("Inf")
+                next_token_logits[tokenizer.convert_tokens_to_ids("[#EOS#]")] = -float("Inf")
                 next_token_logits[tokenizer.convert_tokens_to_ids("[UNK]")] = -float("Inf")
-                filtered_logits = top_k_top_p_filtering(next_token_logits, top_k=top_k, top_p=top_p)[:13317]
-                next_token = torch.multinomial(F.softmax(filtered_logits, dim=-1), num_samples=1).unsqueeze(0)
+                next_token_logits[tokenizer.convert_tokens_to_ids("[SEP]")] = -float("Inf")
+                if generated[0][-1] == 0:
+                    next_token = torch.tensor([0]).to(generated.device).unsqueeze(0)
+                else:
+                    filtered_logits = top_k_top_p_filtering(next_token_logits, top_k=top_k, top_p=top_p)[:13317]
+                    next_token = torch.multinomial(F.softmax(filtered_logits, dim=-1), num_samples=1).unsqueeze(0)
                 inputs['targets'] = torch.cat((generated, next_token), dim=-1)
                 # import pdb; pdb.set_trace()
             generated = generated.tolist()[0]
@@ -271,7 +275,7 @@ def main():
     
     # =====> generate samples <=====
     while 1:
-        f1 = open("res/lr1e-5_ep5_add_bs96_kl02_tk1_tp0_tm1o1_rpt1o5_disorder.txt", "w", encoding="utf-8")
+        f1 = open("res/new_lr1e-5_ep5_add_bs96_kl02_tk1_tp0_tm1o1_rpt1o5_disorder.txt", "w", encoding="utf-8")
         # f2 = open("res/labels_cl_ln_lr1e-5_ep3.txt", "w", encoding="utf-8")
         for idx in trange(0,len(test_dataset.dataset),1): # len(test_dataset.dataset)
             n_preds = []

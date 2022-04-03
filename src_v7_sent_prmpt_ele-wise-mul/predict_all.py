@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-23 22:02:05
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-03-25 00:35:25
+LastEditTime: 2022-04-03 16:47:24
 '''
 
 
@@ -187,14 +187,19 @@ def sample_sequence(
                 generated = inputs['targets']
                 for id in set(generated[0]):
                     # import pdb; pdb.set_trace()
-                    if id in [0, 1, 2, 102]: # skip punctuation
+                    if id in [0, 102]: # skip punctuation
                         continue
                     next_token_logits[id] /= repitition_penalty
                 next_token_logits = next_token_logits / temperature
-                # import pdb; pdb.set_trace()
+                next_token_logits[tokenizer.convert_tokens_to_ids("[#START#]")] = -float("Inf")
+                next_token_logits[tokenizer.convert_tokens_to_ids("[#EOS#]")] = -float("Inf")
                 next_token_logits[tokenizer.convert_tokens_to_ids("[UNK]")] = -float("Inf")
-                filtered_logits = top_k_top_p_filtering(next_token_logits, top_k=top_k, top_p=top_p)[:13317]
-                next_token = torch.multinomial(F.softmax(filtered_logits, dim=-1), num_samples=1).unsqueeze(0)
+                next_token_logits[tokenizer.convert_tokens_to_ids("[SEP]")] = -float("Inf")
+                if generated[0][-1] == 0:
+                    next_token = torch.tensor([0]).to(generated.device).unsqueeze(0)
+                else:
+                    filtered_logits = top_k_top_p_filtering(next_token_logits, top_k=top_k, top_p=top_p)[:13317]
+                    next_token = torch.multinomial(F.softmax(filtered_logits, dim=-1), num_samples=1).unsqueeze(0)
                 inputs['targets'] = torch.cat((generated, next_token), dim=-1)
                 # import pdb; pdb.set_trace()
             generated = generated.tolist()[0]
@@ -274,10 +279,10 @@ def main():
     parser.add_argument("--tokenizer_path", default="./vocab/vocab.txt", type=str, required=False, help="词表路径")
     parser.add_argument("--beam_size", default=0, type=int, required=False, help="beam search size") # 20: 13min
     parser.add_argument("--temperature", default=1.1, type=float, required=False, help="生成温度")
-    parser.add_argument("--topk", default=1, type=int, required=False, help="最高几选一")
-    parser.add_argument("--topp", default=0, type=float, required=False, help="最高积累概率")
+    parser.add_argument("--topk", default=10, type=int, required=False, help="最高几选一")
+    parser.add_argument("--topp", default=0.7, type=float, required=False, help="最高积累概率")
     parser.add_argument("--repetition_penalty", default=1.5, type=float, required=False)
-    parser.add_argument("--n_samples", default=1, type=int, required=False, help="生成的样本数量")
+    parser.add_argument("--n_samples", default=10, type=int, required=False, help="生成的样本数量")
     # parser.add_argument("--save_samples", action="store_true", help="保存产生的样本")
     # parser.add_argument("--save_samples_path", default=".", type=str, required=False, help="保存样本的路径")
     
@@ -331,7 +336,7 @@ def main():
     
     # =====> generate samples <=====
     while 1:
-        f1 = open("res/lr1e-5_ep5_add_bs96_kl02_tk1_tp0_tm1o1_rpt1o5.txt", "w", encoding="utf-8")
+        f1 = open("res/new_lr1e-5_ep5_add_bs96_kl02_tk10_tp07_tm1o1_rpt1o5.txt", "w", encoding="utf-8")
         # f2 = open("res/labels_cl_ln_lr1e-5_ep3.txt", "w", encoding="utf-8")
         for idx in trange(0,len(test_dataset.dataset),1): # len(test_dataset.dataset)
             n_preds = []
