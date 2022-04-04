@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-04-03 21:43:38
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-04-03 23:21:37
+LastEditTime: 2022-04-03 23:34:45
 '''
 
 import argparse
@@ -134,48 +134,6 @@ def main(trial=None):
     res = train(model, train_data, valid_data)
 
     return res
-
-
-
-# class MyLoss(torch.nn.Module):
-#     def __init__(self):
-#         super(MyLoss, self).__init__()
-#         self._max_topic_len = data_config.topic_prompt_length
-#         self._seq_len = model_cfgs['seq_len']
-
-#     def forward(self, outputs, targets, ratings, stage):
-#         '''
-#         Args:
-#             outputs: (batch_size, topic_prompt_length + seq_len + _max_seq_length, vocab_size)
-#             targets: (batch_size, _max_seq_length)
-#             ratings: (batch_size)
-#         '''
-#         # import pdb; pdb.set_trace()
-#         NEAR_0 = 1e-10
-#         device = outputs.device
-#         zero = torch.zeros_like(ratings)
-#         one = torch.ones_like(ratings)
-#         batch_size = targets.shape[0]
-#         if stage == 1:
-#             ratings = torch.where(ratings > 4, one, zero)
-#         else:
-#             ratings = torch.where(ratings > 3, one, zero)
-
-#         shift_logits = outputs[:, self._max_topic_len:-1, :]
-#         shift_labels = targets[:, 1:]
-        
-#         # Flatten the tokens
-#         loss_fct = nn.CrossEntropyLoss()
-        
-#         loss = torch.zeros(batch_size).to(device)
-#         for i in range(batch_size):
-#             y = ratings[i]
-#             _loss = loss_fct(shift_logits[i], shift_labels[i])
-#             p = 1/torch.exp(_loss)
-#             # import pdb; pdb.set_trace()
-#             loss[i] += torch.sum(- y * torch.log(p + NEAR_0) - (1 - y) * torch.log(1 - p + NEAR_0))
-#         # import pdb; pdb.set_trace()
-#         return torch.mean(loss)
          
 
 
@@ -247,7 +205,7 @@ def train(model, train_data, valid_data):
             # writer.add_scalar('train/ppl_loss', ppl_loss, global_steps)
             writer.add_scalar('train/ppl', math.exp(total_loss.item()), global_steps)
             writer.add_scalar('train/lr', args.lr, global_steps)
-            if step > 0 and (step + 1) % (len(train_dataset) * args.val_interval_ratio) == 0:
+            if step > 0 and (step + 1) % int(len(train_dataset) * args.val_interval_ratio) == 0:
                 val_loss, ppl = evaluate(model, valid_dataset)
                 logger.info("Epoch: %d, Step: %d/%d, Val. Loss: %.4f, Val. PPL: %.3f" % (epoch + 1, step + 1, len(train_dataset), val_loss, ppl))
                 print(" Epoch: %d, Step: %d/%d, Val. Loss: %.4f, Val. PPL: %.3f" % (epoch + 1, step + 1, len(train_dataset), val_loss, ppl))

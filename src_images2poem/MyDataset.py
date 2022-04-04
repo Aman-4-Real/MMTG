@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-04-03 21:43:38
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-04-03 22:52:48
+LastEditTime: 2022-04-04 03:11:40
 '''
 
 
@@ -19,6 +19,7 @@ class MyDataset(Dataset):
         self.data = pickle.load(f)
         f.close()
         self._tokenizer = tokenizer
+        self._max_topic_length = data_config.topic_prompt_length
         self._max_sent_length = data_config.max_sent_length
         self._max_seq_length = data_config.max_seq_length
         self._total_len = len(self.data)
@@ -36,8 +37,10 @@ class MyDataset(Dataset):
             'r_0', 'r_0_emb', 'r_1', 'r_1_emb', 'r_2', 'r_2_emb', 'r_3', 'r_3_emb', 'r_4', 'r_4_emb'
         '''
         img_embs = [self.data[idx]['img_' + str(i) + '_emb'] for i in range(5)]
+        topic_ids, tpw_attention_mask, tpw_type_ids = self.convert_topic(self.data[idx]['topic'])
         targets = self.convert_lyrics2ids(self.data[idx]['lyrics']) # a list of list: [[sent1], [sent2], ...]
         batch = {
+            'topic_ids': np.asarray(topic_ids),
             'img_embs': np.asarray(img_embs),
             'targets': np.asarray(targets),
             # 'attention_mask': np.asarray(attention_mask),
@@ -46,6 +49,24 @@ class MyDataset(Dataset):
         if self.if_train:
             batch['rating'] = self.data[idx]['rating']
         return batch
+
+    def convert_topic(self, topic_words):
+        '''
+        topic_words: str of topic words
+        '''
+        topic_prompt = "主题词：" + topic_words
+        topic_ids = self._tokenizer.convert_tokens_to_ids(self._tokenizer.tokenize(topic_prompt))
+        attention_mask = [1] * len(topic_ids)
+        type_ids = [1] * len(topic_ids) # the same as the type_ids of the 1st and 5th sentences
+        topic_ids = topic_ids[:self._max_topic_length]
+        attention_mask = attention_mask[:self._max_topic_length]
+        type_ids = type_ids[:self._max_topic_length]
+        while len(topic_ids) < self._max_topic_length:
+            topic_ids.append(self._tokenizer.pad_token_id)
+            attention_mask.append(0)
+            type_ids.append(0)
+        
+        return topic_ids, attention_mask, type_ids
 
 
     def convert_lyrics2ids(self, lyrics):

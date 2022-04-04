@@ -1,9 +1,9 @@
 '''
 Author: Aman
-Date: 2022-03-23 22:02:05
+Date: 2022-04-04 15:45:31
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-04-04 15:00:56
+LastEditTime: 2022-04-04 15:50:56
 '''
 
 
@@ -22,7 +22,7 @@ from tqdm import tqdm, trange
 from transformers import BertTokenizer
 
 from configs import data_config, model_cfgs
-from model import EXPTeller
+from model import images2poem
 from MyDataset import MyDataset
 from utils import *
 
@@ -151,6 +151,57 @@ def top_k_top_p_filtering(logits, top_k=0, top_p=0.0, filter_value=-float("Inf")
     return logits
 
 
+def batch_sample_sequence(
+    model,
+    start_input,
+    length,
+    tokenizer,
+    temperature=1.0,
+    beam_size=5,
+    top_k=30,
+    top_p=0.0,
+    repitition_penalty=1.0,
+    device="cpu"
+):
+    inputs = start_input
+    for k, v in inputs.items():
+        if k == 'targets':
+            if len(v) == 1:
+                inputs[k] = torch.tensor(v, dtype=torch.long, device=device).unsqueeze(0)
+            else:
+                inputs[k] = torch.tensor(v, dtype=torch.long, device=device)
+        elif k == 'img_embs' or k == 'r_embs':
+            if len(v) == 2:
+                inputs[k] = v.clone().detach().unsqueeze(0)
+        else:
+            if len(v) == 1:
+                inputs[k] = v.clone().detach().unsqueeze(0)
+    generated = inputs['targets']
+    if beam_size > 0:
+        generated = beam_decode(model, inputs, length, tokenizer, beam_size, \
+                                temperature=1.0, repitition_penalty=1.0, device=device)
+    else:
+        with torch.no_grad():
+            for _ in range(length-1):
+                _, _, (inputs) # [batch_size, seq_len+_max_seq_length, vocab_size]
+                curr_token = torch.zeros(outputs.size(0), dtype=torch.long, device=device).unsqueeze(1)
+                for i in range(outputs.size(0)):
+                    next_token_logits = outputs[i, -1, :] # [batch_size, vocab_size]
+                    generated = inputs['targets'][i]
+                    for id in set(generated):
+                        next_token_logits[id] /= repitition_penalty
+                    next_token_logits = next_token_logits / temperature
+                    # import pdb; pdb.set_trace()
+                    next_token_logits[tokenizer.convert_tokens_to_ids("[UNK]")] = -float("Inf")
+                    filtered_logits = top_k_top_p_filtering(next_token_logits, top_k=top_k, top_p=top_p)[:13317]
+                    next_token = torch.multinomial(F.softmax(filtered_logits, dim=-1), num_samples=1).unsqueeze(0)
+                    curr_token[i] = next_token
+                inputs['targets'] = torch.cat((inputs['targets'], curr_token), dim=-1)
+            generated = inputs['targets'].tolist()
+    return generated
+
+
+
 def sample_sequence(
     model,
     start_input,
@@ -175,31 +226,19 @@ def sample_sequence(
                                 temperature=1.0, repitition_penalty=1.0, device=device)
     else:
         with torch.no_grad():
-            for i in range(length):
-                if i > 0 and (i + 2) % 22 == 0: # add [#EOS#]
-                    inputs['targets'] = torch.cat((inputs['targets'], torch.tensor([[2]]).to(inputs['targets'].device)), dim=-1)
-                    continue
-                if i > 0 and (i + 2) % 22 == 1: # add [#START#]
-                    inputs['targets'] = torch.cat((inputs['targets'], torch.tensor([[1]]).to(inputs['targets'].device)), dim=-1)
-                    continue
-                _, _, outputs = model.forward(inputs) # [batch_size, seq_len+_max_seq_length, vocab_size]
+            for _ in range(length):
+                _, outputs = model.forward(inputs) # [batch_size, seq_len+_max_seq_length, vocab_size]
                 next_token_logits = outputs[0, -1, :] # [batch_size, vocab_size]
                 generated = inputs['targets']
                 for id in set(generated[0]):
-                    # import pdb; pdb.set_trace()
-                    if id in [0, 102]: # skip punctuation
+                    if id in [0, 1, 2, 102]: # skip punctuation
                         continue
                     next_token_logits[id] /= repitition_penalty
                 next_token_logits = next_token_logits / temperature
-                next_token_logits[tokenizer.convert_tokens_to_ids("[#START#]")] = -float("Inf")
-                next_token_logits[tokenizer.convert_tokens_to_ids("[#EOS#]")] = -float("Inf")
+                # import pdb; pdb.set_trace()
                 next_token_logits[tokenizer.convert_tokens_to_ids("[UNK]")] = -float("Inf")
-                next_token_logits[tokenizer.convert_tokens_to_ids("[SEP]")] = -float("Inf")
-                if generated[0][-1] == 0:
-                    next_token = torch.tensor([0]).to(generated.device).unsqueeze(0)
-                else:
-                    filtered_logits = top_k_top_p_filtering(next_token_logits, top_k=top_k, top_p=top_p)[:13317]
-                    next_token = torch.multinomial(F.softmax(filtered_logits, dim=-1), num_samples=1).unsqueeze(0)
+                filtered_logits = top_k_top_p_filtering(next_token_logits, top_k=top_k, top_p=top_p)[:13317]
+                next_token = torch.multinomial(F.softmax(filtered_logits, dim=-1), num_samples=1).unsqueeze(0)
                 inputs['targets'] = torch.cat((generated, next_token), dim=-1)
                 # import pdb; pdb.set_trace()
             generated = generated.tolist()[0]
@@ -275,14 +314,14 @@ def main():
     parser.add_argument("--seed", default=42, type=int, help="Random seed")
     parser.add_argument("--num_workers", default=8, type=int, help="Number of workers")
     parser.add_argument("--data_path", default="../datasets/new_data_rating/final_test_50.pkl", type=str, help="Data directory")
-    parser.add_argument("--model_path", default="./models/lr1e-5_bs96_kl0_add/epoch_5.pth", type=str, help="Model path")
+    parser.add_argument("--model_path", default="./models/lr1e-5_bs256/epoch_5.pth", type=str, help="Model path") # /data/caoqian/gen_exp/src_v5_refine/models/
     parser.add_argument("--tokenizer_path", default="./vocab/vocab.txt", type=str, required=False, help="词表路径")
     parser.add_argument("--beam_size", default=0, type=int, required=False, help="beam search size") # 20: 13min
     parser.add_argument("--temperature", default=1.1, type=float, required=False, help="生成温度")
-    parser.add_argument("--topk", default=1, type=int, required=False, help="最高几选一")
-    parser.add_argument("--topp", default=0, type=float, required=False, help="最高积累概率")
+    parser.add_argument("--topk", default=10, type=int, required=False, help="最高几选一")
+    parser.add_argument("--topp", default=0.7, type=float, required=False, help="最高积累概率")
     parser.add_argument("--repetition_penalty", default=1.5, type=float, required=False)
-    parser.add_argument("--n_samples", default=1, type=int, required=False, help="生成的样本数量")
+    parser.add_argument("--n_samples", default=10, type=int, required=False, help="生成的样本数量")
     # parser.add_argument("--save_samples", action="store_true", help="保存产生的样本")
     # parser.add_argument("--save_samples_path", default=".", type=str, required=False, help="保存样本的路径")
     
@@ -295,7 +334,7 @@ def main():
     args = parser.parse_args()
     # print("args:\n" + args.__repr__())
     
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0,2,3,1" # args.device_ids
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1,0,2,3" # args.device_ids
     device_ids = [int(item) for item in args.device_ids.split(",")]
     beam_size = args.beam_size
     batch_size = args.batch_size
@@ -315,7 +354,7 @@ def main():
     
     # load model
     checkpoint = torch.load(args.model_path)
-    model = EXPTeller(model_cfgs, len(tokenizer.vocab), False) # predicting mode
+    model = images2poem(model_cfgs, len(tokenizer.vocab), False) # predicting mode
     model.to(device)
     model = nn.DataParallel(model, device_ids=device_ids)
     model.load_state_dict(checkpoint['model'])
@@ -336,11 +375,12 @@ def main():
     
     # =====> generate samples <=====
     while 1:
-        f1 = open("res/new_lr1e-5_ep5_add_bs96_kl0_tk1_tp0_tm1o1_rpt1o5.txt", "w", encoding="utf-8")
+        f1 = open("res/lr1e-5_bs256_tk10_tp07_tm1o1_rpt1o5.txt", "w", encoding="utf-8")
         # f2 = open("res/labels_cl_ln_lr1e-5_ep3.txt", "w", encoding="utf-8")
         for idx in trange(0,len(test_dataset.dataset),1): # len(test_dataset.dataset)
             n_preds = []
-            for _ in range(n_samples):
+            cnt = n_samples
+            while cnt > 0:
                 encoded = [tokenizer.convert_tokens_to_ids('[#START#]')] # Input [#START#] token
                 start_input = test_dataset.dataset[idx]
                 start_input['targets'] = np.asarray(encoded)
@@ -367,11 +407,18 @@ def main():
                 else:
                     preds = preds + ['[SEP]']
                 # print(("".join(preds[:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', ''))
-                # tmp = ''.join(preds).replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', '')
-                tmp = ''.join(preds).replace('[SEP]', '').replace('[PAD]', '').replace('[#START#]', '').replace('[#EOS#]', '，')
-                while tmp[-1] == '，':
-                    tmp = tmp[:-1]
-                n_preds += [tmp]
+                tmp = ''.join(preds).replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', '')
+                try:
+                    while tmp[-1] == '，':
+                        tmp = tmp[:-1]
+                    n_preds += [tmp]
+                except:
+                    continue
+                # if len(tmp.split('，')) >= 10:
+                #     n_preds += ['，'.join(tmp.split('，')[:10])]
+                # else:
+                #     continue
+                cnt -= 1
                 
             label = test_dataset.dataset[idx]['targets']
             label_tokens = tokenizer.convert_ids_to_tokens(label)
@@ -386,6 +433,39 @@ def main():
         f1.close()
         # f2.close()
         break
+        # batch generate !!! WITH BUG !!!
+        # epoch_iterator = tqdm(test_dataset, ncols=100, leave=False)
+        # for batch in epoch_iterator:
+        # # for idx in trange(len(test_dataset.dataset)):
+        #     curr_batch_size = batch['topic_emb'].size(0)
+        #     encoded = [[tokenizer.convert_tokens_to_ids('[#START#]')] for i in range(curr_batch_size)] # Input [#START#] token
+        #     start_input = batch
+        #     start_input['targets'] = np.asarray(encoded)
+        #     preds = [[] for i in range(n_samples)] # [n_samples, batch_size, seq_len*_max_sent_length*2]
+        #     for n in range(n_samples):
+        #         preds = sample_sequence(
+        #             model,
+        #             start_input,
+        #             length=length,
+        #             tokenizer=tokenizer,
+        #             temperature=temperature,
+        #             beam_size=beam_size,
+        #             top_k=topk,
+        #             top_p=topp,
+        #             repitition_penalty=repetition_penalty,
+        #             device=device,
+        #         )
+        #         preds[n] = [tokenizer.convert_ids_to_tokens(line) for line in preds]
+        #         for j in range(curr_batch_size):
+        #             print(" ".join(preds[n][j]))
+        #             sep_idx = preds[n][j].index('[SEP]')
+        #             preds[n][j] = preds[n][j][:sep_idx+1]
+        #             print(("".join(preds[n][j][:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', ''))
+        #     # labels = batch['targets'].tolist() # bs * 200
+        #     # label_tokens = [tokenizer.convert_ids_to_tokens(label) for label in labels]
+        #     # sep_idx = label_tokens.index('[SEP]')
+        #     # label_tokens = label_tokens[:sep_idx+1]
+        #     # print(("".join(label_tokens[:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', ''))
         
 
 

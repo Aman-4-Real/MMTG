@@ -1,9 +1,9 @@
 '''
 Author: Aman
-Date: 2022-03-21 19:38:25
+Date: 2022-04-03 23:39:23
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-04-04 03:17:23
+LastEditTime: 2022-04-03 23:58:28
 '''
 
 
@@ -25,15 +25,15 @@ from transformers import AdamW, BertTokenizer, get_linear_schedule_with_warmup
 from torch.utils.tensorboard import SummaryWriter   
 
 from configs import model_cfgs, data_config
-from model import EXPTeller
+from model_wo_topic import EXPTeller
 from MyDataset import MyDataset
 from utils import *
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "2,3,0,1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2"
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--device_ids", default="[0,1,2,3]", type=str, help="GPU device ids")
+parser.add_argument("--device_ids", default="[0,1,2]", type=str, help="GPU device ids")
 parser.add_argument("--batch_size", default=96, type=int, help="Batch size")
 parser.add_argument("--val_batch_size", default=96, type=int, help="Eval batch size")
 parser.add_argument("--epochs", default=5, type=int, help="Number of epochs")
@@ -46,11 +46,11 @@ parser.add_argument("--val_interval_ratio", default=0.2, type=float, help="Eval 
 parser.add_argument("--train_data_path", default="../datasets/new_data_rating/train_data_with_ratings_210k.pkl", type=str, help="Train data path")
 parser.add_argument("--val_data_path", default="../datasets/new_data_rating/val_data_with_ratings_8k.pkl", type=str, help="Val data path")
 parser.add_argument("--save_model", default=True, type=bool, help="Save model or not")
-parser.add_argument("--save_path", default="./models/lr1e-5_bs96_kl0_add", type=str, help="Save directory")
+parser.add_argument("--save_path", default="./models/lr1e-5_bs96_kl02_add_wo_topic", type=str, help="Save directory")
 # parser.add_argument("--save_interval", default=1, type=int, help="Save interval")
-parser.add_argument("--log_path", default="./logs/lr1e-5_bs96_kl0_add.log", type=str, help="Log directory")
-parser.add_argument("--tensorboard_log_dir", default="./logs/lr1e-5_bs96_kl0_add", type=str, help="Tensorboard log directory")
-parser.add_argument("--alpha", default=0, type=float, help="Factor of KLDivLoss.")
+parser.add_argument("--log_path", default="./logs/lr1e-5_bs96_kl02_add_wo_topic.log", type=str, help="Log directory")
+parser.add_argument("--tensorboard_log_dir", default="./logs/lr1e-5_bs96_kl02_add_wo_topic", type=str, help="Tensorboard log directory")
+parser.add_argument("--alpha", default=0.2, type=float, help="Factor of KLDivLoss.")
 
 global args
 args = parser.parse_args()
@@ -140,48 +140,48 @@ def main(trial=None):
     return res
 
 
-class MyNLLLoss(torch.nn.Module):
-    def __init__(self):
-        super(MyNLLLoss, self).__init__()
+# class MyNLLLoss(torch.nn.Module):
+#     def __init__(self):
+#         super(MyNLLLoss, self).__init__()
 
-    def nll(self, y, p):
-        NEAR_0 = 1e-10
-        p = torch.exp(torch.sum(torch.log(p)))
-        return - y * torch.log(p + NEAR_0) - (1 - y) * torch.log(1 - p + NEAR_0)
+#     def nll(self, y, p):
+#         NEAR_0 = 1e-10
+#         p = torch.exp(torch.sum(torch.log(p)))
+#         return - y * torch.log(p + NEAR_0) - (1 - y) * torch.log(1 - p + NEAR_0)
 
-    def forward(self, preds, targets, ratings, stage):
-        '''
-        Args:
-            preds: (batch_size, seq_len, _max_sent_length*2, vocab_size)
-            targets: (batch_size, seq_len, _max_sent_length*2)
-            ratings: (batch_size)
-        '''
-        device = preds.device
-        zero = torch.zeros_like(ratings)
-        one = torch.ones_like(ratings)
-        if stage == 1:
-            ratings = torch.where(ratings > 4, one, zero)
-        else:
-            ratings = torch.where(ratings > 3, one, zero)
-        # (n, 5, 40, 24408)
-        # preds = preds.view(preds.shape[0], -1, preds.shape[-1])
-        # targets = targets.view(targets.shape[0], -1)
-        preds = nn.Softmax(dim=-1)(preds)
-        loss = torch.zeros(preds.shape[0]).to(device)
-        for i in range(preds.shape[0]): # batch_size
-            y = ratings[i]
-            for j in range(preds.shape[1]): # seq_len
-                token_probs = preds[i,j,torch.arange(preds.shape[2]),targets[i][j]]
-                # loss[i] += self.nll(y, torch.prod(token_probs))
-                loss[i] += self.nll(y, token_probs)
+#     def forward(self, preds, targets, ratings, stage):
+#         '''
+#         Args:
+#             preds: (batch_size, seq_len, _max_sent_length*2, vocab_size)
+#             targets: (batch_size, seq_len, _max_sent_length*2)
+#             ratings: (batch_size)
+#         '''
+#         device = preds.device
+#         zero = torch.zeros_like(ratings)
+#         one = torch.ones_like(ratings)
+#         if stage == 1:
+#             ratings = torch.where(ratings > 4, one, zero)
+#         else:
+#             ratings = torch.where(ratings > 3, one, zero)
+#         # (n, 5, 40, 24408)
+#         # preds = preds.view(preds.shape[0], -1, preds.shape[-1])
+#         # targets = targets.view(targets.shape[0], -1)
+#         preds = nn.Softmax(dim=-1)(preds)
+#         loss = torch.zeros(preds.shape[0]).to(device)
+#         for i in range(preds.shape[0]): # batch_size
+#             y = ratings[i]
+#             for j in range(preds.shape[1]): # seq_len
+#                 token_probs = preds[i,j,torch.arange(preds.shape[2]),targets[i][j]]
+#                 # loss[i] += self.nll(y, torch.prod(token_probs))
+#                 loss[i] += self.nll(y, token_probs)
         
-        return torch.mean(loss/preds.shape[1])
+#         return torch.mean(loss/preds.shape[1])
 
 
 class MyLoss(torch.nn.Module):
     def __init__(self):
         super(MyLoss, self).__init__()
-        self._max_topic_len = data_config.topic_prompt_length
+        # self._max_topic_len = data_config.topic_prompt_length
         self._seq_len = model_cfgs['seq_len']
 
     def forward(self, outputs, targets, ratings, stage):
@@ -202,7 +202,7 @@ class MyLoss(torch.nn.Module):
         else:
             ratings = torch.where(ratings > 3, one, zero)
 
-        shift_logits = outputs[:, self._max_topic_len:-1, :]
+        shift_logits = outputs[:, :-1, :]
         shift_labels = targets[:, 1:]
         
         # Flatten the tokens
