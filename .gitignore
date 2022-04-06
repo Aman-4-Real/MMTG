@@ -153,6 +153,6 @@ src_v6_div_prompt/models/
 src_v6_div_prompt/vocab/token_id2emb_dict.pkl
 src_v7_sent_prmpt_ele-wise-mul/models/
 src_v7_sent_prmpt_ele-wise-mul/vocab/token_id2emb_dict.pkl
-src_images2poem/models/
+src_images2poem/models
 
 
