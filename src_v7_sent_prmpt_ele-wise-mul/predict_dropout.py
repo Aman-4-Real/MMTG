@@ -1,10 +1,9 @@
 '''
 Author: Aman
-Date: 2022-03-14 14:56:21
+Date: 2022-04-07 13:00:00
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-04-07 10:34:51
-Description: change the order of the input and generate the output.
+LastEditTime: 2022-04-07 16:14:00
 '''
 
 
@@ -13,6 +12,7 @@ import math
 import os
 import pdb
 import time as t
+import random
 
 import numpy as np
 import torch
@@ -152,6 +152,56 @@ def top_k_top_p_filtering(logits, top_k=0, top_p=0.0, filter_value=-float("Inf")
     return logits
 
 
+def batch_sample_sequence(
+    model,
+    start_input,
+    length,
+    tokenizer,
+    temperature=1.0,
+    beam_size=5,
+    top_k=30,
+    top_p=0.0,
+    repitition_penalty=1.0,
+    device="cpu"
+):
+    inputs = start_input
+    for k, v in inputs.items():
+        if k == 'targets':
+            if len(v) == 1:
+                inputs[k] = torch.tensor(v, dtype=torch.long, device=device).unsqueeze(0)
+            else:
+                inputs[k] = torch.tensor(v, dtype=torch.long, device=device)
+        elif k == 'img_embs' or k == 'r_embs':
+            if len(v) == 2:
+                inputs[k] = v.clone().detach().unsqueeze(0)
+        else:
+            if len(v) == 1:
+                inputs[k] = v.clone().detach().unsqueeze(0)
+    generated = inputs['targets']
+    if beam_size > 0:
+        generated = beam_decode(model, inputs, length, tokenizer, beam_size, \
+                                temperature=1.0, repitition_penalty=1.0, device=device)
+    else:
+        with torch.no_grad():
+            for _ in range(length-1):
+                _, outputs = model.forward(inputs) # [batch_size, seq_len+_max_seq_length, vocab_size]
+                curr_token = torch.zeros(outputs.size(0), dtype=torch.long, device=device).unsqueeze(1)
+                for i in range(outputs.size(0)):
+                    next_token_logits = outputs[i, -1, :] # [batch_size, vocab_size]
+                    generated = inputs['targets'][i]
+                    for id in set(generated):
+                        next_token_logits[id] /= repitition_penalty
+                    next_token_logits = next_token_logits / temperature
+                    # import pdb; pdb.set_trace()
+                    next_token_logits[tokenizer.convert_tokens_to_ids("[UNK]")] = -float("Inf")
+                    filtered_logits = top_k_top_p_filtering(next_token_logits, top_k=top_k, top_p=top_p)[:13317]
+                    next_token = torch.multinomial(F.softmax(filtered_logits, dim=-1), num_samples=1).unsqueeze(0)
+                    curr_token[i] = next_token
+                inputs['targets'] = torch.cat((inputs['targets'], curr_token), dim=-1)
+            generated = inputs['targets'].tolist()
+    return generated
+
+
 
 def sample_sequence(
     model,
@@ -207,10 +257,101 @@ def sample_sequence(
     return generated
 
 
-def swap(item, order):
-    item[[0,1,2,3,4], :] = item[order, :]
-    # print(item)
-    return item
+
+def calculate_sent_prob(model, start_input, label, length, device):
+    # import pdb; pdb.set_trace()
+    inputs = start_input
+    for k, v in inputs.items():
+        if k == 'targets':
+            if len(v) == 1:
+                inputs[k] = torch.tensor(v, dtype=torch.long, device=device).unsqueeze(0)
+            else:
+                inputs[k] = torch.tensor(v, dtype=torch.long, device=device)
+        elif k == 'img_embs' or k == 'r_embs':
+            if len(v) == 2:
+                inputs[k] = v.clone().detach().unsqueeze(0)
+            # else:
+            #     inputs[k] = v.clone().detach()
+        else:
+            if len(v) == 1:
+                inputs[k] = v.clone().detach().unsqueeze(0)
+            # else:
+            #     inputs[k] = v.clone().detach()
+    generated = inputs['targets']
+    probs = [[] for _ in range(len(generated))]
+    max_probs = [[] for _ in range(len(generated))]
+    with torch.no_grad():
+        for t in range(length-1):
+            # import pdb; pdb.set_trace()
+            _, outputs = model.forward(inputs) # [batch_size, now_sent_length, vocab_size]
+            curr_token = torch.zeros(outputs.size(0), dtype=torch.long, device=device).unsqueeze(1)
+            for i in range(outputs.size(0)):
+                next_token_logits = outputs[i, -1, :] # [vocab_size]
+                # generated = inputs['targets'][i]
+                probabilities = F.softmax(next_token_logits, dim=-1)
+                probs[i].append(-np.log(probabilities[label[i][t+1]].item()))
+                max_probs[i].append(-np.log(np.max(probabilities.cpu().numpy())))
+                next_token = torch.tensor(label[i][t+1], dtype=torch.long, device=device).unsqueeze(0)
+                # import pdb; pdb.set_trace()
+                curr_token[i] = next_token
+            inputs['targets'] = torch.cat((inputs['targets'], curr_token), dim=-1)
+            # import pdb; pdb.set_trace()
+        # generated = generated.tolist()[0]
+    return probs, max_probs
+
+
+
+def test(model, test_dataset, device):
+    model.eval()
+    ppl_loss = 0.0
+    with torch.no_grad():
+        epoch_iterator = tqdm(test_dataset, ncols=100, leave=False)
+        for i, batch in enumerate(epoch_iterator):
+            batch = {k: v.to(device) for k, v in batch.items()}
+            _loss, outputs = model.forward(batch) # [batch_size, seq_len*_max_sent_length*2, vocab_size]
+            ppl_loss += torch.mean(_loss.mean(dim=-1)).item()
+            outputs = outputs.contiguous()
+            target = batch['targets'].contiguous() # [batch_size*seq_len*_max_sent_length*2]
+    ppl_loss /= len(test_dataset)
+    ppl = math.exp(ppl_loss)
+
+    return ppl_loss, ppl
+
+
+def input_random_dropout(input, dropout_n):
+    if dropout_n not in [2,4,6,8]:
+        raise ValueError('dropout_n must be 2,4,6,8')
+    dropout_idxs = random.sample(list(range(10)), dropout_n)
+    dropout_idxs = sorted(dropout_idxs)
+    img_drop_idxs = [idx for idx in dropout_idxs if idx < 5]
+    r_drop_idxs = [idx-5 for idx in dropout_idxs if idx >= 5]
+    if len(img_drop_idxs) == 5:
+        input['img_embs'][:, :] = 0.0
+    else: # the dropped equals to the last one
+        for idx in img_drop_idxs:
+            last_one = idx - 1
+            if last_one < 0:
+                last_one = 4
+            while last_one in img_drop_idxs:
+                # print("l2:", last_one)
+                last_one = last_one - 1
+                if last_one < 0:
+                    last_one = 4
+            input['img_embs'][idx] = input['img_embs'][last_one]
+    if len(r_drop_idxs) == 5:
+        input['r_embs'][:, :] = 0.0
+    else: # the dropped equals to the last one
+        for idx in r_drop_idxs:
+            last_one = idx - 1
+            if last_one < 0:
+                last_one = 4
+            while last_one in r_drop_idxs:
+                last_one = last_one - 1
+                if last_one < 0:
+                    last_one = 4
+            input['r_embs'][idx] = input['r_embs'][last_one]
+
+    return input
 
 
 def main():
@@ -220,14 +361,14 @@ def main():
     parser.add_argument("--seed", default=42, type=int, help="Random seed")
     parser.add_argument("--num_workers", default=8, type=int, help="Number of workers")
     parser.add_argument("--data_path", default="../datasets/new_data_rating/final_test_50.pkl", type=str, help="Data directory")
-    parser.add_argument("--model_path", default="./models/5ep_1e-5_bsz96_wocl_allpos-4/epoch_5.pth", type=str, help="Model path")
+    parser.add_argument("--model_path", default="./models/lr1e-5_bs96_kl02_add/epoch_5.pth", type=str, help="Model path")
     parser.add_argument("--tokenizer_path", default="./vocab/vocab.txt", type=str, required=False, help="词表路径")
     parser.add_argument("--beam_size", default=0, type=int, required=False, help="beam search size") # 20: 13min
     parser.add_argument("--temperature", default=1.1, type=float, required=False, help="生成温度")
-    parser.add_argument("--topk", default=1, type=int, required=False, help="最高几选一")
-    parser.add_argument("--topp", default=0, type=float, required=False, help="最高积累概率")
+    parser.add_argument("--topk", default=10, type=int, required=False, help="最高几选一")
+    parser.add_argument("--topp", default=0.7, type=float, required=False, help="最高积累概率")
     parser.add_argument("--repetition_penalty", default=1.5, type=float, required=False)
-    parser.add_argument("--n_samples", default=1, type=int, required=False, help="生成的样本数量")
+    parser.add_argument("--n_samples", default=10, type=int, required=False, help="生成的样本数量")
     # parser.add_argument("--save_samples", action="store_true", help="保存产生的样本")
     # parser.add_argument("--save_samples_path", default=".", type=str, required=False, help="保存样本的路径")
     
@@ -240,7 +381,7 @@ def main():
     args = parser.parse_args()
     # print("args:\n" + args.__repr__())
     
-    os.environ["CUDA_VISIBLE_DEVICES"] = "3,0,2,1" # args.device_ids
+    os.environ["CUDA_VISIBLE_DEVICES"] = "3,2,1,0" # args.device_ids
     device_ids = [int(item) for item in args.device_ids.split(",")]
     beam_size = args.beam_size
     batch_size = args.batch_size
@@ -251,6 +392,10 @@ def main():
     repetition_penalty = args.repetition_penalty
     length = data_config.max_seq_length # 200
     n_samples = args.n_samples
+    # seed = args.seed
+    # torch.manual_seed(seed)
+    # torch.cuda.manual_seed(seed)
+    # random.seed(seed)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -271,29 +416,30 @@ def main():
     test_data = MyDataset(test_data_file, tokenizer, data_config, False)
     test_dataset = DataLoader(test_data, batch_size=batch_size, shuffle=False, num_workers=num_workers)
     # print("Data test loaded.")
+
+
+    while 0:
+        ppl_loss, ppl = test(model, test_dataset, device)
+        print("PPL loss: %.4f, PPL: %.4f" % (ppl_loss, ppl))
+        break
     
     
     # =====> generate samples <=====
     while 1:
-        f1 = open("res/new_lr1e-5_ep5_add_wocl_allpos_bs96_kl02_tk1_tp0_tm1o1_rpt1o5_disorder.txt", "w", encoding="utf-8")
+        f1 = open("res/new_lr1e-5_add_bs96_kl02_tk10_tp07_tm1o1_rpt1o5_dropout08.txt", "w", encoding="utf-8")
         # f2 = open("res/labels_cl_ln_lr1e-5_ep3.txt", "w", encoding="utf-8")
+        dropout_n = 8
+        print("input_random_dropout:", dropout_n)
         for idx in trange(0,len(test_dataset.dataset),1): # len(test_dataset.dataset)
             n_preds = []
-            swap_orders = [
-                [1,0,2,3,4], [2,1,0,3,4], [3,1,2,0,4], [4,1,2,3,0],
-                [3,4,2,0,1], [3,1,4,0,2], [4,2,3,0,1], [4,0,1,2,3],
-                [2,0,4,1,3], [2,3,0,4,1]
-            ]
-            for swap_order in swap_orders:
+            for _ in range(n_samples):
                 encoded = [tokenizer.convert_tokens_to_ids('[#START#]')] # Input [#START#] token
                 start_input = test_dataset.dataset[idx]
                 start_input['targets'] = np.asarray(encoded)
-                swap_input = start_input
-                swap_input['img_embs'] = swap(swap_input['img_embs'], swap_order)
-                swap_input['r_embs'] = swap(swap_input['r_embs'], swap_order)
+                start_input = input_random_dropout(start_input, dropout_n)
                 preds = sample_sequence(
                     model,
-                    swap_input,
+                    start_input,
                     length=length,
                     tokenizer=tokenizer,
                     temperature=temperature,
@@ -314,17 +460,17 @@ def main():
                 else:
                     preds = preds + ['[SEP]']
                 # print(("".join(preds[:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', ''))
-                # tmp = ''.join(preds).replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', '')
+                # n_preds += [("".join(preds[:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', '')]
                 tmp = ''.join(preds).replace('[SEP]', '').replace('[PAD]', '').replace('[#START#]', '').replace('[#EOS#]', '，')
                 while tmp[-1] == '，':
                     tmp = tmp[:-1]
                 n_preds += [tmp]
-                
+
             label = test_dataset.dataset[idx]['targets']
             label_tokens = tokenizer.convert_ids_to_tokens(label)
             sep_idx = label_tokens.index('[SEP]')
             label_tokens = label_tokens[:sep_idx+1]
-            # label_out = ("".join(label_tokens[:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', '')
+            label_out = ("".join(label_tokens[:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', '')
             # print(n_preds)
             # print(label_out)
             for j in range(len(n_preds)):
@@ -333,10 +479,61 @@ def main():
         f1.close()
         # f2.close()
         break
+        # batch generate !!! WITH BUG !!!
+        # epoch_iterator = tqdm(test_dataset, ncols=100, leave=False)
+        # for batch in epoch_iterator:
+        # # for idx in trange(len(test_dataset.dataset)):
+        #     curr_batch_size = batch['topic_emb'].size(0)
+        #     encoded = [[tokenizer.convert_tokens_to_ids('[#START#]')] for i in range(curr_batch_size)] # Input [#START#] token
+        #     start_input = batch
+        #     start_input['targets'] = np.asarray(encoded)
+        #     preds = [[] for i in range(n_samples)] # [n_samples, batch_size, seq_len*_max_sent_length*2]
+        #     for n in range(n_samples):
+        #         preds = sample_sequence(
+        #             model,
+        #             start_input,
+        #             length=length,
+        #             tokenizer=tokenizer,
+        #             temperature=temperature,
+        #             beam_size=beam_size,
+        #             top_k=topk,
+        #             top_p=topp,
+        #             repitition_penalty=repetition_penalty,
+        #             device=device,
+        #         )
+        #         preds[n] = [tokenizer.convert_ids_to_tokens(line) for line in preds]
+        #         for j in range(curr_batch_size):
+        #             print(" ".join(preds[n][j]))
+        #             sep_idx = preds[n][j].index('[SEP]')
+        #             preds[n][j] = preds[n][j][:sep_idx+1]
+        #             print(("".join(preds[n][j][:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', ''))
+        #     # labels = batch['targets'].tolist() # bs * 200
+        #     # label_tokens = [tokenizer.convert_ids_to_tokens(label) for label in labels]
+        #     # sep_idx = label_tokens.index('[SEP]')
+        #     # label_tokens = label_tokens[:sep_idx+1]
+        #     # print(("".join(label_tokens[:-2])+'[SEP]').replace('[#EOS#]', '，').replace('[#START#]', '').replace('[SEP]', ''))
         
 
 
-    
+    # =====> Calculate the PPL of label and top-1 prediction of the test data <=====
+    while 0:
+        label_probs = []
+        top1_probs = []
+        epoch_iterator = tqdm(test_dataset, ncols=100, leave=False)
+        for batch in epoch_iterator:
+            labels = batch['targets'].tolist() # bs * 200
+            label_tokens = [tokenizer.convert_ids_to_tokens(label) for label in labels]
+            encoded = [[tokenizer.convert_tokens_to_ids('[#START#]')] for i in range(batch['topic_emb'].size(0))] # Input [#START#] token
+            start_input = batch
+            start_input['targets'] = np.asarray(encoded)
+            probs, maxprobs = calculate_sent_prob(model, start_input, labels, length, device)
+            valid_len = [labels[j].index(102) + 1 for j in range(batch['topic_emb'].size(0))]
+            label_probs += [sum(probs[j][:valid_len[j]])/valid_len[j] for j in range(batch['topic_emb'].size(0))]
+            top1_probs += [sum(maxprobs[j][:valid_len[j]])/valid_len[j] for j in range(batch['topic_emb'].size(0))]
+        print("Label Probs:", np.mean(label_probs), "Top-1 Probs:", np.mean(top1_probs))
+        print("Label PPL:", np.exp(np.mean(label_probs)), "Top-1 PPL:", np.exp(np.mean(top1_probs)))
+        break
+
 
 
 if __name__ == "__main__":
