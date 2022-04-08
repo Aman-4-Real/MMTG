@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-04-07 13:00:00
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-04-07 16:14:00
+LastEditTime: 2022-04-08 01:41:23
 '''
 
 
@@ -337,7 +337,8 @@ def input_random_dropout(input, dropout_n):
                 last_one = last_one - 1
                 if last_one < 0:
                     last_one = 4
-            input['img_embs'][idx] = input['img_embs'][last_one]
+            # input['img_embs'][idx] = input['img_embs'][last_one]
+            input['img_embs'][idx, :] = 0.0
     if len(r_drop_idxs) == 5:
         input['r_embs'][:, :] = 0.0
     else: # the dropped equals to the last one
@@ -349,7 +350,8 @@ def input_random_dropout(input, dropout_n):
                 last_one = last_one - 1
                 if last_one < 0:
                     last_one = 4
-            input['r_embs'][idx] = input['r_embs'][last_one]
+            # input['r_embs'][idx] = input['r_embs'][last_one]
+            input['r_embs'][idx, :] = 0.0
 
     return input
 
@@ -381,7 +383,7 @@ def main():
     args = parser.parse_args()
     # print("args:\n" + args.__repr__())
     
-    os.environ["CUDA_VISIBLE_DEVICES"] = "3,2,1,0" # args.device_ids
+    os.environ["CUDA_VISIBLE_DEVICES"] = "3,1,0,2" # args.device_ids
     device_ids = [int(item) for item in args.device_ids.split(",")]
     beam_size = args.beam_size
     batch_size = args.batch_size
@@ -426,9 +428,9 @@ def main():
     
     # =====> generate samples <=====
     while 1:
-        f1 = open("res/new_lr1e-5_add_bs96_kl02_tk10_tp07_tm1o1_rpt1o5_dropout08.txt", "w", encoding="utf-8")
+        f1 = open("res/nnew_lr1e-5_add_bs96_kl02_tk10_tp07_tm1o1_rpt1o5_dropout02.txt", "w", encoding="utf-8")
         # f2 = open("res/labels_cl_ln_lr1e-5_ep3.txt", "w", encoding="utf-8")
-        dropout_n = 8
+        dropout_n = 2
         print("input_random_dropout:", dropout_n)
         for idx in trange(0,len(test_dataset.dataset),1): # len(test_dataset.dataset)
             n_preds = []
