@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-23 22:02:05
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-04-07 10:32:41
+LastEditTime: 2022-04-09 01:06:08
 '''
 
 
@@ -275,7 +275,7 @@ def main():
     parser.add_argument("--seed", default=42, type=int, help="Random seed")
     parser.add_argument("--num_workers", default=8, type=int, help="Number of workers")
     parser.add_argument("--data_path", default="../datasets/new_data_rating/final_test_50.pkl", type=str, help="Data directory")
-    parser.add_argument("--model_path", default="./models/5ep_1e-5_bsz96_wocl_allpos-4/epoch_5.pth", type=str, help="Model path")
+    parser.add_argument("--model_path", default="./models/lr1e-5_bs96_kl02_add/epoch_3.pth", type=str, help="Model path")
     parser.add_argument("--tokenizer_path", default="./vocab/vocab.txt", type=str, required=False, help="词表路径")
     parser.add_argument("--beam_size", default=0, type=int, required=False, help="beam search size") # 20: 13min
     parser.add_argument("--temperature", default=1.1, type=float, required=False, help="生成温度")
@@ -295,7 +295,7 @@ def main():
     args = parser.parse_args()
     # print("args:\n" + args.__repr__())
     
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1,2,3,0" # args.device_ids
+    os.environ["CUDA_VISIBLE_DEVICES"] = "2,0,3,1" # args.device_ids
     device_ids = [int(item) for item in args.device_ids.split(",")]
     beam_size = args.beam_size
     batch_size = args.batch_size
@@ -336,7 +336,7 @@ def main():
     
     # =====> generate samples <=====
     while 1:
-        f1 = open("res/new_lr1e-5_ep5_add_wocl_allpos_bs96_kl02_tk10_tp07_tm1o1_rpt1o5.txt", "w", encoding="utf-8")
+        f1 = open("res/renew_lr1e-5_ep3_add_bs96_kl02_tk10_tp07_tm1o1_rpt1o5_3.txt", "w", encoding="utf-8")
         # f2 = open("res/labels_cl_ln_lr1e-5_ep3.txt", "w", encoding="utf-8")
         for idx in trange(0,len(test_dataset.dataset),1): # len(test_dataset.dataset)
             n_preds = []
