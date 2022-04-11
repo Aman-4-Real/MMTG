@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-04-06 15:05:18
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-04-06 15:05:19
+LastEditTime: 2022-04-10 22:08:33
 '''
 
 
@@ -46,10 +46,10 @@ parser.add_argument("--val_interval_ratio", default=0.2, type=float, help="Eval 
 parser.add_argument("--train_data_path", default="../datasets/new_data_rating/train_data_with_ratings_210k.pkl", type=str, help="Train data path")
 parser.add_argument("--val_data_path", default="../datasets/new_data_rating/val_data_with_ratings_8k.pkl", type=str, help="Val data path")
 parser.add_argument("--save_model", default=True, type=bool, help="Save model or not")
-parser.add_argument("--save_path", default="./models/5ep_1e-5_bsz96_wocl_allpos-4", type=str, help="Save directory")
+parser.add_argument("--save_path", default="./models/5ep_1e-5_bsz96_wocl_allpos-5", type=str, help="Save directory")
 # parser.add_argument("--save_interval", default=1, type=int, help="Save interval")
-parser.add_argument("--log_path", default="./logs/5ep_1e-5_bsz96_wocl_allpos-4.log", type=str, help="Log directory")
-parser.add_argument("--tensorboard_log_dir", default="./logs/5ep_1e-5_bsz96_wocl_allpos-4", type=str, help="Tensorboard log directory")
+parser.add_argument("--log_path", default="./logs/5ep_1e-5_bsz96_wocl_allpos-5.log", type=str, help="Log directory")
+parser.add_argument("--tensorboard_log_dir", default="./logs/5ep_1e-5_bsz96_wocl_allpos-5", type=str, help="Tensorboard log directory")
 parser.add_argument("--alpha", default=0.2, type=float, help="Factor of KLDivLoss.")
 
 global args
@@ -158,7 +158,7 @@ class MyLoss(torch.nn.Module):
         one = torch.ones_like(ratings)
         batch_size = targets.shape[0]
 
-        ratings = torch.where(ratings > 3, one, zero)
+        ratings = torch.where(ratings > 4, one, zero)
 
         shift_logits = outputs[:, self._max_topic_len:-1, :]
         shift_labels = targets[:, 1:]
@@ -215,7 +215,7 @@ def train(model, train_data, valid_data):
         # Setting the tqdm progress bar
         for step, batch in epoch_iterator:
             # ------ wocl_all_pos --------
-            idxs = torch.where(batch['rating']>3)[0]
+            idxs = torch.where(batch['rating']>4)[0]
             batch = {k: v[idxs].to(device) for k, v in batch.items()}
             # ------ wocl_all_pos --------
             ratings = batch['rating'].to(device)

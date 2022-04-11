@@ -1,0 +1,4 @@
+sleep 4h
+python predict_all.py --save_samples_path res/new_lr1e-5_ep5_add_wocl_allpos-5_bs96_kl02_tk10_tp07_tm1o1_rpt1o5_1.txt
+python predict_all.py --save_samples_path res/new_lr1e-5_ep5_add_wocl_allpos-5_bs96_kl02_tk10_tp07_tm1o1_rpt1o5_2.txt
+python predict_all.py --save_samples_path res/new_lr1e-5_ep5_add_wocl_allpos-5_bs96_kl02_tk10_tp07_tm1o1_rpt1o5_3.txt

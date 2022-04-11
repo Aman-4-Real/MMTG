@@ -3,7 +3,7 @@ Author: Aman
 Date: 2022-03-23 22:02:05
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-04-09 12:47:04
+LastEditTime: 2022-04-11 00:15:10
 '''
 
 
@@ -271,11 +271,12 @@ def test(model, test_dataset, device):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--device_ids", default="0,1,2,3", type=str, help="GPU device ids")
+    parser.add_argument("--CUDA_VISIBLE_DEVICES", default="2,1,0,3", type=str, help="CUDA_VISIBLE_DEVICES")
     parser.add_argument("--batch_size", default=32, type=int, help="Test batch size")
     parser.add_argument("--seed", default=42, type=int, help="Random seed")
     parser.add_argument("--num_workers", default=8, type=int, help="Number of workers")
     parser.add_argument("--data_path", default="../datasets/new_data_rating/final_test_50.pkl", type=str, help="Data directory")
-    parser.add_argument("--model_path", default="./models/5ep_1e-5_bsz96_wocl/epoch_5.pth", type=str, help="Model path")
+    parser.add_argument("--model_path", default="./models/5ep_1e-5_bsz96_wocl_allpos-5/epoch_5.pth", type=str, help="Model path")
     parser.add_argument("--tokenizer_path", default="./vocab/vocab.txt", type=str, required=False, help="词表路径")
     parser.add_argument("--beam_size", default=0, type=int, required=False, help="beam search size") # 20: 13min
     parser.add_argument("--temperature", default=1.1, type=float, required=False, help="生成温度")
@@ -284,7 +285,7 @@ def main():
     parser.add_argument("--repetition_penalty", default=1.5, type=float, required=False)
     parser.add_argument("--n_samples", default=10, type=int, required=False, help="生成的样本数量")
     # parser.add_argument("--save_samples", action="store_true", help="保存产生的样本")
-    # parser.add_argument("--save_samples_path", default=".", type=str, required=False, help="保存样本的路径")
+    parser.add_argument("--save_samples_path", default="res/new_lr1e-5_ep5_add_wocl_allpos-5_bs96_kl02_tk10_tp07_tm1o1_rpt1o5_1.txt", type=str, required=False, help="保存样本的路径")
     
 
     # global args
@@ -295,7 +296,7 @@ def main():
     args = parser.parse_args()
     # print("args:\n" + args.__repr__())
     
-    os.environ["CUDA_VISIBLE_DEVICES"] = "3,0,1,2" # args.device_ids
+    os.environ["CUDA_VISIBLE_DEVICES"] =  args.CUDA_VISIBLE_DEVICES # args.device_ids
     device_ids = [int(item) for item in args.device_ids.split(",")]
     beam_size = args.beam_size
     batch_size = args.batch_size
@@ -336,7 +337,7 @@ def main():
     
     # =====> generate samples <=====
     while 1:
-        f1 = open("res/new_lr1e-5_ep5_add_wocl_bs96_kl02_tk10_tp07_tm1o1_rpt1o5_2.txt", "w", encoding="utf-8")
+        f1 = open(args.save_samples_path, "w", encoding="utf-8")
         # f2 = open("res/labels_cl_ln_lr1e-5_ep3.txt", "w", encoding="utf-8")
         for idx in trange(0,len(test_dataset.dataset),1): # len(test_dataset.dataset)
             n_preds = []
