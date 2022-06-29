@@ -1,9 +1,9 @@
 '''
 Author: Aman
-Date: 2022-03-21 19:38:25
+Date: 2022-06-08 15:11:30
 Contact: cq335955781@gmail.com
 LastEditors: Aman
-LastEditTime: 2022-06-08 15:11:30
+LastEditTime: 2022-06-09 12:16:00
 '''
 
 
@@ -25,7 +25,7 @@ from transformers import AdamW, BertTokenizer, get_linear_schedule_with_warmup
 from torch.utils.tensorboard import SummaryWriter   
 
 from configs import model_cfgs, data_config
-from model import EXPTeller
+from model_no_alpha import EXPTeller
 from MyDataset import MyDataset
 from utils import *
 
@@ -46,11 +46,11 @@ parser.add_argument("--val_interval_ratio", default=0.2, type=float, help="Eval 
 parser.add_argument("--train_data_path", default="../datasets/new_data_rating/train_data_with_ratings_210k.pkl", type=str, help="Train data path")
 parser.add_argument("--val_data_path", default="../datasets/new_data_rating/val_data_with_ratings_8k.pkl", type=str, help="Val data path")
 parser.add_argument("--save_model", default=True, type=bool, help="Save model or not")
-parser.add_argument("--save_path", default="./models/lr1e-5_bs96_kl0_add", type=str, help="Save directory")
+parser.add_argument("--save_path", default="/data/caoqian/gen_exp/src_v8_rebuttal/models/lr1e-5_bs96_kl02_add_no_alpha", type=str, help="Save directory")
 # parser.add_argument("--save_interval", default=1, type=int, help="Save interval")
-parser.add_argument("--log_path", default="./logs/lr1e-5_bs96_kl0_add.log", type=str, help="Log directory")
-parser.add_argument("--tensorboard_log_dir", default="./logs/lr1e-5_bs96_kl0_add", type=str, help="Tensorboard log directory")
-parser.add_argument("--alpha", default=0, type=float, help="Factor of KLDivLoss.")
+parser.add_argument("--log_path", default="./logs/lr1e-5_bs96_kl02_add_no_alpha.log", type=str, help="Log directory")
+parser.add_argument("--tensorboard_log_dir", default="./logs/lr1e-5_bs96_kl02_add_no_alpha", type=str, help="Tensorboard log directory")
+# parser.add_argument("--alpha", default=0.2, type=float, help="Factor of KLDivLoss.")
 
 global args
 args = parser.parse_args()
@@ -292,14 +292,14 @@ def train(model, train_data, valid_data):
                 idxs = torch.arange(len(batch['rating']))
             batch = {k: v[idxs].to(device) for k, v in batch.items()}
             ratings = batch['rating'].to(device)
-            _loss, kl_loss, outputs = model.forward(batch) # [batch_size, seq_len+_max_seq_length, vocab_size]
+            _loss, outputs = model.forward(batch) # [batch_size, seq_len+_max_seq_length, vocab_size]
             # import pdb; pdb.set_trace()
             outputs = outputs.contiguous() # .view(-1, outputs.shape[-1])
             targets = batch['targets'].contiguous() # .view(-1) # [batch_size, _max_seq_length]
             ppl_loss = torch.mean(_loss.mean(dim=-1))
             loss = criterion(outputs, targets, ratings, stage)
             # loss = criterion(outputs, targets)
-            total_loss = loss.mean() + args.alpha * kl_loss.mean()
+            total_loss = loss.mean()
             # print("---loss: ", total_loss.item())
             # import pdb; pdb.set_trace()
             total_loss.backward()
@@ -320,7 +320,7 @@ def train(model, train_data, valid_data):
             #     writer.add_graph(model.module, batch)
             #     graph_writed = 1
             if step > 0 and (step + 1) % int(len(train_datasets[stage-1]) * args.val_interval_ratio) == 0:
-                val_loss, ppl_loss, ppl, kldiv_loss = evaluate(model, valid_datasets[stage-1], stage, criterion)
+                val_loss, ppl_loss, ppl = evaluate(model, valid_datasets[stage-1], stage, criterion)
                 logger.info("Epoch: %d, Step: %d/%d, Val. Loss: %.4f, Val. PPL: %.3f" % (epoch + 1, step + 1, len(train_datasets[stage-1]), val_loss, ppl))
                 print(" Epoch: %d, Step: %d/%d, Val. Loss: %.4f, Val. PPL: %.3f" % (epoch + 1, step + 1, len(train_datasets[stage-1]), val_loss, ppl))
                 writer.add_scalar('eval/loss', val_loss, global_steps)
@@ -342,7 +342,7 @@ def train(model, train_data, valid_data):
             if step > 0 and (step + 1) % args.log_interval == 0:
                 logger.info("Epoch: %d, Step: %d/%d, Average loss: %.6f" % (epoch + 1, step + 1, len(train_datasets[stage-1]), avg_loss / (step + 1)))
         # End of epoch
-        val_loss, ppl_loss, ppl, kldiv_loss = evaluate(model, valid_datasets[stage-1], stage, criterion)
+        val_loss, ppl_loss, ppl = evaluate(model, valid_datasets[stage-1], stage, criterion)
         logger.info("End eval of epoch %d. Val. Loss: %.4f, Val. PPL: %.2f" % (epoch + 1, val_loss, ppl))
         print("End eval of epoch %d. Val. Loss: %.4f, Val. PPL: %.2f" % (epoch + 1, val_loss, ppl))
         writer.add_scalar('eval/loss', val_loss, global_steps)
@@ -370,7 +370,6 @@ def evaluate(model, valid_dataset, stage, criterion):
     model.eval()
     valid_loss = 0.0
     ppl_loss = 0.0
-    kldiv_loss = 0.0
     with torch.no_grad():
         epoch_iterator = tqdm(valid_dataset, ncols=100, leave=False)
         for i, batch in enumerate(epoch_iterator):
@@ -383,21 +382,19 @@ def evaluate(model, valid_dataset, stage, criterion):
             batch = {k: v[idxs].to(device) for k, v in batch.items()}
             ratings = batch['rating'].to(device)
             # import pdb; pdb.set_trace()
-            _loss, kl_loss, outputs = model.forward(batch) # [batch_size, seq_len*_max_sent_length*2, vocab_size]
+            _loss, outputs = model.forward(batch) # [batch_size, seq_len*_max_sent_length*2, vocab_size]
             ppl_loss += torch.mean(_loss.mean(dim=-1)).item()
             outputs = outputs.contiguous() # .view(-1, outputs.shape[-1])
             targets = batch['targets'].contiguous() # .view(-1) # [batch_size, _max_seq_length]
             loss = criterion(outputs, targets, ratings, stage)          
             # loss = criterion(_loss, ratings, stage)
-            total_loss = loss.mean() + args.alpha * kl_loss.mean()
+            total_loss = loss.mean()
             valid_loss += total_loss.item()
-            kldiv_loss += args.alpha * kl_loss.mean().item()
     valid_loss /= len(valid_dataset)
     ppl_loss /= len(valid_dataset)
     ppl = math.exp(ppl_loss)
-    kldiv_loss /= len(valid_dataset)
 
-    return valid_loss, ppl_loss, ppl, kldiv_loss
+    return valid_loss, ppl_loss, ppl
 
 
 def optuna_optimize(trial_times):

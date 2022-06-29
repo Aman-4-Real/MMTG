@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=1,2,3,0 python -m torch.distributed.launch --nproc_per_node=4 train_ddp.py
