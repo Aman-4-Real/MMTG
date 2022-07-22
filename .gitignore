@@ -156,5 +156,5 @@ src_v7_sent_prmpt_ele-wise-mul/vocab/token_id2emb_dict.pkl
 src_images2poem/models/
 src_wo_img_text_v7/models/
 src_wo_img_text_v7/vocab/token_id2emb_dict.pkl
-
-
+src_v8_rebuttal/vocab/token_id2emb_dict.pkl
+demo/vocab/token_id2emb_dict.pkl
