@@ -130,31 +130,4 @@ dmypy.json
 
 
 # my files
-datasets/*
-src_v0/models/
-src_v1_multi_dec_w_att/models/
-src_v2_gpt/models/
-src_v2_gpt/vocab/token_id2emb_dict.pkl
-src_v3_cl/models/
-src_v3_cl/vocab/token_id2emb_dict.pkl
-src_v4_new_gpt/models/
-src_v4_new_gpt/vocab/token_id2emb_dict.pkl
-src_5gpt/models/
-src_5gpt/vocab/token_id2emb_dict.pkl
-src_wo_img/models/
-src_wo_img/vocab/token_id2emb_dict.pkl
-src_wo_text/models/
-src_wo_text/vocab/token_id2emb_dict.pkl
-src_wo_topic_prompt/models/
-src_wo_topic_prompt/vocab/token_id2emb_dict.pkl
-src_v5_refine/models/
-src_v5_refine/vocab/token_id2emb_dict.pkl
-src_v6_div_prompt/models/
-src_v6_div_prompt/vocab/token_id2emb_dict.pkl
-src_v7_sent_prmpt_ele-wise-mul/models/
-src_v7_sent_prmpt_ele-wise-mul/vocab/token_id2emb_dict.pkl
-src_images2poem/models/
-src_wo_img_text_v7/models/
-src_wo_img_text_v7/vocab/token_id2emb_dict.pkl
-src_v8_rebuttal/vocab/token_id2emb_dict.pkl
-demo/vocab/token_id2emb_dict.pkl
+
