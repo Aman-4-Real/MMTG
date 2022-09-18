@@ -1,0 +1,17 @@
+python train.py \
+    --device_ids 0,1 \
+    --batch_size 32 \
+    --val_batch_size 32 \
+    --epochs 5 \
+    --lr 1e-05 \
+    --curriculums [1,3] \
+    --seed 42 \
+    --num_workers 4 \
+    --log_interval 100 \
+    --val_interval_ratio 0.2 \
+    --train_data_path ../../MMTG-ZH/MMTG-dev/datasets/new_data_rating/val_data_with_ratings_8k.pkl \
+    --val_data_path ../../MMTG-ZH/MMTG-dev/datasets/new_data_rating/val_data_with_ratings_8k.pkl \
+    --save_path ./models/debug \
+    --log_path ./logs/debug.log \
+    --alpha 0.2 \
+    --save_model

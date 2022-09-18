@@ -130,4 +130,5 @@ dmypy.json
 
 
 # my files
-
+src/vocab/token_id2emb_dict.pkl
+src/pretrained/*.ckpt
