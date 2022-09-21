@@ -1,7 +1,7 @@
 # Multi-Modal Experience Inspired AI Creation
 
-[![Python](https://img.shields.io/badge/%20Python-blue.svg)](#PyTorch)
-[![made-with-PyTorch](https://img.shields.io/badge/Made%20with-PyTorch-green.svg)](#PyTorch)
+[![Python](https://img.shields.io/badge/Python-3.7-blue.svg)](#PyTorch)
+[![PyTorch](https://img.shields.io/badge/PyTorch-1.10-green.svg)](#PyTorch)
 
 [**Paper**](https://arxiv.org/pdf/2209.02427.pdf) |
 [**Data**](https://github.com/Aman-4-Real/MMTG#Data)
