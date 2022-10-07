@@ -11,8 +11,7 @@ This repository contains the source code and datasets for the ACM MM 2022 paper 
 # Abstract
 AI creation, such as poem or lyrics generation, has attracted increasing attention from both industry and academic communities, with many promising models proposed in the past few years. Existing methods usually estimate the outputs based on single and independent visual or textual information. However, in reality, humans usually make creations according to their experiences, which may involve different modalities and be sequentially correlated. To model such human capabilities, in this paper, we define and solve a novel AI creation problem based on human experiences. 
 <details> <summary> More (Click me) </summary> More specifically, we study how to generate texts based on sequential multi-modal information. Compared with the previous works, this task is much more difficult because the designed model has to well understand and adapt the semantics among different modalities and effectively convert them into the output in a sequential manner. To alleviate these difficulties, we firstly design a multi-channel sequence-to-sequence architecture equipped with a multi-modal attention network. For more effective optimization, we then propose a curriculum negative sampling strategy tailored for the sequential inputs. To benchmark this problem and demonstrate the effectiveness of our model, we manually labeled a new multi-modal experience dataset. With this dataset, we conduct extensive experiments by comparing our model with a series of representative baselines, where we can demonstrate significant improvements in our model based on both automatic and human-centered metrics.
-</details> <br/>
-
+</details>
 
 # Before You Start
 - Please note that this is a work done for AI creation in **Chinese**, thus the following dataset and model checkpoints are all in Chinese. However, we have tried our model training on the English data, which is constructed on English poems in the same way with our proposed pipeline, and received the same good generated results. You can try to construct some English data (based on English corpus like poems and English text-image dataset like [MovieNet](https://movienet.github.io/)) and adapt to your own domain if necessary.
@@ -22,6 +21,8 @@ AI creation, such as poem or lyrics generation, has attracted increasing attenti
 # Setup
 Create a new virtual environment:
 ```
+$ git clone https://github.com/Aman-4-Real/MMTG.git
+$ cd MMTG/
 $ conda create -n mmtg python=3.7
 $ conda activate mmtg
 ```
