@@ -114,12 +114,34 @@ Then go to the interactive and more user-friendly page and enjoy! -->
 
 # Citation
 If you find this paper and repo useful, please cite us in your work:
+
+<!--
 ```
 @article{cao2022multi,
   title={Multi-Modal Experience Inspired AI Creation},
   author={Cao, Qian and Chen, Xu and Song, Ruihua and Jiang, Hao and Yang, Guang and Cao, Zhao},
   journal={arXiv preprint arXiv:2209.02427},
   year={2022}
+}
+```
+-->
+
+```
+@inproceedings{10.1145/3503161.3548189,
+  author = {Cao, Qian and Chen, Xu and Song, Ruihua and Jiang, Hao and Yang, Guang and Cao, Zhao},
+  title = {Multi-Modal Experience Inspired AI Creation},
+  year = {2022},
+  isbn = {9781450392037},
+  publisher = {Association for Computing Machinery},
+  address = {New York, NY, USA},
+  url = {https://doi.org/10.1145/3503161.3548189},
+  doi = {10.1145/3503161.3548189},
+  booktitle = {Proceedings of the 30th ACM International Conference on Multimedia},
+  pages = {1445–1454},
+  numpages = {10},
+  keywords = {AI creation, multi-modal, experience},
+  location = {Lisboa, Portugal},
+  series = {MM '22}
 }
 ```
 For any questions, please feel free to reach me at caoqian4real@ruc.edu.cn.
