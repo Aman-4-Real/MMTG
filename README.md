@@ -5,7 +5,7 @@
 
 [**Paper**](https://arxiv.org/pdf/2209.02427.pdf) |
 [**Data**](https://github.com/Aman-4-Real/MMTG#Data) |
-[**Hugging Face**](https://huggingface.co/Aman/MMT)
+[**Hugging Face**](https://huggingface.co/Aman/MMTG)
 
 This repository contains the source code and datasets for the ACM MM 2022 paper [Multi-Modal Experience Inspired AI Creation](https://arxiv.org/pdf/2209.02427.pdf) by Cao et al.
 
