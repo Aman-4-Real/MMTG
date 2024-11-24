@@ -251,6 +251,8 @@ def evaluate(model, valid_dataset, stage, criterion):
                 idxs = torch.cat([torch.where(batch['rating']<3)[0], torch.where(batch['rating']>3)[0]])
             else:
                 idxs = torch.arange(len(batch['rating']))
+            if len(idxs) == 0:
+                continue
             batch = {k: v[idxs].to(device) for k, v in batch.items()}
             ratings = batch['rating'].to(device)
             _loss, kl_loss, outputs = model.forward(batch)
