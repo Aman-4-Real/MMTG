@@ -47,3 +47,8 @@ class data_config():
         self.max_seq_length = 220
         self.wenlan_emb_size = 2048
 
+    def __getitem__(self, key):
+        try:
+            return getattr(self, key)
+        except Exception as e:
+            print("No {} exists!".format(key))
