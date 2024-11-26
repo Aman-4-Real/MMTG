@@ -20,7 +20,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm, trange
 from transformers import BertTokenizer
 
-from configs import model_cfgs, data_config
+from configs import model_cfgs, data_config as mydata_config
 from model import MMTG
 from MyDataset import MyDataset
 from utils import *
@@ -164,8 +164,7 @@ def main():
     parser.add_argument("--save_samples", action="store_true", help="保存产生的样本")
     parser.add_argument("--save_samples_path", default="", type=str, required=False, help="保存样本的路径")
     
-    model_cfgs = model_cfgs
-    data_config = data_config()
+    data_config = mydata_config()
     args = parser.parse_args()
     # print("args:\n" + args.__repr__())
     

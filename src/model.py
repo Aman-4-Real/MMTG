@@ -293,7 +293,8 @@ class GPT2_Decoder(nn.Module):
             input_embs = torch.cat([topic_ids_wenlan, input_ids_wenlan], dim=1)
 
             _type_ids = tpw_type_ids
-            _type_ids_list = list(range(1,concat_output.size(1)))+[1]
+            max_sent_num = self.data_config['max_seq_length'] // (self.data_config['max_sent_length'] + 2) + 1
+            _type_ids_list = list(range(1,max_sent_num))+[1]
                         
             # add type_ids
             sent_len = self.data_config['max_sent_length'] + 2
@@ -301,7 +302,7 @@ class GPT2_Decoder(nn.Module):
                 if (i + 1) % sent_len == 0 or (i + 1) % sent_len == 1:
                     _type_ids = torch.cat([_type_ids, torch.zeros(1, dtype=torch.long).unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
                 else:
-                    cat_type_id = torch.zeros(1, dtype=torch.long) if input_ids[0][i] == 0 else torch.tensor(_type_ids_list[i//sent_length], dtype=torch.long)
+                    cat_type_id = torch.zeros(1, dtype=torch.long) if input_ids[0][i] == 0 else torch.tensor(_type_ids_list[i//sent_len], dtype=torch.long)
                     _type_ids = torch.cat([_type_ids, cat_type_id.unsqueeze(0).repeat(type_ids.size(0),1).to(type_ids.device)], dim=1)
                     
             # add attention mask
@@ -318,8 +319,8 @@ class GPT2_Decoder(nn.Module):
 
             res = self.gpt2(
                 inputs_embeds=gpt_input_embs,
-                token_type_ids=torch.tensor(_type_ids, dtype=torch.long),
-                attention_mask=torch.tensor(_attention_mask, dtype=torch.long),
+                token_type_ids = _type_ids.clone().detach().long(),
+                attention_mask = _attention_mask.clone().detach().long(),
                 labels=_labels,
                 return_dict=True
             )
